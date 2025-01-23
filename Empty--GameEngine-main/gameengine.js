@@ -37,6 +37,12 @@ class GameEngine {
     };
 
     startInput() {
+        // var that = this;
+        // this.ctx.canvas.addEventListener('keydown',function(e){
+        //     switch(e.which) {
+        //         case "ArrowLeft":
+
+        // })
         const getXandY = e => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
