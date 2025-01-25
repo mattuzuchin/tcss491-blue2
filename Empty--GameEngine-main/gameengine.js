@@ -19,6 +19,11 @@ class GameEngine {
         this.options = options || {
             debugging: false,
         };
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.speedup = false;
+        this.speed = true;
     };
 
     init(ctx) {
@@ -37,12 +42,45 @@ class GameEngine {
     };
 
     startInput() {
-        // var that = this;
-        // this.ctx.canvas.addEventListener('keydown',function(e){
-        //     switch(e.which) {
-        //         case "ArrowLeft":
+        var that = this;
+        this.ctx.canvas.addEventListener('keydown',function(e){
+            switch(e.code) {
+                case "ArrowLeft":
+                    that.left = true;
+                    break;
+                case "ArrowRight":
+                    that.right = true;
+                    break;
+                case "Space":
+                    that.up = true;
+                    that.down = false;
+                    break;
+                case "ShiftLeft":
+                    that.speedup = true;
+                    that.speed = false;
+                    break;
+            }
 
-        // })
+        }, false);
+        this.ctx.canvas.addEventListener('keyup',function(e){
+            switch(e.code) {
+                case "ArrowLeft":
+                    that.left = false;
+                    break;
+                case "ArrowRight":
+                    that.right = false;
+                    break;
+                case "Space":
+                    that.up = false;
+                    that.down = true;
+                    break;
+                case "ShiftLeft":
+                    that.speedup = false;
+                    that.speed = true;
+                    break;
+            }
+
+        }, false);
         const getXandY = e => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
