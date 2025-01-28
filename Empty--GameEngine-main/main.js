@@ -7,13 +7,15 @@ ASSET_MANAGER.queueDownload("./sprites/ghostpiratestand.png");
 ASSET_MANAGER.queueDownload("./sprites/piratestand.png");
 ASSET_MANAGER.queueDownload("./sprites/piratewalk.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratewalk.png");
+ASSET_MANAGER.queueDownload("./sprites/pirateswordattack.png");
+ASSET_MANAGER.queueDownload("./sprites/ghostpirateattack.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const gameEngine = new GameEngine();
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 	
-	// gameEngine.addEntity(new Marksmen());
+	// gameEngine.addEntity(new Marksmen());d
 	// gameEngine.addEntity(new GhostPirate());
 	// gameEngine.addEntity(new Pirate());
 

@@ -22,6 +22,7 @@ class GameEngine {
         this.left = false;
         this.right = false;
         this.up = false;
+        this.attack = false;
         this.speedup = false;
         this.speed = true;
     };
@@ -43,8 +44,10 @@ class GameEngine {
 
     startInput() {
         var that = this;
-        this.ctx.canvas.addEventListener('keydown',function(e){
-            switch(e.code) {
+    
+        // Listen for keydown events
+        this.ctx.canvas.addEventListener('keydown', function (e) {
+            switch (e.code) {
                 case "ArrowLeft":
                     that.left = true;
                     break;
@@ -59,11 +62,15 @@ class GameEngine {
                     that.speedup = true;
                     that.speed = false;
                     break;
+                case "KeyD": 
+                    that.attack = true;
+                    break;
             }
-
         }, false);
-        this.ctx.canvas.addEventListener('keyup',function(e){
-            switch(e.code) {
+    
+ 
+        this.ctx.canvas.addEventListener('keyup', function (e) {
+            switch (e.code) {
                 case "ArrowLeft":
                     that.left = false;
                     break;
@@ -78,47 +85,51 @@ class GameEngine {
                     that.speedup = false;
                     that.speed = true;
                     break;
+                case "KeyD": 
+                    that.attack = false;
+                    break;
             }
-
         }, false);
+    
         const getXandY = e => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
-        
+    
         this.ctx.canvas.addEventListener("mousemove", e => {
             if (this.options.debugging) {
                 console.log("MOUSE_MOVE", getXandY(e));
             }
             this.mouse = getXandY(e);
         });
-
+    
         this.ctx.canvas.addEventListener("click", e => {
             if (this.options.debugging) {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
         });
-
+    
         this.ctx.canvas.addEventListener("wheel", e => {
             if (this.options.debugging) {
                 console.log("WHEEL", getXandY(e), e.wheelDelta);
             }
-            e.preventDefault(); // Prevent Scrolling
+            e.preventDefault();
             this.wheel = e;
         });
-
+    
         this.ctx.canvas.addEventListener("contextmenu", e => {
             if (this.options.debugging) {
                 console.log("RIGHT_CLICK", getXandY(e));
             }
-            e.preventDefault(); // Prevent Context Menu
+            e.preventDefault();
             this.rightclick = getXandY(e);
         });
-
+    
         this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
         this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
-    };
+    }
+    
 
     addEntity(entity) {
         this.entities.push(entity);
