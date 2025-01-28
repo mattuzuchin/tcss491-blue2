@@ -31,7 +31,7 @@ class scenemanager{
     update() {
         //PARAMS.Debug = document.getElementById("debug").checked;
         let midpoint = PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2;
-        if(this.x < this.marksmen.x - midpoint) this.x = this.marksmen.x - midpoint;
+        this.x = this.marksmen.x - midpoint;
         //this.x = this.marksmen.x - midpoint;
 
 
