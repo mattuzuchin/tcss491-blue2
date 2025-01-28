@@ -26,6 +26,7 @@ class Player {
             Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
             Warrior: ASSET_MANAGER.getAsset("./sprites/warriortemp.png"),
+            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/pirateswordattack.png")
         };
         this.sprite = this.assets[this.characterType];
     
@@ -34,7 +35,7 @@ class Player {
             idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
             walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
             running: 0,
-            attacking: 0,
+            attacking: new Animator(this.assets.MarksmanAttack, 0, 0, this.width, this.height, 3, .1),
             die: 0,
             jumping: 0,
             falling: 0,
@@ -126,6 +127,9 @@ class Player {
 
         if (this.isAttacking && this.attackDuration > 0) {
             this.attackDuration--;
+            this.currentAnimator = this.animators.attacking;
+            
+
         } else {
             this.isAttacking = false;
             this.attackDuration = 10;
