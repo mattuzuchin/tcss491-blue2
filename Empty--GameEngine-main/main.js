@@ -2,6 +2,7 @@
 
 const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/marksmentemp.png");
+ASSET_MANAGER.queueDownload("./sprites/marksmenwalkLeft.png");
 ASSET_MANAGER.queueDownload("./sprites/warriortemp.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratestand.png");
 ASSET_MANAGER.queueDownload("./sprites/piratestand.png");
