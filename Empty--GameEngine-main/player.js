@@ -32,7 +32,7 @@ class Player {
         // TODO: Create animators for different states
         this.animators = {
             idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
-            walking: new Animator(this.sprite, 0, 0, this.width, this.height, 8, 0.1),
+            walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
             running: 0,
             attacking: 0,
             die: 0,
