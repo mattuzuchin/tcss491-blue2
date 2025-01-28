@@ -5,7 +5,7 @@ class Platform {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "#654321"; 
+        ctx.fillStyle = "#654321"; // Brown color for platforms
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 

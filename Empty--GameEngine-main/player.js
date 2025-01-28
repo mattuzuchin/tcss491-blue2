@@ -1,70 +1,172 @@
-class Marksmen{
-    constructor(game, x, y) {
-        Object.assign(this, {game, x, y});
-        //this.game.marksmen = this;
-        this.marksmen = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
-        this.warrior = ASSET_MANAGER.getAsset("./sprites/warriortemp.png");
-        this.selected_character = "marksmen";
+class Player {
+    constructor(game, x, y, characterType = "marksmen") {
+        Object.assign(this, { game, x, y });
+
+        this.characterType = characterType;
         this.width = 40;
         this.height = 40;
-        this.speed = 0;
-        this.state = 0;
-        this.velocityY = 0;
+        this.speed = 3;
+        this.jump = -20;
         this.gravity = 0.5;
+        this.velocity = 0;
         this.groundLevel = y;
-        this.animator = new Animator(this.marksmen, 0, 0, this.width, this.height, 3,  0.1);
+        this.isOnGround = false;
 
-    };
-    // updateBB() {
-    //     if(this.size == 0 || this.size == 3) {
-    //         this.BB = new BoundingBox(this.z)
-    //     }
-    // }
+        // Attack
+        this.isAttacking = false;
+        this.attackCooldown = 0;
+        this.attackDuration = 10;
+        this.attackDirection = "right";
+
+        // Dash
+        this.isDashing = false;
+        this.dashCooldown = 0; 
+        this.dashDuration = 10;
+        this.dashSpeed = 15;
+
+        this.assets = {
+            marksmen: ASSET_MANAGER.getAsset("./sprites/piratewalk.png"),
+            warrior: ASSET_MANAGER.getAsset("./sprites/warriortemp.png"),
+        };
+        this.sprite = this.assets[this.characterType];
+
+        this.animator = new Animator(this.sprite, 0, 0, this.width, this.height, 1, 0.1);
+        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+    }
+
     update() {
-        if(this.game.left) {
+        this.handleMovement();
+        this.handleGravity();
+        this.handleCollisions();
+        this.handleAttack(); 
+        this.handleDash(); 
+        this.updateBoundingBox();
+        // attack cooldown
+        if (this.attackCooldown > 0) this.attackCooldown--;
+        // dash Cooldown
+        if (this.dashCooldown > 0) this.dashCooldown--;
+    }
+
+    handleMovement() {
+        if (this.game.left) {
             this.x -= this.speed;
+            this.attackDirection = "left";
         }
-        if(this.game.right) {
+        if (this.game.right) {
             this.x += this.speed;
+            this.attackDirection = "right";
         }
-        if(this.game.up && this.y >= this.groundLevel) {
-            this.velocityY = -10;
+
+        if (this.game.isJump && this.isOnGround) {
+            this.velocity = this.jump;
+            this.isOnGround = false;
         }
-        if(this.game.down) {
-            this.y += this.speed;
-            
+        if (this.game.up) {
+            this.attackDirection = "up";
         }
-        if(this.game.speedup) {
+
+        if (this.game.speedup) {
             this.speed = 6;
         } else {
             this.speed = 3;
         }
-        if(this.game.up) {
-            this.velocityY = -10;
-        }
-        this.velocityY += this.gravity; 
-        this.y += this.velocityY;
-        // if(this.y >= this.groundLevel) {
-        //     this.y = this.groundLevel;
-        //     this.velocityY;
-        // }
-        console.log(this.y);
-        console.log(this.height);
-        if(this.y + 300 >= 768) {
-            // this.y = this.groundLevel;
-            this.y = this.game.ctx.canvas.height - 300;
-            this.velocityY = 0; 
-        }
     }
-    draw(ctx) {
-        ctx.imageSmoothingEnabled = false;
-        // if(this.selected_character = "warrior") {
-        //     ctx.drawImage(this.warrior, this.x, this.y, this.width * 1, this.height * 1);
-        // } if(this.selected_character = "marksmen") {
-        //     ctx.drawImage(this.marksmen, this.x, this.y, this.width * 1, this.height * 1);
-        // }
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y)
-        
+    // gravity
+    handleGravity() {
+        this.velocity += this.gravity;
+        this.y += this.velocity;
+    }
+    // collision handling
+    handleCollisions() {
+        // stop falling below the canvas
+        if (this.y + this.height > this.game.ctx.canvas.height) {
+            this.y = this.game.ctx.canvas.height - this.height;
+            this.velocity = 0;
+            this.isOnGround = true;
+        }
+        for (let entity of this.game.entities) {
+            if (entity instanceof Platform && this.BB.collide(entity.boundingBox)) {
+                if (this.velocity > 0 && (this.y + this.height) >= (entity.boundingBox.top + this.velocity)) {
+                    this.y = entity.boundingBox.top - this.height;
+                    this.velocity = 0;
+                    this.isOnGround = true;
+                }
+            }
+        }
     }
 
+    // Attack
+    handleAttack() {
+        // TODO: create attack splash entity?
+        if (this.game.attack && this.attackCooldown <= 0) {
+            this.isAttacking = true;
+            this.attackCooldown = 30;
+        }
+
+        if (this.isAttacking && this.attackDuration > 0) {
+            this.attackDuration--;
+        } else {
+            this.isAttacking = false;
+            this.attackDuration = 10;
+        }
+    }
+
+    // Dash 
+    handleDash() {
+        if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing) {
+            this.isDashing = true;
+            this.dashCooldown = 60; 
+        }
+
+        if (this.isDashing && this.dashDuration > 0) {
+            this.dashDuration--;
+            if (this.attackDirection === "right") {
+                this.x += this.dashSpeed;
+            } else if (this.attackDirection === "left") {
+                this.x -= this.dashSpeed;
+            } else if (this.attackDirection === "up") {
+                this.y -= this.dashSpeed;
+            }
+        } else if (this.isDashing) {
+            this.isDashing = false;
+            this.dashDuration = 10; 
+        }
+    }
+
+    updateBoundingBox() {
+        this.BB.x = this.x;
+        this.BB.y = this.y;
+    }
+
+    draw(ctx) {
+        ctx.imageSmoothingEnabled = false;
+
+        // Draw player
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+
+        // Debug bounding box
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+
+        // Draw attack 
+        // TODO: will add attack splash entity 
+        if (this.isAttacking) {
+            if (this.attackDirection === "right") {
+                ctx.strokeStyle = "black";
+                ctx.strokeRect(this.x + this.width, this.y, 20, 20);
+            } else if (this.attackDirection === "left") {
+                ctx.strokeStyle = "black";
+                ctx.strokeRect(this.x - 20, this.y, 20, 20);
+            } else if (this.attackDirection === "up") {
+                ctx.strokeStyle = "black";
+                ctx.strokeRect(this.x, this.y - 20, 20, 20);
+            }
+        }
+
+        // Debug dash 
+        if (this.isDashing) {
+            ctx.fillStyle = "blue";
+            ctx.fillRect(this.x, this.y - 10, this.width, 5); 
+        }
+    }
 }
