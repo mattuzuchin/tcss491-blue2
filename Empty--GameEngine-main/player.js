@@ -11,6 +11,7 @@ class Player {
         this.velocity = 0;
         this.groundLevel = y;
         this.isOnGround = false;
+        this.facingLeft = false; 
 
         // Attack
         this.isAttacking = false;
@@ -35,7 +36,6 @@ class Player {
         this.animator = new Animator(this.sprite, 0, 0, this.width, this.height, 3, 0.1);
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
 
-        this.facingLeft = false; // Tracks which way the character is facing
     }
 
     update() {
