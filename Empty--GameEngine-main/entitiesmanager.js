@@ -4,6 +4,7 @@ class entitiesmanager {
         this.level = null;
         this.hearts = 3;
         this.coins = 0;
+        this.game.camera = this;
         this.player = new Player(this.game, 0, 0, 0);
         this.loadLevel(levelOne);
     }
