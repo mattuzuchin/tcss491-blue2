@@ -23,7 +23,7 @@ class Player {
         this.dashCooldown = 0;
         this.dashDuration = 60;
         this.dashSpeed = 15;
-    
+        this.artifactCount = 0;
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
@@ -126,6 +126,13 @@ class Player {
                     this.isOnGround = true;
                 }
             }
+            if (entity instanceof Artifact && this.BB.collide(entity.BB)) {
+                this.artifactCount += 1;
+                entity.removeFromWorld = true;
+
+            }
+            console.log(this.artifactCount);
+
         }
     }
 
@@ -149,10 +156,14 @@ class Player {
             } else if (this.attackDirection === "up") {
                 attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
             }
-    
-            if (this.game.entities.GhostPirate && attackBB.collide(entity.BB)) {
-                entity.takeDamage(this.damage);  //only in  testing
+            for (let entity of this.game.entities) {
+            if((entity instanceof GhostPirate || entity instanceof Pirate)&& this.BB.collide(entity.BB) && this.isAttacking) {
+                entity.takeDamage(this.damage);
+                if(entity.health <= 0) {
+                    entity.removeFromWorld = true;
+                }
             }
+        }
         
         } else {
             

@@ -33,7 +33,8 @@ class GhostPirate {
 
     die() {
         console.log("GhostPirate has been defeated!");
-        //TODO-  add animation?
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratestanddead.png")
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
     }
 
     update() {

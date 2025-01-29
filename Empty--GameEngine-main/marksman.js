@@ -1,6 +1,6 @@
 class Marksman extends Player {
     constructor(game, x, y) {
-        super(game, x, y, "Marksman");
+        super(game, x, y, 0);
         this.projectileSpeed = 10; 
         // TODO: used for storing projectiles, they will disappear after colliding with any eneties (except themselves)
         this.projectiles = []; 

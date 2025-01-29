@@ -31,6 +31,13 @@ class entitiesmanager {
                 this.game.addEntity(new Platform(platform.x, platform.y, platform.width, platform.height));
             }
         }
+        // Load artifacts
+        if (level.artifacts) {
+            for (let i = 0; i < level.artifacts.length; i++) {
+                let artifact = level.artifacts[i];
+                this.game.addEntity(new Artifact(this.game, artifact.x, artifact.y));
+            }
+        }
 
         
         this.game.addEntity(this.player);

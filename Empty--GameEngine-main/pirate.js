@@ -19,7 +19,24 @@ class Pirate {
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        
+        this.health = 100;  
     }
+
+    takeDamage(amount) {
+        this.health -= amount;
+        console.log("Damage left: " + this.health);
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        console.log("Pirate has been defeated!");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratestanddead.png")
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+    }
+
     update() {
         this.handleMovement();
         this.handleGravity();
@@ -36,21 +53,23 @@ class Pirate {
 
         this.x += this.speed * this.direction;
         this.facingLeft = this.direction === -1;
-
     }
+
     updateBoundingBox() {
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
- 
+
+    // gravity
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
     }
-    
+
+    // collision handling
     handleCollisions() {
-      
-        if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 +this.width) {
+        // Prevent the ghost pirate from moving outside the canvas
+        if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 + this.width) {
             this.direction *= -1;
         }
 
@@ -59,6 +78,7 @@ class Pirate {
             this.velocity = 0;
             this.isOnGround = true;
         }
+
         for (let entity of this.game.entities) {
             if (entity instanceof Platform && this.BB.collide(entity.boundingBox)) {
                 if (this.velocity > 0 && (this.y + this.height) >= (entity.boundingBox.top + this.velocity)) {
@@ -69,7 +89,6 @@ class Pirate {
             }
         }
     }
-
 
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;

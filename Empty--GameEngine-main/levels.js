@@ -13,4 +13,5 @@ var levelOne = {
         { x: 900, y: 350, width: 100, height: 20 },
         
     ],
+    artifacts: [{x: 200, y: 400}],
 };
