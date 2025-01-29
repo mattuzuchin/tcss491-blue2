@@ -42,8 +42,8 @@ class Player {
             },
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
-                walking: new Animator(this.assets.Warrior, 0, 0, this.width, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.WarriorAttack, 0, 0, this.width, this.height, 6, 0.1),
+                walking: new Animator(this.assets.Warrior, 0, 0, 50, this.height, 8, 0.1),
+                attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 6, 0.1),
             }
         };
     
