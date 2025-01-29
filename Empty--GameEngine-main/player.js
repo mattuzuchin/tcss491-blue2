@@ -6,7 +6,7 @@ class Player {
         this.width = 40;
         this.height = 40;
         this.speed = 3;
-        this.jump = -20;
+        this.jump = -10;
         this.gravity = 0.5;
         this.velocity = 0;
         this.groundLevel = y;
@@ -19,7 +19,7 @@ class Player {
     
         this.isDashing = false;
         this.dashCooldown = 0;
-        this.dashDuration = 10;
+        this.dashDuration = 60;
         this.dashSpeed = 15;
     
         this.assets = {
@@ -132,7 +132,7 @@ class Player {
 
         } else {
             this.isAttacking = false;
-            this.attackDuration = 10;
+            this.attackDuration = 60;
         }
     }
 
@@ -188,13 +188,13 @@ class Player {
         if (this.isAttacking) {
             if (this.attackDirection === "right") {
                 ctx.strokeStyle = "black";
-                ctx.strokeRect(this.x + this.width, this.y, 20, 20);
+                ctx.strokeRect(this.x + this.width, this.y+10, 20, 20);
             } else if (this.attackDirection === "left") {
                 ctx.strokeStyle = "black";
-                ctx.strokeRect(this.x - 20, this.y, 20, 20);
+                ctx.strokeRect(this.x - 20, this.y+10, 20, 20);
             } else if (this.attackDirection === "up") {
                 ctx.strokeStyle = "black";
-                ctx.strokeRect(this.x, this.y - 20, 20, 20);
+                ctx.strokeRect(this.x+10, this.y - 20, 20, 20);
             }
         }
     
