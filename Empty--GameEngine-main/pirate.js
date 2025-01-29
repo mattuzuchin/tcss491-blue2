@@ -1,4 +1,4 @@
-class GhostPirate {
+class Pirate {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
@@ -30,7 +30,7 @@ class GhostPirate {
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
-            this.direction = Math.random() > 0.5 ? 1 : -1; // Randomly change direction
+            this.direction = Math.random() > 0.5 ? 1 : -1; 
             this.randomMoveCounter = 0; 
         }
 
@@ -42,16 +42,14 @@ class GhostPirate {
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
-    // gravity
+ 
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
     }
-    // collision handling
+    
     handleCollisions() {
-        // check if it;s outside canvas
-
-        // Prevent the ghost pirate from moving outside the canvas
+      
         if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 +this.width) {
             this.direction *= -1;
         }

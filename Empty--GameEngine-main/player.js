@@ -1,8 +1,10 @@
 class Player {
-    constructor(game, x, y, characterType = "Marksman") {
+    constructor(game, x, y, characterNumber) { 
         Object.assign(this, { game, x, y });
+
+        const characterTypes = ["Marksman", "Warrior"];
+        this.characterType = characterTypes[characterNumber] || "Marksman"; 
     
-        this.characterType = characterType;
         this.width = 40;
         this.height = 40;
         this.speed = 3;
@@ -11,12 +13,12 @@ class Player {
         this.velocity = 0;
         this.groundLevel = y;
         this.isOnGround = false;
-        this.facingLeft = false; 
+        this.facingLeft = false;
         this.isAttacking = false;
         this.attackCooldown = 0;
-        this.attackDuration = 10;
+        this.attackDuration = 60;
         this.attackDirection = "right";
-    
+        this.damage = 10;
         this.isDashing = false;
         this.dashCooldown = 0;
         this.dashDuration = 60;
@@ -25,26 +27,31 @@ class Player {
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
-            Warrior: ASSET_MANAGER.getAsset("./sprites/warriortemp.png"),
+            WarriorIdle: ASSET_MANAGER.getAsset("./sprites/warriortemp.png"),
+            WarriorAttack: ASSET_MANAGER.getAsset("./sprites/warriorattack.png"),
+            Warrior: ASSET_MANAGER.getAsset("./sprites/warriorwalk1.png"),
             MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/pirateswordattack.png")
         };
         this.sprite = this.assets[this.characterType];
     
-        // TODO: Create animators for different states
         this.animators = {
-            idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
-            walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
-            running: 0,
-            attacking: new Animator(this.assets.MarksmanAttack, 0, 0, this.width, this.height, 3, .1),
-            die: 0,
-            jumping: 0,
-            falling: 0,
+            Marksman: {
+                idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
+                walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
+                attacking: new Animator(this.assets.MarksmanAttack, 0, 0, this.width, this.height, 3, 0.1),
+            },
+            Warrior: {
+                idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
+                walking: new Animator(this.assets.Warrior, 0, 0, this.width, this.height, 8, 0.1),
+                attacking: new Animator(this.assets.WarriorAttack, 0, 0, this.width, this.height, 6, 0.1),
+            }
         };
     
-        this.currentAnimator = this.animators.idle;
+        this.currentAnimator = this.animators[this.characterType].idle;
     
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }
+
     
     update() {
         this.handleMovement();
@@ -59,19 +66,21 @@ class Player {
     }
 
     handleMovement() {
+
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            this.currentAnimator = this.animators.walking;
+            this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = true; 
-            //TODO: flip the animation? or do it in draw, idk
+   
             
         } 
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            this.currentAnimator = this.animators.walking;
+            this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = false;
+ 
             
         } 
         if (this.game.isJump && this.isOnGround) {
@@ -83,14 +92,17 @@ class Player {
         } 
         
         if (!this.game.left && !this.game.right) {
-            this.currentAnimator = this.animators.idle;
+
+            this.currentAnimator = this.animators[this.characterType].idle;
+            
         }
-    
+
         if (this.game.speedup) {
             this.speed = 6;
         } else {
             this.speed = 3;
         }
+        console.log(this.x + "," + this.y);
     }
     
     // gravity
@@ -117,24 +129,39 @@ class Player {
         }
     }
 
-    // Attack
     handleAttack() {
-        // TODO: create attack splash entity
-        if (this.game.attack && this.attackCooldown <= 0) {
-            this.isAttacking = true;
-            this.attackCooldown = 30;
-        }
 
+        if (this.game.attack && this.attackCooldown <= 0) {
+            this.isAttacking = true; 
+            this.attackCooldown = 30;
+            this.attackDuration = 60; 
+        }
+    
         if (this.isAttacking && this.attackDuration > 0) {
             this.attackDuration--;
-            this.currentAnimator = this.animators.attacking;
-            
+            this.currentAnimator = this.animators[this.characterType].attacking;
 
+            let attackBB;
+            if (this.attackDirection === "right") {
+                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20); 
+            } else if (this.attackDirection === "left") {
+                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20); 
+            } else if (this.attackDirection === "up") {
+                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
+            }
+    
+            if (this.game.entities.GhostPirate && attackBB.collide(entity.BB)) {
+                entity.takeDamage(this.damage);  //only in  testing
+            }
+        
         } else {
+            
             this.isAttacking = false;
-            this.attackDuration = 60;
+            this.attackDuration = 60; 
         }
     }
+    
+    
 
     // Dash 
     handleDash() {
@@ -161,6 +188,13 @@ class Player {
     }
 
     updateBoundingBox() {
+        if(this.BB.y >= 728) {
+            this.x = 0;
+            this.y = 0;
+            this.BB.x = this.x;
+            this.BB.y = this.y;
+
+        }
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
@@ -170,12 +204,11 @@ class Player {
     
         if (this.facingLeft) {
             ctx.save();
-            ctx.scale(-1, 1); 
-            ctx.translate(-this.x * 2 - this.width, 0); 
+            ctx.scale(-1, 1);
+            ctx.translate(-this.x * 2 - this.width, 0);
         }
-
-
         this.currentAnimator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    
         if (this.facingLeft) {
             ctx.restore();
         }
@@ -184,24 +217,20 @@ class Player {
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     
-        // TODO: Draw attack and dash effects 
+        // Debug attack hitbox
         if (this.isAttacking) {
+            let attackBB;
             if (this.attackDirection === "right") {
-                ctx.strokeStyle = "black";
-                ctx.strokeRect(this.x + this.width, this.y+10, 20, 20);
+                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
             } else if (this.attackDirection === "left") {
-                ctx.strokeStyle = "black";
-                ctx.strokeRect(this.x - 20, this.y+10, 20, 20);
+                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
             } else if (this.attackDirection === "up") {
-                ctx.strokeStyle = "black";
-                ctx.strokeRect(this.x+10, this.y - 20, 20, 20);
+                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
             }
-        }
-    
-        if (this.isDashing) {
-            ctx.fillStyle = "blue";
-            ctx.fillRect(this.x, this.y - 10, this.width, 5);
+            ctx.strokeStyle = "green";
+            ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
         }
     }
+    
     
 }

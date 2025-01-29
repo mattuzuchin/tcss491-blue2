@@ -10,6 +10,9 @@ ASSET_MANAGER.queueDownload("./sprites/piratewalk.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratewalk.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateswordattack.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpirateattack.png");
+ASSET_MANAGER.queueDownload("./sprites/warriorattack.png");
+ASSET_MANAGER.queueDownload("./sprites/warriorwalk1.png");
+
 
 ASSET_MANAGER.downloadAll(() => {
 	const gameEngine = new GameEngine();

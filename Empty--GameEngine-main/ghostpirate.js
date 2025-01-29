@@ -19,7 +19,23 @@ class GhostPirate {
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        
+        this.health = 100;  
     }
+
+    takeDamage(amount) {
+        this.health -= amount;
+        console.log("Damage left: " + this.health);
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        console.log("GhostPirate has been defeated!");
+        //TODO-  add animation?
+    }
+
     update() {
         this.handleMovement();
         this.handleGravity();
@@ -30,29 +46,29 @@ class GhostPirate {
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
-            this.direction = Math.random() > 0.5 ? 1 : -1; // Randomly change direction
+            this.direction = Math.random() > 0.5 ? 1 : -1; 
             this.randomMoveCounter = 0; 
         }
 
         this.x += this.speed * this.direction;
         this.facingLeft = this.direction === -1;
-
     }
+
     updateBoundingBox() {
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
+
     // gravity
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
     }
+
     // collision handling
     handleCollisions() {
-        // check if it;s outside canvas
-
         // Prevent the ghost pirate from moving outside the canvas
-        if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 +this.width) {
+        if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 + this.width) {
             this.direction *= -1;
         }
 
@@ -61,6 +77,7 @@ class GhostPirate {
             this.velocity = 0;
             this.isOnGround = true;
         }
+
         for (let entity of this.game.entities) {
             if (entity instanceof Platform && this.BB.collide(entity.boundingBox)) {
                 if (this.velocity > 0 && (this.y + this.height) >= (entity.boundingBox.top + this.velocity)) {
@@ -71,7 +88,6 @@ class GhostPirate {
             }
         }
     }
-
 
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;

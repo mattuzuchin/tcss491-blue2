@@ -2,7 +2,7 @@ class entitiesmanager {
     constructor(game) {
         this.game = game;
         this.level = null;
-        this.player = new Player(this.game, 0, 0);
+        this.player = new Player(this.game, 0, 0,0);
         this.loadLevel(levelOne);
     }
 
@@ -17,6 +17,13 @@ class entitiesmanager {
             }
         }
 
+        // Loadpirate
+        if (level.pirate) {
+            for (let i = 0; i < level.pirate.length; i++) {
+                let pirate = level.pirate[i];
+                this.game.addEntity(new Pirate(this.game, pirate.x, pirate.y));
+            }
+        }
         // Load platforms
         if (level.platforms) {
             for (let i = 0; i < level.platforms.length; i++) {
