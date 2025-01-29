@@ -68,7 +68,7 @@ class GhostPirate {
 
     // collision handling
     handleCollisions() {
-        // Prevent the ghost pirate from moving outside the canvas
+       
         if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 + this.width) {
             this.direction *= -1;
         }
@@ -86,6 +86,10 @@ class GhostPirate {
                     this.velocity = 0;
                     this.isOnGround = true;
                 }
+            }
+            if(entity instanceof Warrior && this.BB.collide(entity.boundingBox)) {
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirateattack.png")
+                this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 1);
             }
         }
     }

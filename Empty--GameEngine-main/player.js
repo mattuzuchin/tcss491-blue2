@@ -19,6 +19,7 @@ class Player {
         this.attackDuration = 60;
         this.attackDirection = "right";
         this.damage = 10;
+        this.health = 100;
         this.isDashing = false;
         this.dashCooldown = 0;
         this.dashDuration = 60;
@@ -48,11 +49,26 @@ class Player {
         };
     
         this.currentAnimator = this.animators[this.characterType].idle;
-    
+        
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.coinCount = 0;
+        this.hearts = 5;
     }
 
-    
+    takeDamage(amount) {
+        this.health -= amount;
+        console.log("Damage left: " + this.health);
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        console.log("player has been defeated!");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratestanddead.png")
+        //this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+    }
+
     update() {
         this.handleMovement();
         this.handleGravity();
@@ -102,7 +118,6 @@ class Player {
         } else {
             this.speed = 3;
         }
-        console.log(this.x + "," + this.y);
     }
     
     // gravity
@@ -157,12 +172,12 @@ class Player {
                 attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
             }
             for (let entity of this.game.entities) {
-            if((entity instanceof GhostPirate || entity instanceof Pirate)&& this.BB.collide(entity.BB) && this.isAttacking) {
-                entity.takeDamage(this.damage);
-                if(entity.health <= 0) {
-                    entity.removeFromWorld = true;
+                if((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB) && this.isAttacking) {
+                    entity.takeDamage(this.damage);
+                    if(entity.health <= 0) {
+                        entity.removeFromWorld = true;
+                    }
                 }
-            }
         }
         
         } else {

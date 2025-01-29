@@ -53,8 +53,7 @@ class entitiesmanager {
     draw(ctx) {
         ctx.fillStyle = "#EE4B2B";
         ctx.font = "30px 'Press Start 2P', sans-serif"; 
-        
-        console.log("HUD");
+    
         ctx.fillText("Hearts: ", 100, 50);
         ctx.fillStyle = "Gold";
         ctx.fillText("Coins: ", 550, 50);
