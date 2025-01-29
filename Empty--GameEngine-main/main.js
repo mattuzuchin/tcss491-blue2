@@ -8,24 +8,22 @@ ASSET_MANAGER.queueDownload("./sprites/ghostpiratestand.png");
 ASSET_MANAGER.queueDownload("./sprites/piratestand.png");
 ASSET_MANAGER.queueDownload("./sprites/piratewalk.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratewalk.png");
-const PARAMS = {
-    BITWIDTH: 16, 
-    SCALE: 2,     
-};
+ASSET_MANAGER.queueDownload("./sprites/pirateswordattack.png");
+ASSET_MANAGER.queueDownload("./sprites/ghostpirateattack.png");
+ASSET_MANAGER.queueDownload("./sprites/heart.png");
+
 ASSET_MANAGER.downloadAll(() => {
-	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	const gameEngine = new GameEngine();
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 	
-	PARAMS.CANVAS_WIDTH = canvas.width;
 	
-	// gameEngine.addEntity(new Marksmen());
+	// gameEngine.addEntity(new Marksmen());d
 	// gameEngine.addEntity(new GhostPirate());
 	// gameEngine.addEntity(new Pirate());
 
 	gameEngine.init(ctx);
-	//new entitiesmanager(gameEngine);
-	gameEngine.addEntity(new scenemanager(gameEngine));
+	
+	new entitiesmanager(gameEngine);
 	gameEngine.start();
 });

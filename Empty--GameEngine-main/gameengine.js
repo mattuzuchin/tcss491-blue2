@@ -22,8 +22,11 @@ class GameEngine {
         this.left = false;
         this.right = false;
         this.up = false;
+        this.isJump = false;
         this.speedup = false;
         this.speed = true;
+        this.dash = false;
+        
     };
 
     init(ctx) {
@@ -51,13 +54,22 @@ class GameEngine {
                 case "ArrowRight":
                     that.right = true;
                     break;
-                case "Space":
+                case "ArrowUp":
                     that.up = true;
+                    break;
+                case "Space":
+                    that.isJump = true;
                     that.down = false;
                     break;
                 case "ShiftLeft":
                     that.speedup = true;
                     that.speed = false;
+                    break;
+                case "KeyD":
+                    that.attack = true;
+                    break;
+                case "KeyS":
+                    that.dash = true;
                     break;
             }
 
@@ -70,14 +82,23 @@ class GameEngine {
                 case "ArrowRight":
                     that.right = false;
                     break;
-                case "Space":
+                case "ArrowUp":
                     that.up = false;
+                    break;
+                case "Space":
+                    that.isJump = false;
                     that.down = true;
                     break;
                 case "ShiftLeft":
                     that.speedup = false;
                     that.speed = true;
                     break;
+                case "KeyD":
+                    that.attack = false;
+                    break;
+                case "KeyS":
+                    that.dash = false;
+                    break;    
             }
 
         }, false);
@@ -125,15 +146,15 @@ class GameEngine {
     };
 
     draw() {
-        // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
+        
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        this.ctx.save();
-        this.ctx.translate(-this.camera.x,0);
+
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
-        this.ctx.restore();
+        this.camera.draw(this.ctx);
+        
     };
 
     update() {
@@ -161,5 +182,3 @@ class GameEngine {
     };
 
 };
-
-// KV Le was here :)
