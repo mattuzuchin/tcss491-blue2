@@ -20,7 +20,7 @@ class GhostPirate {
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         
-        this.health = 100;  
+        this.health = 1200;  
     }
 
     takeDamage(amount) {

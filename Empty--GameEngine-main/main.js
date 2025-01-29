@@ -14,6 +14,8 @@ ASSET_MANAGER.queueDownload("./sprites/warriorattack.png");
 ASSET_MANAGER.queueDownload("./sprites/warriorwalk1.png");
 ASSET_MANAGER.queueDownload("./sprites/polymorphism-full.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratestanddead.png");
+ASSET_MANAGER.queueDownload("./sprites/heart.png");
+ASSET_MANAGER.queueDownload("./sprites/coin.png");
 
 
 ASSET_MANAGER.downloadAll(() => {
