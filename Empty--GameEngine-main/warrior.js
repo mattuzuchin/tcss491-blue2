@@ -1,6 +1,6 @@
 class Warrior extends Player {
     constructor(game, x, y) {
-        super(game, x, y, "Warrior");
+        super(game, x, y, 1);
         this.attackRange = 50; 
         this.attackDamage = 20; 
     }

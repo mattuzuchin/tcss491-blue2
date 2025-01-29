@@ -25,7 +25,13 @@ class entitiesmanager {
                 this.game.addEntity(new Platform(platform.x, platform.y, platform.width, platform.height));
             }
         }
-
+        // Load artifacts
+        if (level.artifacts) {
+            for (let i = 0; i < level.artifacts.length; i++) {
+                let artifact = level.artifacts[i];
+                this.game.addEntity(new Artifact(this.game, artifact.x, artifact.y));
+            }
+        }
         
         this.game.addEntity(this.player);
     }
@@ -39,7 +45,7 @@ class entitiesmanager {
         console.log("HUD");
         ctx.fillText("Hearts: ", 100, 50);
         ctx.fillStyle = "Gold";
-        ctx.fillText("Coins: ", 550, 50);
+        ctx.fillText("Coins: " + this.player.coinCount, 550, 50);
         this.heartanimation = ASSET_MANAGER.getAsset("./sprites/heart.png");
         if (this.heartanimation) {
             for (let i = 0; i < 5; i++) {

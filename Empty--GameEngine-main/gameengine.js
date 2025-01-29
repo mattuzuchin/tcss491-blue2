@@ -26,7 +26,6 @@ class GameEngine {
         this.speedup = false;
         this.speed = true;
         this.dash = false;
-        
     };
 
     init(ctx) {
@@ -154,7 +153,6 @@ class GameEngine {
             this.entities[i].draw(this.ctx, this);
         }
         this.camera.draw(this.ctx);
-        
     };
 
     update() {

@@ -19,7 +19,24 @@ class GhostPirate {
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        
+        this.health = 100;  
     }
+
+    takeDamage(amount) {
+        this.health -= amount;
+        console.log("Damage left: " + this.health);
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        console.log("GhostPirate has been defeated!");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratestanddead.png")
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+    }
+
     update() {
         this.handleMovement();
         this.handleGravity();
@@ -30,33 +47,36 @@ class GhostPirate {
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
-            this.direction = Math.random() > 0.5 ? 1 : -1; // Randomly change direction
+            this.direction = Math.random() > 0.5 ? 1 : -1; 
             this.randomMoveCounter = 0; 
         }
 
         this.x += this.speed * this.direction;
         this.facingLeft = this.direction === -1;
-
     }
+
     updateBoundingBox() {
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
+
     // gravity
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
     }
+
     // collision handling
     handleCollisions() {
-        // check if it;s outside canvas
+        // Prevent the ghost pirate from moving outside the canvas
+        if (this.x + this.width >= this.game.ctx.canvas.width || this.x <= 0 + this.width) {
+            this.direction *= -1;
+        }
+
         if (this.y + this.height > this.game.ctx.canvas.height) {
             this.y = this.game.ctx.canvas.height - this.height;
             this.velocity = 0;
             this.isOnGround = true;
-        }
-        if (this.x >= this.game.ctx.canvas.width || this.x <= 0) {
-            this.direction *= -1;
         }
 
         for (let entity of this.game.entities) {
@@ -69,7 +89,6 @@ class GhostPirate {
             }
         }
     }
-
 
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
