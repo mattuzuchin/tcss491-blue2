@@ -1,5 +1,3 @@
-
-
 const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/marksmentemp.png");
 ASSET_MANAGER.queueDownload("./sprites/marksmenwalkLeft.png");
@@ -10,8 +8,21 @@ ASSET_MANAGER.queueDownload("./sprites/piratewalk.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratewalk.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateswordattack.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpirateattack.png");
+ASSET_MANAGER.queueDownload("./sprites/warriorattack.png");
+ASSET_MANAGER.queueDownload("./sprites/warriorwalk1.png");
 ASSET_MANAGER.queueDownload("./sprites/polymorphism-full.png");
+ASSET_MANAGER.queueDownload("./sprites/ghostpiratestanddead.png");
 ASSET_MANAGER.queueDownload("./sprites/heart.png");
+ASSET_MANAGER.queueDownload("./sprites/halfheart.png");
+ASSET_MANAGER.queueDownload("./sprites/grassblockmiddle.png");
+ASSET_MANAGER.queueDownload("./sprites/grassleft.png");
+ASSET_MANAGER.queueDownload("./sprites/grassright.png");
+ASSET_MANAGER.queueDownload("./sprites/coin.png");
+ASSET_MANAGER.queueDownload("./sprites/crate.png");
+ASSET_MANAGER.queueDownload("./sprites/cheststand.png");
+ASSET_MANAGER.queueDownload("./sprites/treasureChest.png");
+
+
 ASSET_MANAGER.downloadAll(() => {
 	const gameEngine = new GameEngine();
 	const canvas = document.getElementById("gameWorld");

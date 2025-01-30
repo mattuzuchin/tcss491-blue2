@@ -4,7 +4,7 @@ class Player {
 
         const characterTypes = ["Marksman", "Warrior"];
         this.characterType = characterTypes[characterNumber] || "Marksman"; 
-    
+        this.isDead = false;
         this.width = 40;
         this.height = 40;
         this.speed = 3;
@@ -19,6 +19,7 @@ class Player {
         this.attackDuration = 60;
         this.attackDirection = "right";
         this.damage = 10;
+        this.health = 100;
         this.isDashing = false;
         this.dashCooldown = 0;
         this.dashDuration = 60;
@@ -42,19 +43,36 @@ class Player {
             },
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
-                walking: new Animator(this.assets.Warrior, 0, 0, this.width, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.WarriorAttack, 0, 0, this.width, this.height, 6, 0.1),
+                walking: new Animator(this.assets.Warrior, 0, 0, 50, this.height, 8, 0.1),
+                attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 6, 0.1),
             }
         };
     
         this.currentAnimator = this.animators[this.characterType].idle;
-    
+        
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         this.coinCount = 0;
+        this.hearts = 5;
     }
 
-    
+    takeDamage(amount) {
+        this.health -= amount;
+        console.log("Damage left: " + this.health);
+        this.hearts = this.hearts - .5;
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        console.log("player has been defeated!");
+        this.isDead = true;
+        this.removeFromWorld=true;
+        
+    }
+
     update() {
+        if (this.isDead) return; 
         this.handleMovement();
         this.handleGravity();
         this.handleCollisions();
@@ -103,14 +121,15 @@ class Player {
         } else {
             this.speed = 3;
         }
-        console.log(this.x + "," + this.y);
     }
     
     // gravity
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
+        this.isOnGround = false;
     }
+    
     // collision handling
     handleCollisions() {
         // stop falling below the canvas
@@ -158,13 +177,14 @@ class Player {
                 attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
             }
             for (let entity of this.game.entities) {
-            if((entity instanceof GhostPirate || entity instanceof Pirate)&& this.BB.collide(entity.BB) && this.isAttacking) {
-                entity.takeDamage(this.damage);
-                if(entity.health <= 0) {
-                    entity.removeFromWorld = true;
+                if ((entity instanceof GhostPirate || entity instanceof Pirate) && attackBB.collide(entity.BB)) {
+                    entity.takeDamage(this.damage);
+                    if (entity.health <= 0) {
+                        entity.removeFromWorld = true;
+                    }
                 }
             }
-        }
+            
         
         } else {
             
@@ -177,10 +197,11 @@ class Player {
 
     // Dash 
     handleDash() {
-        if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing) {
+        if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing && this.isOnGround) {
             this.isDashing = true;
-            this.dashCooldown = 60; 
+            this.dashCooldown = 60;
         }
+        
 
         if (this.isDashing && this.dashDuration > 0) {
             this.dashDuration--;
