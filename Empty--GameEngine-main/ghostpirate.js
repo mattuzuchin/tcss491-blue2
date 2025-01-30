@@ -8,19 +8,23 @@ class GhostPirate {
         this.facingLeft = false;
         this.direction = 1;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
-
+        this.isAttacking = false;
         // gravity stuffs
         this.gravity = 0.5;
         this.velocity = 0;
         this.groundLevel = y;
         this.isOnGround = false;
-
-        // Movement stuffs
+        this.attackDirection = "right";
+        // Movement stuffs  
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         
         this.health = 1200;  
+        this.damage = 10;
+        this.attackCooldown = 0;
+        this.attackDuration = 60;
+
     }
 
     takeDamage(amount) {
@@ -38,6 +42,8 @@ class GhostPirate {
     }
 
     update() {
+        if (this.attackCooldown > 0) this.attackCooldown--;
+
         this.handleMovement();
         this.handleGravity();
         this.handleCollisions();
@@ -53,6 +59,9 @@ class GhostPirate {
 
         this.x += this.speed * this.direction;
         this.facingLeft = this.direction === -1;
+        if(this.facingLeft) {
+            this.attackDirection = "left";
+        }
     }
 
     updateBoundingBox() {
@@ -87,13 +96,30 @@ class GhostPirate {
                     this.isOnGround = true;
                 }
             }
-            if(entity instanceof Warrior && this.BB.collide(entity.boundingBox)) {
-                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirateattack.png")
-                this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 1);
+            if (entity instanceof Player && this.BB.collide(entity.BB)) {
+                this.isAttacking = true;
+                this.handleAttack(entity); 
             }
         }
     }
 
+    handleAttack(player) {
+        if (this.attackCooldown <= 0) {  
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirateattack.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
+            
+            if (player) {
+                player.takeDamage(this.damage);
+                console.log("Player took damage!");
+            }
+    
+            this.attackCooldown = this.attackDuration; 
+        }
+        this.isAttacking = false;
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratewalk.png");
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
+    }
+    
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         if (this.facingLeft) {

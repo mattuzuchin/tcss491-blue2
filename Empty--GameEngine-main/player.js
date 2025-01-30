@@ -4,7 +4,7 @@ class Player {
 
         const characterTypes = ["Marksman", "Warrior"];
         this.characterType = characterTypes[characterNumber] || "Marksman"; 
-    
+        this.isDead = false;
         this.width = 40;
         this.height = 40;
         this.speed = 3;
@@ -65,11 +65,13 @@ class Player {
 
     die() {
         console.log("player has been defeated!");
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratestanddead.png")
-        //this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+        this.isDead = true;
+        this.game.gameOver = true;
+        
     }
 
     update() {
+        if (this.isDead) return; 
         this.handleMovement();
         this.handleGravity();
         this.handleCollisions();
