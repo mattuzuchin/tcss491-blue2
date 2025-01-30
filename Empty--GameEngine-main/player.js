@@ -58,6 +58,7 @@ class Player {
     takeDamage(amount) {
         this.health -= amount;
         console.log("Damage left: " + this.health);
+        this.hearts = this.hearts - .5;
         if (this.health <= 0) {
             this.die();
         }
@@ -66,7 +67,7 @@ class Player {
     die() {
         console.log("player has been defeated!");
         this.isDead = true;
-        this.game.gameOver = true;
+        this.removeFromWorld=true;
         
     }
 
@@ -126,7 +127,9 @@ class Player {
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
+        this.isOnGround = false;
     }
+    
     // collision handling
     handleCollisions() {
         // stop falling below the canvas
@@ -174,13 +177,14 @@ class Player {
                 attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
             }
             for (let entity of this.game.entities) {
-                if((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB) && this.isAttacking) {
+                if ((entity instanceof GhostPirate || entity instanceof Pirate) && attackBB.collide(entity.BB)) {
                     entity.takeDamage(this.damage);
-                    if(entity.health <= 0) {
+                    if (entity.health <= 0) {
                         entity.removeFromWorld = true;
                     }
                 }
-        }
+            }
+            
         
         } else {
             
@@ -193,10 +197,11 @@ class Player {
 
     // Dash 
     handleDash() {
-        if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing) {
+        if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing && this.isOnGround) {
             this.isDashing = true;
-            this.dashCooldown = 60; 
+            this.dashCooldown = 60;
         }
+        
 
         if (this.isDashing && this.dashDuration > 0) {
             this.dashDuration--;

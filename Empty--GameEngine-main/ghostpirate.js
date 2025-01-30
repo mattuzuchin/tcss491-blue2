@@ -4,7 +4,7 @@ class GhostPirate {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratewalk.png");
         this.width = 40;
         this.height = 40;
-        this.speed = 2;
+        this.speed = .5;
         this.facingLeft = false;
         this.direction = 1;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);

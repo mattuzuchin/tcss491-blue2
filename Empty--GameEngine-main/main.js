@@ -15,7 +15,14 @@ ASSET_MANAGER.queueDownload("./sprites/warriorwalk1.png");
 ASSET_MANAGER.queueDownload("./sprites/polymorphism-full.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratestanddead.png");
 ASSET_MANAGER.queueDownload("./sprites/heart.png");
+ASSET_MANAGER.queueDownload("./sprites/halfheart.png");
+ASSET_MANAGER.queueDownload("./sprites/grassblockmiddle.png");
+ASSET_MANAGER.queueDownload("./sprites/grassleft.png");
+ASSET_MANAGER.queueDownload("./sprites/grassright.png");
 ASSET_MANAGER.queueDownload("./sprites/coin.png");
+ASSET_MANAGER.queueDownload("./sprites/crate.png");
+ASSET_MANAGER.queueDownload("./sprites/cheststand.png");
+ASSET_MANAGER.queueDownload("./sprites/treasureChest.png");
 
 
 ASSET_MANAGER.downloadAll(() => {
