@@ -10,9 +10,7 @@ class Platform {
             this.image = ASSET_MANAGER.getAsset("./sprites/grassleft.png"); 
         } else if (number == 4) {
             this.image = ASSET_MANAGER.getAsset("./sprites/crate.png"); 
-        } else if (number == 5) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/cheststand.png"); 
-        }
+        } 
     }
     draw(ctx) {
 
