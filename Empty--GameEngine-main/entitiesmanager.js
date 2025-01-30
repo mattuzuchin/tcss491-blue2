@@ -90,7 +90,7 @@ class entitiesmanager {
     
         ctx.fillText("Hearts: ", 100, 50);
         ctx.fillStyle = "Gold";
-        ctx.fillText("Coins: ", 550, 50);
+        ctx.fillText("Coins: " + this.player.coinCount, 550, 50);
         this.heartanimation = ASSET_MANAGER.getAsset("./sprites/heart.png");
         this.halfheart = ASSET_MANAGER.getAsset("./sprites/halfheart.png");
         if (this.heartanimation) {
