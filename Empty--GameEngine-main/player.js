@@ -162,14 +162,6 @@ class Player {
                 this.coinCount += 1;
                 entity.removeFromWorld = true;
             }
-            if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
-                this.totalChests += 1;
-                entity.removeFromWorld = true;
-                console.log(this.totalChests);
-    
-            }
-    
-
         }
     }
 
@@ -215,6 +207,12 @@ class Player {
                             console.log(this.totalKills);
                             entity.removeFromWorld = true;
                         }
+                    }
+                    if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                        this.totalChests += 1;
+                        console.log(entity);
+                        //entity.openChest();
+                        //entity.removeFromWorld = true;
                     }
                 }
                 
@@ -335,6 +333,14 @@ class Projectile {
             }
             if((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox)) {
                     this.removeFromWorld = true;    //make sure arrow doesnt go through chest or platform
+            }
+            if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                this.player.totalChests += 1;
+                //entity.removeFromWorld = true;
+                entity.openChest();
+                entity.keepOpen();
+
+                
             }
         }
 

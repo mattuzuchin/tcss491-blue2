@@ -26,8 +26,9 @@ ASSET_MANAGER.queueDownload("./sprites/grassleftplat.png");
 ASSET_MANAGER.queueDownload("./sprites/grassrightplat.png");
 ASSET_MANAGER.queueDownload("./sprites/coin.png");
 ASSET_MANAGER.queueDownload("./sprites/crate.png");
-ASSET_MANAGER.queueDownload("./sprites/cheststand.png");
 ASSET_MANAGER.queueDownload("./sprites/treasureChest.png");
+ASSET_MANAGER.queueDownload("./sprites/treasureChestOpen.png");
+
 
 
 ASSET_MANAGER.downloadAll(() => {

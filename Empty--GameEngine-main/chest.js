@@ -2,15 +2,20 @@ class Chest {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/treasureChest.png");
+        this.spriteKeep = ASSET_MANAGER.getAsset("./sprites/treasureChestOpen.png");
         this.width = 32;
         this.height = 32;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);
-
+        this.animatorOpen = new Animator(this.spritesheet, 0, 0, this.width, this.height,  4, 0.1);
+        this.animatorStay = new Animator(this.spriteKeep, 0, 0, this.width, this.height,  1, 0.1);
+        this.open = false;
+        this.stayOpen = false;
         // gravity stuffs
         this.gravity = 0.5;
         this.velocity = 0;
         this.groundLevel = y;
         this.isOnGround = false;
+        this.health = 10;
 
         this.boundingBox = new BoundingBox(this.x, this.y, this.width, this.height);
         
@@ -21,6 +26,14 @@ class Chest {
         this.updateBoundingBox();
     }
 
+    openChest() {
+        this.open = true;
+    }
+
+    keepOpen() {
+        this.stayOpen = true;
+        this.open = false;
+    }
     updateBoundingBox() {
         this.boundingBox.x = this.x;
         this.boundingBox.y = this.y;
@@ -47,12 +60,19 @@ class Chest {
                     this.isOnGround = true;
                 }
             }
+
         }
     }
 
 
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        if(this.open) {
+            this.animatorOpen.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else if(this.stayOpen){
+            this.animatorStay.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else {
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
     }
 }
