@@ -1,12 +1,10 @@
 class entitiesmanager {
     constructor(game) {
         this.game = game;
-        this.level = null;
-        this.hearts = 3;
-        this.coins = 0;
+        this.level = null; 
         this.game.camera = this;
-        this.player = new Player(this.game, 0, 0, 1);
-        this.loadLevel(levelOne);
+        this.player = new Player(this.game, 0, 0, 0);
+        this.loadLevel(level1Scene1);
     }
 
     loadLevel(level) {
@@ -17,6 +15,7 @@ class entitiesmanager {
             for (let i = 0; i < level.ghostpirate.length; i++) {
                 let ghostpirate = level.ghostpirate[i];
                 this.game.addEntity(new GhostPirate(this.game, ghostpirate.x, ghostpirate.y));
+            
             }
         }
 
@@ -25,6 +24,7 @@ class entitiesmanager {
             for (let i = 0; i < level.pirate.length; i++) {
                 let pirate = level.pirate[i];
                 this.game.addEntity(new Pirate(this.game, pirate.x, pirate.y));
+        
             }
         }
         //grass middle blocks (1)
@@ -48,12 +48,28 @@ class entitiesmanager {
                 this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,3));
             }
         }
-        if(level.platforms) {
-            for (let i = 0; i < level.platforms.length; i++) {
-                let platform = level.platforms[i];
-                this.game.addEntity(new Platform(platform.x, platform.y, platform.width, platform.height));
+        //grass middle blocks (1)
+        if (level.grass_m_p) {
+            for (let i = 0; i < level.grass_m_p.length; i++) {
+                let grass = level.grass_m_p[i];
+                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,1));
             }
         }
+        //grass right blocks (2)
+        if (level.grass_r_p) {
+            for (let i = 0; i < level.grass_r_p.length; i++) {
+                let grass = level.grass_r_p[i];
+                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,2));
+            }
+        }
+        //grass left blocks (3)
+        if (level.grass_l_p) {
+            for (let i = 0; i < level.grass_l_p.length; i++) {
+                let grass = level.grass_l_p[i];
+                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,3));
+            }
+        }
+
         //crates
         if(level.crates) {
             for (let i = 0; i < level.crates.length; i++) {
@@ -65,7 +81,8 @@ class entitiesmanager {
         if(level.chests) {
             for (let i = 0; i < level.chests.length; i++) {
                 let platform = level.chests[i];
-                this.game.addEntity(new Chest(platform.x, platform.y, platform.width, platform.height,this.game));
+                this.game.addEntity(new Chest(this.game, platform.x, platform.y));
+          
             }
         }
         // Load artifacts
@@ -73,21 +90,28 @@ class entitiesmanager {
             for (let i = 0; i < level.artifacts.length; i++) {
                 let artifact = level.artifacts[i];
                 this.game.addEntity(new Artifact(this.game, artifact.x, artifact.y));
+
             }
         }
-        
-        
+
+        if(level.coins) {
+            for (let i = 0; i < level.coins.length; i++) {
+                let coin = level.coins[i];
+                this.game.addEntity(new Coins(this.game, coin.x, coin.y));
+
+            }
+        }
+
         this.game.addEntity(this.player);
     }
 
     update() {
-        
+ 
     }
 
     draw(ctx) {
         ctx.fillStyle = "#EE4B2B";
         ctx.font = "30px 'Press Start 2P', sans-serif"; 
-    
         ctx.fillText("Hearts: ", 100, 50);
         ctx.fillStyle = "Gold";
         ctx.fillText("Coins: " + this.player.coinCount, 550, 50);

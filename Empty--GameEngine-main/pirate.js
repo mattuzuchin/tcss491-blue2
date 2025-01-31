@@ -20,25 +20,30 @@ class Pirate {
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         
-        this.health = 1200;  
+        this.health = 800;  
         this.damage = 10;
         this.attackCooldown = 0;
         this.attackDuration = 60;
+        this.isDead = false;
 
     }
 
     takeDamage(amount) {
         this.health -= amount;
-        console.log("Damage left: " + this.health);
+        //console.log("Damage left: " + this.health);
         if (this.health <= 0) {
             this.die();
         }
     }
 
     die() {
-        console.log("Pirate has been defeated!");
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratestanddead.png")
+        this.isDead = true;
+        //console.log("GhostPirate has been defeated!");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratestanddead.png");
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+        let coin = new Coins(this.game, this.x, this.y);
+        this.game.addEntity(coin);
+
     }
 
     update() {
@@ -105,12 +110,12 @@ class Pirate {
 
     handleAttack(player) {
         if (this.attackCooldown <= 0) {  
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateattack.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratswordattack.png");
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
             
             if (player) {
                 player.takeDamage(this.damage);
-                console.log("Player took damage!");
+                //console.log("Player took damage!");
             }
     
             this.attackCooldown = this.attackDuration; 
@@ -131,6 +136,23 @@ class Pirate {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
         if (this.facingLeft) {
             ctx.restore();
+        }
+        // Debug bounding box
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+            
+        // Debug attack hitbox
+        if (this.isAttacking) {
+            let attackBB;
+            if (this.attackDirection === "right") {
+                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
+            } else if (this.attackDirection === "left") {
+                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
+            } else if (this.attackDirection === "up") {
+                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
+            }
+            ctx.strokeStyle = "green";
+            ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
         }
     }
 }

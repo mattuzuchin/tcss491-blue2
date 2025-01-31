@@ -18,13 +18,15 @@ class Player {
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.attackDirection = "right";
-        this.damage = 10;
+        this.damage = 50;
         this.health = 100;
         this.isDashing = false;
+        this.currentScene = 1;
         this.dashCooldown = 0;
         this.dashDuration = 60;
         this.dashSpeed = 15;
-        this.artifactCount = 0;
+        this.artifactCounts = 0;
+        this.totalChests = 0;
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
@@ -53,6 +55,7 @@ class Player {
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         this.coinCount = 0;
         this.hearts = 5;
+        this.totalKills = 0;
     }
 
     takeDamage(amount) {
@@ -60,13 +63,14 @@ class Player {
         console.log("Damage left: " + this.health);
         this.hearts = this.hearts - .5;
         if (this.health <= 0) {
-            this.die();
+            this.die(); 
         }
     }
 
     die() {
         console.log("player has been defeated!");
         this.isDead = true;
+        this.totalKills = 0;
         this.removeFromWorld=true;
         
     }
@@ -79,6 +83,7 @@ class Player {
         this.handleAttack(); 
         this.handleDash(); 
         this.updateBoundingBox();
+        this.checkComplete();
         
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.dashCooldown > 0) this.dashCooldown--;
@@ -147,49 +152,78 @@ class Player {
                 }
             }
             if (entity instanceof Artifact && this.BB.collide(entity.BB)) {
-                this.artifactCount += 1;
+                this.artifactCounts += 1;
                 entity.removeFromWorld = true;
+                console.log(this.artifactCounts);
+    
 
             }
-            console.log(this.artifactCount);
+            if(entity instanceof Coins && this.BB.collide(entity.BB)) {
+                this.coinCount += 1;
+                entity.removeFromWorld = true;
+            }
+            if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                this.totalChests += 1;
+                entity.removeFromWorld = true;
+                console.log(this.totalChests);
+    
+            }
+    
 
         }
     }
 
-    handleAttack() {
-
-        if (this.game.attack && this.attackCooldown <= 0) {
-            this.isAttacking = true; 
-            this.attackCooldown = 30;
-            this.attackDuration = 60; 
-        }
-    
-        if (this.isAttacking && this.attackDuration > 0) {
-            this.attackDuration--;
-            this.currentAnimator = this.animators[this.characterType].attacking;
-
-            let attackBB;
-            if (this.attackDirection === "right") {
-                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20); 
-            } else if (this.attackDirection === "left") {
-                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20); 
-            } else if (this.attackDirection === "up") {
-                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
+    checkComplete() {
+        if(this.currentScene == 1) {
+            this.level = level1Scene1;
+            if((this.totalKills == this.level.objectives[0].pirates) && (this.totalChests == this.level.objectives[0].chests) && (this.artifactCounts == this.level.objectives[0].artifact)) {
+                console.log("next scene!");
             }
-            for (let entity of this.game.entities) {
-                if ((entity instanceof GhostPirate || entity instanceof Pirate) && attackBB.collide(entity.BB)) {
-                    entity.takeDamage(this.damage);
-                    if (entity.health <= 0) {
-                        entity.removeFromWorld = true;
+        }
+    }
+    handleAttack() {
+    
+        if (this.characterType === "Marksman" && this.game.attack && this.attackCooldown <= 0) {
+            let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
+            this.game.addEntity(projectile);
+            console.log(this.totalKills);
+            this.attackCooldown = 100;
+        } else {
+            if (this.game.attack && this.attackCooldown <= 0) {
+                this.isAttacking = true; 
+                this.attackDuration = 60; 
+                this.attackCooldown = 80;
+            }
+        
+            if (this.isAttacking && this.attackDuration > 0) {
+                this.attackDuration--;
+                this.currentAnimator = this.animators[this.characterType].attacking;
+
+                let attackBB;
+                if (this.attackDirection === "right") {
+                    attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20); 
+                } else if (this.attackDirection === "left") {
+                    attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20); 
+                } else if (this.attackDirection === "up") {
+                    attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
+                }
+                for (let entity of this.game.entities) {
+                    if ((entity instanceof GhostPirate || entity instanceof Pirate) && attackBB.collide(entity.BB)) {
+                        entity.takeDamage(this.damage);
+                        if (entity.isDead) {
+                            this.totalKills++;
+                            console.log(this.totalKills);
+                            entity.removeFromWorld = true;
+                        }
                     }
                 }
+                
+            
+            } else {
+                
+                this.isAttacking = false;
+                this.attackDuration = 60; 
             }
-            
-        
-        } else {
-            
-            this.isAttacking = false;
-            this.attackDuration = 60; 
         }
     }
     
@@ -266,4 +300,49 @@ class Player {
     }
     
     
+}
+
+class Projectile {
+    constructor(game, x, y, direction, player) {
+        Object.assign(this, { game, x, y, direction, player});
+        this.width = 20;
+        this.height = 10;
+        this.speed = 5;
+        this.damage = 400;
+        this.removeFromWorld = false;
+        this.image = ASSET_MANAGER.getAsset("./sprites/heart.png"); //change in future to arrow
+        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+    }
+        
+    update() {
+        if (this.direction === "right") {
+            this.x += this.speed;
+        } else {
+            this.x -= this.speed;
+        }
+
+        this.BB.x = this.x;
+        
+        for (let entity of this.game.entities) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB)) {
+                entity.takeDamage(this.damage);
+                if(entity.isDead) {
+                    this.player.totalKills++;
+                    //console.log(this.totalKills);
+                    entity.removeFromWorld = true;
+                }
+                this.removeFromWorld = true;
+            }
+            if((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox)) {
+                    this.removeFromWorld = true;    //make sure arrow doesnt go through chest or platform
+            }
+        }
+
+    }
+
+    draw(ctx) {
+        if (this.image) {
+            ctx.drawImage(this.image, this.x, this.y+10, this.width, this.height);
+        }
+    }
 }
