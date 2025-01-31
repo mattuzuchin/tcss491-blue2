@@ -210,9 +210,8 @@ class Player {
                     }
                     if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
                         this.totalChests += 1;
-                        console.log(entity);
-                        //entity.openChest();
-                        //entity.removeFromWorld = true;
+                        entity.openChest();
+                        entity.keepOpen();  
                     }
                 }
                 
@@ -336,11 +335,8 @@ class Projectile {
             }
             if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
                 this.player.totalChests += 1;
-                //entity.removeFromWorld = true;
                 entity.openChest();
-                entity.keepOpen();
-
-                
+                entity.keepOpen();  
             }
         }
 
