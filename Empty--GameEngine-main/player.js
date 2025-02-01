@@ -14,10 +14,17 @@ class Player {
         this.groundLevel = y;
         this.isOnGround = false;
         this.facingLeft = false;
-        this.isAttacking = false;
+
+        this.isAttacking = false; 
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.attackDirection = "right";
+
+        this.isDownstriking = false;
+        this.downstrikeCooldown = 0;
+        this.downstrikeDuration = 30; 
+        this.downstrikeDamage = 200; 
+
         this.damage = 50;
         this.health = 100;
         this.isDashing = false;
@@ -91,6 +98,13 @@ class Player {
 
     handleMovement() {
 
+        if (this.game.down && this.game.attack && this.downstrikeCooldown <= 0 && !this.isOnGround) {
+            this.isDownstriking = true;
+            this.downstrikeCooldown = 60; // Cooldown 
+            this.velocity = 10; // Force the player downward 
+        } else {
+            this.downstrikeCooldown--;
+        }
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
@@ -186,7 +200,26 @@ class Player {
                 this.attackDuration = 60; 
                 this.attackCooldown = 80;
             }
+            if (this.isDownstriking && this.downstrikeDuration > 0) {
+                this.downstrikeDuration--;
         
+  
+                let downstrikeBB = new BoundingBox(this.x, this.y + this.height, this.width, 20);
+        
+     
+                for (let entity of this.game.entities) {
+                    if ((entity instanceof GhostPirate || entity instanceof Pirate) && downstrikeBB.collide(entity.BB)) {
+                        entity.takeDamage(this.downstrikeDamage);
+                        if (entity.isDead) {
+                            this.totalKills++;
+                            entity.removeFromWorld = true;
+                        }
+                    }
+                }
+            } else {
+                this.isDownstriking = false;
+                this.downstrikeDuration = 30; // Reset the duration
+            }
             if (this.isAttacking && this.attackDuration > 0) {
                 this.attackDuration--;
                 this.currentAnimator = this.animators[this.characterType].attacking;
