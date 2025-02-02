@@ -3,7 +3,7 @@ class entitiesmanager {
         this.game = game;
         this.level = null; 
         this.game.camera = this;
-        this.player = new Player(this.game, 0, 0, 0);
+        this.player = new Warrior(this.game, 0, 0, 0);
         this.loadLevel(level1Scene1);
     }
 
