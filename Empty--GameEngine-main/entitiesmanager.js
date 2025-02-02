@@ -9,7 +9,7 @@ class entitiesmanager {
 
     loadLevel(level) {
         this.level = level;
-    
+        this.game.entities = [];
         // Load ghost pirates
         if (level.ghostpirate) {
             for (let i = 0; i < level.ghostpirate.length; i++) {
