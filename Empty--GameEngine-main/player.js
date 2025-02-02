@@ -169,32 +169,31 @@ class Player {
     checkComplete() {
         if (this.currentScene === 1) {
             this.level = level1Scene1;
-            if (this.totalKills >= this.level.objectives[0].pirates && 
-                this.totalChests >= this.level.objectives[0].chests && 
-                this.artifactCounts >= this.level.objectives[0].artifact) {
-                this.removechest();
-                this.resetValues();
-                console.log("Moving to next scene!");
-            
-                this.moveToNextScene();
-            }
+            this.checkObjectives(this.level)
         } else if (this.currentScene === 2) {
             this.level = level1Scene2;
-            if (this.totalKills >= this.level.objectives[0].pirates && 
-                this.totalChests >= this.level.objectives[0].chests && 
-                this.artifactCounts >= this.level.objectives[0].artifact) {
-                this.removechest();
-                this.resetValues();
-                console.log("Moving to next scene!");
-                this.moveToNextScene();
-            }
+            this.checkObjectives(this.level)
         }
     }
 
+    checkObjectives(level) {
+        this.levelO = level;
+        if (this.totalKills >= this.levelO.objectives[0].pirates && 
+            this.totalChests >= this.levelO.objectives[0].chests && 
+            this.artifactCounts >= this.levelO.objectives[0].artifact) {
+            this.removechest();
+            this.resetValues();
+            console.log("Moving to next scene!");
+            this.moveToNextScene();
+        }
+    
+    }
     resetValues() {
         this.totalKills = 0;
         this.totalChests = 0;
         this.artifactCounts = 0;
+        this.x = 0;
+        this.y = 0;
     }
 
     removechest() {
