@@ -25,6 +25,7 @@ class Player {
         this.dashDuration = 60;
         this.dashSpeed = 15;
         this.artifactCounts = 0;
+        this.globalArtifacts = 0;
         this.totalChests = 0;
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
@@ -154,6 +155,7 @@ class Player {
             }
             if (entity instanceof Artifact && this.BB.collide(entity.BB)) {
                 this.artifactCounts += 1;
+                this.globalArtifacts += 1;
                 entity.removeFromWorld = true;
                 console.log(this.artifactCounts);
     
