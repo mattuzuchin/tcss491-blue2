@@ -132,7 +132,7 @@ var level1Scene2 = {
         { x: 790, y: 250, width: 45, height: 20 }, 
         { x: 965, y: 350, width: 45, height: 20 },
     ],
-    artifacts: [], 
+    artifacts: [{x: 795, y: 700}], 
     coins: [
         {x: 200, y: 25},
         {x: 945, y: 620},
@@ -140,6 +140,6 @@ var level1Scene2 = {
         {x: 745, y: 250}
     ], 
     objectives: [
-        {pirates: 6, artifact: 0, chests: 3}
+        {pirates: 6, artifact: 1, chests: 3}
     ]
 };
