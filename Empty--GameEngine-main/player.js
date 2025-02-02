@@ -19,7 +19,6 @@ class Player {
         this.attackDuration = 60;
         this.attackDirection = "right";
         this.damage = 50;
-        this.health = 100;
         this.isDashing = false;
         this.currentScene = 1;
         this.dashCooldown = 0;
@@ -59,10 +58,12 @@ class Player {
     }
 
     takeDamage(amount) {
-        this.health -= amount;
-        console.log("Damage left: " + this.health);
-        this.hearts = this.hearts - .5;
-        if (this.health <= 0) {
+        console.log("Damage left: " + this.hearts);
+        this.hearts = this.hearts - amount;
+        if(this.hearts < 0) {
+            this.hearts = 0
+        }
+        if (this.hearts == 0) {
             this.die(); 
         }
     }
@@ -163,14 +164,60 @@ class Player {
                 entity.removeFromWorld = true;
             }
         }
+      
+    }
+    checkComplete() {
+        if (this.currentScene === 1) {
+            this.level = level1Scene1;
+            if (this.totalKills >= this.level.objectives[0].pirates && 
+                this.totalChests >= this.level.objectives[0].chests && 
+                this.artifactCounts >= this.level.objectives[0].artifact) {
+                this.removechest();
+                this.resetValues();
+                console.log("Moving to next scene!");
+            
+                this.moveToNextScene();
+            }
+        } else if (this.currentScene === 2) {
+            this.level = level1Scene2;
+            if (this.totalKills >= this.level.objectives[0].pirates && 
+                this.totalChests >= this.level.objectives[0].chests && 
+                this.artifactCounts >= this.level.objectives[0].artifact) {
+                this.removechest();
+                this.resetValues();
+                console.log("Moving to next scene!");
+                this.moveToNextScene();
+            }
+        }
     }
 
-    checkComplete() {
-        if(this.currentScene == 1) {
-            this.level = level1Scene1;
-            if((this.totalKills == this.level.objectives[0].pirates) && (this.totalChests == this.level.objectives[0].chests) && (this.artifactCounts == this.level.objectives[0].artifact)) {
-                console.log("next scene!");
+    resetValues() {
+        this.totalKills = 0;
+        this.totalChests = 0;
+        this.artifactCounts = 0;
+    }
+
+    removechest() {
+        for (let entity of this.game.entities) {
+            if(entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                entity.removeFromWorld = true;
+ 
             }
+        }
+    }
+
+    
+    moveToNextScene() {
+        this.currentScene++;
+        this.game.camera.loadLevel(this.getNextLevel());
+    }
+    //note: 4 scenes in level 1. current scene values will be 1-4 for level 1 
+    getNextLevel() {
+        switch (this.currentScene) {
+            case 2:
+                return level1Scene2;
+            default:
+                return level1Scene1;
         }
     }
     handleAttack() {
@@ -255,6 +302,7 @@ class Player {
         if(this.BB.y >= 728) {
             this.x = 0;
             this.y = 0;
+            this.takeDamage(1);
             this.BB.x = this.x;
             this.BB.y = this.y;
 
@@ -305,7 +353,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 1400;
         this.removeFromWorld = false;
         this.image = ASSET_MANAGER.getAsset("./sprites/heart.png"); //change in future to arrow
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
