@@ -21,7 +21,7 @@ class Pirate {
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         
         this.health = 800;  
-        this.damage = .5;
+        this.damage = 10;
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.isDead = false;
@@ -61,29 +61,13 @@ class Pirate {
             this.direction = Math.random() > 0.5 ? 1 : -1; 
             this.randomMoveCounter = 0; 
         }
-    
-        let nextX = this.x + this.speed * this.direction;
-        let hasGround = false;
-    
-        for (let entity of this.game.entities) {
-            if (entity instanceof Platform) {
-                let nextPositionBB = new BoundingBox(nextX, this.y + this.height, this.width, 5);
-                if (nextPositionBB.collide(entity.boundingBox)) {
-                    hasGround = true;
-                    break;
-                }
-            }
-        }
-    
-        if (hasGround) {
-            this.x = nextX;
-            this.facingLeft = this.direction === -1;
-            this.attackDirection = this.facingLeft ? "left" : "right";
-        } else {
-            this.direction *= -1;
+
+        this.x += this.speed * this.direction;
+        this.facingLeft = this.direction === -1;
+        if(this.facingLeft) {
+            this.attackDirection = "left";
         }
     }
-    
 
     updateBoundingBox() {
         this.BB.x = this.x;
