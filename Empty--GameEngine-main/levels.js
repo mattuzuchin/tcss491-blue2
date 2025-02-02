@@ -1,6 +1,4 @@
 var level1Scene1 = {
-    ghostpirate: [{ x: 59, y: 30 }, { x: 100, y: 100 }, { x: 900, y: 521 }, { x: 412, y: 215 }, { x: 350, y:  400 }, { x: 233, y: 121 }],
-    pirate: [{ x: 200, y: 30 }, { x: 500, y: 100 }, { x: 212, y: 212},{ x: 245, y: 123 },],
     grass_m: [
         //grassblockmiddle, left, and right are 45x45
         { x: 0, y: 700, width: 45, height: 45 }, 
@@ -66,6 +64,5 @@ var level1Scene1 = {
     artifacts: [{x: 795, y: 700}],
     coins: [{x: 635, y: 315}],
     objectives: [
-        {pirates: 10, artifact: 1, chests: 1}
     ]
 };
