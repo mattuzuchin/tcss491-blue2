@@ -143,4 +143,3 @@ var level1Scene2 = {
         {pirates: 6, artifact: 0, chests: 3}
     ]
 };
-
