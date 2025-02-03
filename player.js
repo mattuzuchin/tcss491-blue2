@@ -405,7 +405,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 1400;
+        this.damage = 400;
         this.removeFromWorld = false;
         this.image = ASSET_MANAGER.getAsset("./sprites/heart.png"); // Change to arrow in future
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
