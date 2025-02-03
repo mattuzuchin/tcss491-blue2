@@ -401,6 +401,7 @@ class Marksman extends Player {
 class Projectile {
     constructor(game, x, y, direction, player) {
         Object.assign(this, { game, x, y, direction, player });
+        this.player = player;
         this.width = 20;
         this.height = 10;
         this.speed = 5;
@@ -420,7 +421,7 @@ class Projectile {
         this.BB.x = this.x;
 
         for (let entity of this.game.entities) {
-            if ((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB)) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB) && this.player) {
                 entity.takeDamage(this.damage);
                 if (entity.isDead) {
                     this.player.totalKills++;
@@ -428,13 +429,22 @@ class Projectile {
                 }
                 this.removeFromWorld = true;
             }
-            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox)) {
+            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox) && this.player) {
                 this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
             }
-            if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+            if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
                 this.player.totalChests += 1;
                 entity.openChest();
                 entity.keepOpen();
+            }
+
+            if((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
+                entity.takeDamage(1);
+                if (entity.isDead) {
+                    //this.player.totalKills++;
+                    entity.removeFromWorld = true;
+                }
+                this.removeFromWorld = true;
             }
         }
     }
