@@ -16,7 +16,6 @@ class Chest {
         this.groundLevel = y;
         this.isOnGround = false;
         this.health = 10;
-
         this.boundingBox = new BoundingBox(this.x, this.y, this.width, this.height);
         
     }
@@ -27,6 +26,12 @@ class Chest {
     }
 
     openChest() {
+        //implement logic here to give user stuff
+        let randomNum= Math.floor(Math.random() * 10) ;
+        for(let i = 0; i < randomNum; i++) {
+            let coin = new Coins(this.game, this.x, this.y);
+            this.game.addEntity(coin);
+        }
         this.open = true;
     }
 
