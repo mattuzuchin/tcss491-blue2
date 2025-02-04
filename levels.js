@@ -1,4 +1,4 @@
-var level1Scene4 = {
+var level1Scene1 = {
     ghostpirate: [{ x: 59, y: 30 }, { x: 100, y: 100 }, { x: 900, y: 521 }, { x: 412, y: 215 }, { x: 350, y:  400 }, { x: 233, y: 121 }],
     pirate: [{ x: 200, y: 30 }, { x: 500, y: 100 }, { x: 212, y: 212},{ x: 245, y: 123 },],
     grass_m: [
@@ -145,7 +145,7 @@ var level1Scene2 = {
 };
 
 
-var level1Scene1 = {
+var level1Scene4 = {
     ghostpirate: [{ x: 295, y: 500 }, { x: 100, y: 400 },{ x: 970, y: 500 }],
     pirate: [{ x: 135, y: 700 }, { x: 360, y: 700 }, { x: 540, y: 600 }, { x: 295, y: 300 }, { x: 475, y: 150}],
     grass_m: [
