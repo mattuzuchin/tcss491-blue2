@@ -1,7 +1,8 @@
 class Player {
     constructor(game, x, y, characterNumber) {
         Object.assign(this, { game, x, y });
-
+        this.startingPointX = x;
+        this.startingPointY = y;
         const characterTypes = ["Marksman", "Warrior"];
         this.characterType = characterTypes[characterNumber] || "Marksman";
         this.isDead = false;
@@ -25,11 +26,12 @@ class Player {
         this.dashDuration = 10;
         this.dashSpeed = 15;
         this.artifactCounts = 0;
+        this.powerUpDuration = 5;
         this.totalChests = 0;
         this.coinCount = 0;
         this.hearts = 5;
         this.totalKills = 0;
-
+        this.power = false;
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
@@ -87,6 +89,7 @@ class Player {
     }
 
     handleMovement() {
+
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
@@ -193,6 +196,8 @@ class Player {
 
     getNextLevel() {
         switch (this.currentScene) {
+            case 4:
+                return level1Scene4;
             case 2:
                 return level1Scene2;
             default:
@@ -225,8 +230,8 @@ class Player {
 
     updateBoundingBox() {
         if (this.BB.y >= 728) {
-            this.x = 0;
-            this.y = 0;
+            this.x = this.startingPointX;
+            this.y = this.startingPointY;
             this.takeDamage(1);
             this.BB.x = this.x;
             this.BB.y = this.y;
@@ -304,16 +309,23 @@ class Warrior extends Player {
             }
             for (let entity of this.game.entities) {
                 if ((entity instanceof GhostPirate || entity instanceof Pirate) && attackBB.collide(entity.BB)) {
-                    entity.takeDamage(this.damage);
+                    if(this.power === true && this.powerUpDuration > 0) {
+                        this.powerUpDuration -= 1;
+                        entity.takeDamage(this.damage * 3);
+                    } else {
+                        this.power = false;
+                        this.powerUpDuration = 5;
+                        entity.takeDamage(this.damage);
+                    }
                     if (entity.isDead) {
                         this.totalKills++;
                         console.log(this.totalKills);
                         entity.removeFromWorld = true;
                     }
                 }
-                if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player === null) {
                     this.totalChests += 1;
-                    entity.openChest();
+                    this.power =  entity.openChest();
                     entity.keepOpen();
                 }
             }
@@ -345,7 +357,14 @@ class Warrior extends Player {
 
             for (let entity of this.game.entities) {
                 if ((entity instanceof GhostPirate || entity instanceof Pirate) && downwardStrikeBB.collide(entity.BB)) {
-                    entity.takeDamage(this.damage * 1.5); 
+                    if(this.power === true && this.powerUpDuration > 0) {
+                        this.powerUpDuration -= 1;
+                        entity.takeDamage(this.damage * 3);
+                    } else {
+                        this.power = false;
+                        this.powerUpDuration = 5;
+                        entity.takeDamage(this.damage * 1.5);
+                    }
                     if (entity.isDead) {
                         this.totalKills++;
                         console.log(this.totalKills);
@@ -358,8 +377,6 @@ class Warrior extends Player {
         } else {
             this.isDownwardStriking = false;
         }
-
-
         if (this.downwardStrikeCooldown > 0) {
             this.downwardStrikeCooldown--;
         }
@@ -405,7 +422,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 4100;
+        this.damage = 400;
         this.removeFromWorld = false;
         this.image = ASSET_MANAGER.getAsset("./sprites/heart.png"); // Change to arrow in future
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
@@ -422,7 +439,14 @@ class Projectile {
 
         for (let entity of this.game.entities) {
             if ((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB) && this.player) {
-                entity.takeDamage(this.damage);
+                if(this.power === true && this.powerUpDuration > 0) {
+                    this.powerUpDuration -= 1;
+                    entity.takeDamage(this.damage * 3);
+                } else {
+                    this.power = false;
+                    this.powerUpDuration = 5;
+                    entity.takeDamage(this.damage);
+                }
                 if (entity.isDead) {
                     this.player.totalKills++;
                     entity.removeFromWorld = true;
@@ -434,14 +458,13 @@ class Projectile {
             }
             if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
                 this.player.totalChests += 1;
-                entity.openChest();
+                this.power = entity.openChest();
                 entity.keepOpen();
             }
 
             if((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
                 entity.takeDamage(1);
                 if (entity.isDead) {
-                    //this.player.totalKills++;
                     entity.removeFromWorld = true;
                 }
                 this.removeFromWorld = true;

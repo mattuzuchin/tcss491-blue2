@@ -15,6 +15,7 @@ class Chest {
         this.velocity = 0;
         this.groundLevel = y;
         this.isOnGround = false;
+        this.isPower =false;
         this.health = 10;
         this.boundingBox = new BoundingBox(this.x, this.y, this.width, this.height);
         
@@ -27,12 +28,21 @@ class Chest {
 
     openChest() {
         //implement logic here to give user stuff
-        let randomNum= Math.floor(Math.random() * 10) ;
-        for(let i = 0; i < randomNum; i++) {
-            let coin = new Coins(this.game, this.x, this.y);
-            this.game.addEntity(coin);
+        if(!this.open && !this.stayOpen) {
+            let randomNum= Math.floor(Math.random() * 10);
+            if(randomNum === 6) { // 10% chance to get a powerboost
+                this.isPower = true;
+            } else {
+                this.isPower = false;
+            }
+            for(let i = 0; i < randomNum; i++) {
+                let coin = new Coins(this.game, this.x, this.y);
+                this.game.addEntity(coin);
+            }
         }
         this.open = true;
+        
+        return this.isPower;
     }
 
     keepOpen() {
@@ -72,7 +82,7 @@ class Chest {
 
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
-        if(this.open) {
+        if(this.open && this.stayOpen) {
             this.animatorOpen.drawFrame(this.game.clockTick, ctx, this.x, this.y);
         } else if(this.stayOpen){
             this.animatorStay.drawFrame(this.game.clockTick, ctx, this.x, this.y);

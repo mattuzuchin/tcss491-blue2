@@ -4,10 +4,12 @@ class entitiesmanager {
         this.game = game;
         this.level = null; 
         this.game.camera = this;
+        this.startingPointX = 0;
+        this.startingPointY = 655;
         if(this.character === "marksman") {
-            this.player = new Marksman(this.game, 0, 0);
+            this.player = new Marksman(this.game, this.startingPointX, this.startingPointY);
         } else {
-            this.player = new Warrior(this.game, 0, 0);
+            this.player = new Warrior(this.game, this.startingPointX, this.startingPointY);
         }
         this.loadLevel(level1Scene1);
     }
@@ -53,25 +55,25 @@ class entitiesmanager {
                 this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,3));
             }
         }
-        //grass middle blocks (1)
+        //grass middle blocks plat (4)
         if (level.grass_m_p) {
             for (let i = 0; i < level.grass_m_p.length; i++) {
                 let grass = level.grass_m_p[i];
-                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,1));
+                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,5));
             }
         }
-        //grass right blocks (2)
+        //grass right blocks (6)
         if (level.grass_r_p) {
             for (let i = 0; i < level.grass_r_p.length; i++) {
                 let grass = level.grass_r_p[i];
-                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,2));
+                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,6));
             }
         }
-        //grass left blocks (3)
+        //grass left blocks (7)
         if (level.grass_l_p) {
             for (let i = 0; i < level.grass_l_p.length; i++) {
                 let grass = level.grass_l_p[i];
-                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,3));
+                this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,7));
             }
         }
 

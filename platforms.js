@@ -11,7 +11,7 @@ class Platform {
         } else if (number == 4) {
             this.image = ASSET_MANAGER.getAsset("./sprites/crate.png"); 
         } else if (number == 5) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassmiddleplat.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/grassblockmiddleplat.png"); 
         }else if (number == 6) {
             this.image = ASSET_MANAGER.getAsset("./sprites/grassrightplat.png"); 
         }else if (number == 7) {
