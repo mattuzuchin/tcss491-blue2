@@ -30,7 +30,7 @@ ASSET_MANAGER.queueDownload("./sprites/treasureChest.png");
 ASSET_MANAGER.queueDownload("./sprites/treasureChestOpen.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/pirategunattack.png");
-
+ASSET_MANAGER.queueDownload("./sprites/bullet.png");
 
 
 ASSET_MANAGER.downloadAll(() => {

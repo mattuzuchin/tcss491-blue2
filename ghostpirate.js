@@ -30,12 +30,14 @@ class GhostPirate {
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.isDead = false;
+        this.shootCooldown = 120;
+        this.currentShootCooldown = 0;
+        this.shootRange = 100;
 
     }
 
     takeDamage(amount) {
         this.health -= amount;
-        //console.log("Damage left: " + this.health);
         if (this.health <= 0) {
             this.die();
         }
@@ -43,7 +45,6 @@ class GhostPirate {
 
     die() {
         this.isDead = true;
-        //console.log("GhostPirate has been defeated!");
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratestanddead.png");
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
         let coin = new Coins(this.game, this.x , this.y );
@@ -53,14 +54,56 @@ class GhostPirate {
 
     update() {
         if (this.attackCooldown > 0) this.attackCooldown--;
+        if (this.currentShootCooldown > 0) this.currentShootCooldown--;
         if(!this.isDead) {
             this.handleMovement();
+            if (this.type === "gun") {
+                this.handleShooting();
+            }
         }
         this.handleGravity();
         this.handleCollisions();
         this.updateBoundingBox();
     }
 
+    handleShooting() {
+     
+        let nearestPlayer = null;
+        let shortestDistance = Infinity;
+
+        for (let entity of this.game.entities) {
+            if (entity instanceof Player) {
+                const dx = entity.x - this.x;
+                const dy = entity.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    nearestPlayer = entity;
+                }
+            }
+        }
+
+        if (nearestPlayer && shortestDistance <= this.shootRange && this.currentShootCooldown <= 0) {
+
+            const direction = nearestPlayer.x > this.x ? "right" : "left";
+            this.facingLeft = direction === "left";
+            
+            const projectile = new Projectile(
+                this.game,
+                this.x + (direction === "right" ? this.width : 0),
+                this.y + (this.height / 2) - 15, //position of the bullet
+                direction,
+                null 
+            );
+            
+            this.game.addEntity(projectile);
+            this.currentShootCooldown = this.shootCooldown;
+            
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirategunattack.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+        }
+    }
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
@@ -86,7 +129,7 @@ class GhostPirate {
             this.facingLeft = this.direction === -1;
             this.attackDirection = this.facingLeft ? "left" : "right";
         } else {
-            this.direction *= -1; // Turn around if no ground ahead
+            this.direction *= -1;
         }
     }
     
@@ -131,19 +174,21 @@ class GhostPirate {
 
     handleAttack(player) {
         if (this.attackCooldown <= 0) {  
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirateattack.png");
-            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
-            
-            if (player) {
-                player.takeDamage(this.damage);
-                //console.log("Player took damage!");
+            if (this.type === "sword") {
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirateattack.png");
+                this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
+                
+                if (player) {
+                    player.takeDamage(this.damage);
+                }
             }
-    
             this.attackCooldown = this.attackDuration; 
         }
         this.isAttacking = false;
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratewalk.png");
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
+        if (this.type === "sword") {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratewalk.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+        }
     }
     
     draw(ctx) {
