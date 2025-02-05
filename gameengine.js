@@ -165,15 +165,15 @@ class GameEngine {
 
     update() {
         let entitiesCount = this.entities.length;
-
+    
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
-
-            if (!entity.removeFromWorld) {
+    
+            if (entity && !entity.removeFromWorld) {
                 entity.update();
             }
         }
-
+    
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
                 this.entities.splice(i, 1);

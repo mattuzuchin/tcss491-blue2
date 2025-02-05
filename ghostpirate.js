@@ -1,7 +1,11 @@
 class GhostPirate {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratewalk.png");
+    constructor(game, x, y, type) {
+        Object.assign(this, { game, x, y, type});
+        if(this.type === "sword") {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpiratewalk.png");
+        } else {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/ghostpirategunattack.png");
+        }
         this.width = 40;
         this.height = 40;
         this.speed = .5;

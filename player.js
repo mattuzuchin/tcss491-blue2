@@ -158,7 +158,13 @@ class Player {
         } else if (this.currentScene === 2) {
             this.level = level1Scene2;
             this.checkObjectives(this.level);
-        }
+        } else if (this.currentScene === 3) {
+            this.level = level1Scene3;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 4) {
+            this.level = level1Scene4;
+            this.checkObjectives(this.level);
+        } 
     }
 
     checkObjectives(level) {
@@ -196,8 +202,12 @@ class Player {
 
     getNextLevel() {
         switch (this.currentScene) {
+            case 5:
+                return bosslevel1;
             case 4:
                 return level1Scene4;
+            case 3:
+                return level1Scene3;
             case 2:
                 return level1Scene2;
             default:
@@ -422,7 +432,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 1400;
         this.removeFromWorld = false;
         this.image = ASSET_MANAGER.getAsset("./sprites/heart.png"); // Change to arrow in future
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);

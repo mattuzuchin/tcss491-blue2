@@ -21,16 +21,15 @@ class entitiesmanager {
         if (level.ghostpirate) {
             for (let i = 0; i < level.ghostpirate.length; i++) {
                 let ghostpirate = level.ghostpirate[i];
-                this.game.addEntity(new GhostPirate(this.game, ghostpirate.x, ghostpirate.y));
+                this.game.addEntity(new GhostPirate(this.game, ghostpirate.x, ghostpirate.y, ghostpirate.type));
             
             }
         }
-
         // Loadpirate
         if (level.pirate) {
             for (let i = 0; i < level.pirate.length; i++) {
                 let pirate = level.pirate[i];
-                this.game.addEntity(new Pirate(this.game, pirate.x, pirate.y));
+                this.game.addEntity(new Pirate(this.game, pirate.x, pirate.y, pirate.type));
         
             }
         }

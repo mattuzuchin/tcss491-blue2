@@ -22,8 +22,12 @@ class Coins {
     }
 
     updateBoundingBox() {
-        this.BB.x = this.x;
-        this.BB.y = this.y;
+        if (this.BB.y >= 728) {
+            this.removeFromWorld = true;
+        } else {
+            this.BB.x = this.x;
+            this.BB.y = this.y;
+        }
     }
     // gravity
     handleGravity() {
