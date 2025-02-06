@@ -107,7 +107,13 @@ class entitiesmanager {
 
             }
         }
+        if(level.boss) {
+            for (let i = 0; i < level.boss.length; i++) {
+                let coin = level.boss[i];
+                this.game.addEntity(new PirateBoss(this.game, coin.x, coin.y));
 
+            }
+        }
         this.game.addEntity(this.player);
     }
 

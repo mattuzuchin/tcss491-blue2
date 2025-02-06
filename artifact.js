@@ -1,10 +1,10 @@
 class Artifact {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/polymorphism-full.png");
-        this.width = 40;
-        this.height = 40;
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/abstraction.png");
+        this.width = 34;
+        this.height = 38;
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  6, 0.2);
 
         // gravity stuffs
         this.gravity = 0.5;

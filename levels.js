@@ -1,19 +1,13 @@
 var level1Scene1 = {
-    ghostpirate: [{ x: 59, y: 30, type: "sword"}, 
+    ghostpirate: [
         { x: 100, y: 100, type: "gun" }, 
-        { x: 900, y: 521, type: "sword" }, 
-        { x: 412, y: 215, type: "sword" }, 
-        { x: 350, y:  400, type: "gun" }, 
-        { x: 233, y: 121, type: "sword" }
     ],
     pirate: [{ x: 200, y: 30, type: "sword" }, 
-        { x: 500, y: 100 , type: "sword"},
-        { x: 500, y: 100 , type: "gun"}, 
-        { x: 212, y: 212, type: "sword"},
-        { x: 500, y: 100 , type: "sword"}, 
-        { x: 245, y: 123 , type: "sword"},
+        { x: 800, y: 100 , type: "sword"},
+        { x: 400, y: 100 , type: "gun"}, 
+        { x: 600, y: 212, type: "sword"},
     ],
-    boss: [{}],
+    boss: [],
     grass_m: [
         //grassblockmiddle, left, and right are 45x45
         { x: 0, y: 700, width: 45, height: 45 }, 
@@ -355,7 +349,6 @@ var bosslevel1 = {
     boss: [{x: 700, y: 200 }],
     grass_m: [
         //grassblockmiddle, left, and right are 45x45
-
         { x: 45, y: 700, width: 45, height: 45 }, 
         { x: 90, y: 700, width: 45, height: 45 }, 
         { x: 135, y: 700, width: 45, height: 45 }, 
@@ -425,6 +418,6 @@ var bosslevel1 = {
         {x: 550, y: 400},
     ], 
 };
-level1Scene4.objectives = [
-    { pirates: level1Scene4.pirate.length + level1Scene4.ghostpirate.length, artifact: level1Scene4.artifacts.length, chests: level1Scene4.chests.length }
+bosslevel1.objectives = [
+    { pirates: bosslevel1.pirate.length + bosslevel1.ghostpirate.length, boss: bosslevel1.boss.length, chests: bosslevel1.chests.length }
 ];

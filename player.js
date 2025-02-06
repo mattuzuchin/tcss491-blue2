@@ -184,7 +184,7 @@ class Player {
         this.totalChests = 0;
         this.artifactCounts = 0;
         this.x = 0;
-        this.y = 0;
+        this.y = 655;
     }
 
     removechest() {
@@ -318,7 +318,7 @@ class Warrior extends Player {
                 attackBB = new BoundingBox(this.x + 10, this.y - 30, 30, 30);
             }
             for (let entity of this.game.entities) {
-                if ((entity instanceof GhostPirate || entity instanceof Pirate) && attackBB.collide(entity.BB)) {
+                if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && attackBB.collide(entity.BB)) {
                     if(this.power === true && this.powerUpDuration > 0) {
                         this.powerUpDuration -= 1;
                         entity.takeDamage(this.damage * 3);
@@ -333,7 +333,7 @@ class Warrior extends Player {
                         entity.removeFromWorld = true;
                     }
                 }
-                if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player === null) {
+                if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
                     this.totalChests += 1;
                     this.power =  entity.openChest();
                     entity.keepOpen();

@@ -14,7 +14,7 @@ ASSET_MANAGER.queueDownload("./sprites/piratestandflipped.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpirateattack.png");
 ASSET_MANAGER.queueDownload("./sprites/warriorattack.png");
 ASSET_MANAGER.queueDownload("./sprites/warriorwalk1.png");
-ASSET_MANAGER.queueDownload("./sprites/polymorphism-full.png");
+ASSET_MANAGER.queueDownload("./sprites/abstraction.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpiratestanddead.png");
 ASSET_MANAGER.queueDownload("./sprites/heart.png");
 ASSET_MANAGER.queueDownload("./sprites/halfheart.png");
@@ -31,6 +31,9 @@ ASSET_MANAGER.queueDownload("./sprites/treasureChestOpen.png");
 ASSET_MANAGER.queueDownload("./sprites/ghostpirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/pirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/bullet.png");
+ASSET_MANAGER.queueDownload("./sprites/pirateBossAttack.png");
+ASSET_MANAGER.queueDownload("./sprites/pirateBossenter.png");
+ASSET_MANAGER.queueDownload("./sprites/pirateBossIdle.png");
 
 
 ASSET_MANAGER.downloadAll(() => {

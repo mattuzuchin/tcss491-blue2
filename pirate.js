@@ -30,7 +30,7 @@ class Pirate {
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.isDead = false;
-        this.shootCooldown = 120;
+        this.shootCooldown = 300;
         this.currentShootCooldown = 0;
         this.shootRange = 100;
 

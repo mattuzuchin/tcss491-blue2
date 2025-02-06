@@ -5,7 +5,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 4100;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/bullet.png");
@@ -25,9 +25,9 @@ class Projectile {
         this.BB.x = this.x;
 
         for (let entity of this.game.entities) {
-            if ((entity instanceof GhostPirate || entity instanceof Pirate) && this.BB.collide(entity.BB) && this.player) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
                 if(this.player.power === true && this.player.powerUpDuration > 0) {
-                    this.powerUpDuration -= 1;
+                    this.player.powerUpDuration -= 1;
                     entity.takeDamage(this.damage * 3);
                 } else {
                     this.player.power = false;
@@ -50,7 +50,7 @@ class Projectile {
             }
 
             if((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
-                entity.takeDamage(1);
+                entity.takeDamage(0.5);
                 if (entity.isDead) {
                     entity.removeFromWorld = true;
                 }
