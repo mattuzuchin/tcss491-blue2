@@ -1,4 +1,4 @@
-class cloud1{
+class Cloud {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/cloud1.png");

@@ -22,6 +22,8 @@ class GameEngine {
         this.left = false;
         this.right = false;
         this.up = false;
+        this.fall = false;
+        this.down = false;
         this.isJump = false;
         this.speedup = false;
         this.speed = true;
@@ -56,9 +58,12 @@ class GameEngine {
                 case "ArrowUp":
                     that.up = true;
                     break;
+                case "ArrowDown":
+                    that.down = true;
+                    break;
                 case "Space":
                     that.isJump = true;
-                    that.down = false;
+                    that.fall = false;
                     break;
                 case "ShiftLeft":
                     that.speedup = true;
@@ -84,9 +89,12 @@ class GameEngine {
                 case "ArrowUp":
                     that.up = false;
                     break;
+                case "ArrowDown":
+                    that.down = false;
+                    break;
                 case "Space":
                     that.isJump = false;
-                    that.down = true;
+                    that.fall = true;
                     break;
                 case "ShiftLeft":
                     that.speedup = false;
@@ -157,15 +165,15 @@ class GameEngine {
 
     update() {
         let entitiesCount = this.entities.length;
-
+    
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
-
-            if (!entity.removeFromWorld) {
+    
+            if (entity && !entity.removeFromWorld) {
                 entity.update();
             }
         }
-
+    
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
                 this.entities.splice(i, 1);

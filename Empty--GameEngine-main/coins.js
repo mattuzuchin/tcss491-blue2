@@ -1,10 +1,10 @@
-class Artifact {
+class Coins {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/abstraction.png");
-        this.width = 34;
-        this.height = 38;
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  6, 0.2);
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/coin.png");
+        this.width = 20;
+        this.height = 20;
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);
 
         // gravity stuffs
         this.gravity = 0.5;
@@ -13,6 +13,7 @@ class Artifact {
         this.isOnGround = false;
 
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        
     }
     update() {
         this.handleGravity();
@@ -21,8 +22,12 @@ class Artifact {
     }
 
     updateBoundingBox() {
-        this.BB.x = this.x;
-        this.BB.y = this.y;
+        if (this.BB.y >= 728) {
+            this.removeFromWorld = true;
+        } else {
+            this.BB.x = this.x;
+            this.BB.y = this.y;
+        }
     }
     // gravity
     handleGravity() {

@@ -1,7 +1,11 @@
 class Pirate {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
+    constructor(game, x, y, type) {
+        Object.assign(this, { game, x, y, type});
+        if(this.type === "sword") {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
+        } else {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirategunattack.png");
+        }
         this.width = 40;
         this.height = 40;
         this.speed = .5;
@@ -15,61 +19,120 @@ class Pirate {
         this.groundLevel = y;
         this.isOnGround = false;
         this.attackDirection = "right";
+        
         // Movement stuffs  
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         
         this.health = 1200;  
-        this.damage = 10;
+        this.damage = 0.5;
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.isDead = false;
-        
+        this.shootCooldown = 300;
+        this.currentShootCooldown = 0;
+        this.shootRange = 100;
 
     }
 
     takeDamage(amount) {
         this.health -= amount;
-        console.log("Damage left: " + this.health);
         if (this.health <= 0) {
             this.die();
         }
     }
 
     die() {
-        console.log("Pirate has been defeated!");
-        // this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratestanddead.png")
-        // this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
-        this.coinAnimation = ASSET_MANAGER.getAsset("./sprites/coin.png");
-        this.animator = new Animator(this.coinAnimation, 0, 0, this.width, this.height, 1, 1);
         this.isDead = true;
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratestanddead.png");
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+        let coin = new Coins(this.game, this.x , this.y );
+        this.game.addEntity(coin);
         
     }
 
     update() {
         if (this.attackCooldown > 0) this.attackCooldown--;
-
-        this.handleMovement();
+        if (this.currentShootCooldown > 0) this.currentShootCooldown--;
+        if(!this.isDead) {
+            this.handleMovement();
+            if (this.type === "gun") {
+                this.handleShooting();
+            }
+        }
         this.handleGravity();
         this.handleCollisions();
         this.updateBoundingBox();
     }
 
+    handleShooting() {
+     
+        let nearestPlayer = null;
+        let shortestDistance = Infinity;
+
+        for (let entity of this.game.entities) {
+            if (entity instanceof Player) {
+                const dx = entity.x - this.x;
+                const dy = entity.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    nearestPlayer = entity;
+                }
+            }
+        }
+
+        if (nearestPlayer && shortestDistance <= this.shootRange && this.currentShootCooldown <= 0) {
+
+            const direction = nearestPlayer.x > this.x ? "right" : "left";
+            this.facingLeft = direction === "left";
+            
+            const projectile = new Projectile(
+                this.game,
+                this.x + (direction === "right" ? this.width : 0),
+                this.y + (this.height / 2) - 15,
+                direction,
+                null 
+            );
+            
+            this.game.addEntity(projectile);
+            this.currentShootCooldown = this.shootCooldown;
+            
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirategunattack.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+        }
+    }
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
             this.direction = Math.random() > 0.5 ? 1 : -1; 
             this.randomMoveCounter = 0; 
         }
-
-        this.x += this.speed * this.direction;
-        this.facingLeft = this.direction === -1;
-        if(this.facingLeft) {
-            this.attackDirection = "left";
+    
+        let nextX = this.x + this.speed * this.direction;
+        let hasGround = false;
+    
+        for (let entity of this.game.entities) {
+            if (entity instanceof Platform) {
+                let nextPositionBB = new BoundingBox(nextX, this.y + this.height, this.width, 5);
+                if (nextPositionBB.collide(entity.boundingBox)) {
+                    hasGround = true;
+                    break;
+                }
+            }
+        }
+    
+        if (hasGround) {
+            this.x = nextX;
+            this.facingLeft = this.direction === -1;
+            this.attackDirection = this.facingLeft ? "left" : "right";
+        } else {
+            this.direction *= -1;
         }
     }
-
+    
     updateBoundingBox() {
         this.BB.x = this.x;
         this.BB.y = this.y;
@@ -111,25 +174,21 @@ class Pirate {
 
     handleAttack(player) {
         if (this.attackCooldown <= 0) {  
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateattack.png");
-            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
-            
-            if (player) {
-                player.takeDamage(this.damage);
-                console.log("Player took damage!");
+            if (this.type === "sword") {
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateattack.png");
+                this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
+                
+                if (player) {
+                    player.takeDamage(this.damage);
+                }
             }
-    
             this.attackCooldown = this.attackDuration; 
         }
         this.isAttacking = false;
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
-    }
-    getX() {
-        return this.x;
-    }
-    getY() {
-        return this.y;
+        if (this.type === "sword") {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+        }
     }
     
     draw(ctx) {
@@ -141,10 +200,26 @@ class Pirate {
         }
 
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        
         if (this.facingLeft) {
             ctx.restore();
         }
-         
+
+       // Debug bounding box
+       ctx.strokeStyle = "red";
+       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+           
+       // Debug attack hitbox
+       if (this.isAttacking) {
+           let attackBB;
+           if (this.attackDirection === "right") {
+               attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
+           } else if (this.attackDirection === "left") {
+               attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
+           } else if (this.attackDirection === "up") {
+               attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
+           }
+           ctx.strokeStyle = "green";
+           ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
+       }
     }
 }
