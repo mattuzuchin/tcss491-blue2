@@ -8,8 +8,11 @@ class entitiesmanager {
         this.startingPointY = 655;
         if(this.character === "marksman") {
             this.player = new Marksman(this.game, this.startingPointX, this.startingPointY);
-        } else {
+        } else if (this.character === "warrior") {
             this.player = new Warrior(this.game, this.startingPointX, this.startingPointY);
+        }
+        else {
+            this.player = new Mage(this.game, this.startingPointX, this.startingPointY);
         }
         this.loadLevel(level1Scene1);
     }

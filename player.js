@@ -73,7 +73,8 @@ class Player {
         this.totalKills = 0;
         this.removeFromWorld = true;
     }
-
+    handleKKey() {
+    }
     update() {
         if (this.isDead) return;
         this.handleMovement();
@@ -81,6 +82,7 @@ class Player {
         this.handleCollisions();
         this.handleAttack();
         this.handleDash();
+        this.handleKKey();
         this.updateBoundingBox();
         this.checkComplete();
 
@@ -104,7 +106,7 @@ class Player {
         }
         if (this.game.isJump && this.isOnGround) {
             this.velocity = this.jump;
-            this.isOnGround = false;
+            this.isOnGround = true;
         }
         if (this.game.up && this.isOnGround) {
             this.attackDirection = "up";
@@ -122,7 +124,7 @@ class Player {
     handleGravity() {
         this.velocity += this.gravity;
         this.y += this.velocity;
-        this.isOnGround = false;
+        this.isOnGround = true;
     }
 
     handleCollisions() {
@@ -298,6 +300,10 @@ class Warrior extends Player {
         super.update(); 
     }
 
+    
+        handleKKey() {
+        }
+    
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
             this.isAttacking = true;
@@ -413,6 +419,7 @@ class Marksman extends Player {
     constructor(game, x, y) {
         super(game, x, y, 0);  // 0 = marksman
         this.damage = 30; 
+        this.skillCooldown = 0;
     }
 
     handleAttack() {
@@ -421,6 +428,245 @@ class Marksman extends Player {
             this.game.addEntity(projectile);
             console.log(this.totalKills);
             this.attackCooldown = 100;
+            
         }
+    }
+    handleKKey() {
+        if (this.game.skillF) {
+            const offsets = [-10, 0, 10]; 
+            if (this.spellCooldown > 0) {
+                this.spellCooldown--;
+            } else {
+                this.spellCooldown = 10;
+                for (let i = 0; i < 3; i++) {
+                    let projectile = new Projectile(
+                        this.game,
+                        this.x,
+                        this.y + offsets[i], 
+                        this.attackDirection, 
+                        this 
+                    );
+                    this.game.addEntity(projectile);
+                }
+            }
+            
+        }
+    }
+}
+class Mage extends Player {
+    constructor(game, x, y) {
+        super(game, x, y, 2); 
+        this.damage = 4000; 
+        this.spellCooldown = 0;
+        this.skillFCooldown = 0;
+        this.spellDuration = 30; 
+        this.isCasting = false; 
+    }
+
+    update() {
+        super.update();
+    }
+
+    handleKKey() {
+        if (this.game.skillF && this.skillFCooldown <= 0) {
+            this.isCasting = true;
+            this.skillFCooldown = 300; 
+            this.spellDuration = 60; 
+
+            let skillF = new LaserBeam(this.game, this.x, this.y, this.attackDirection, this);
+            this.game.addEntity(skillF);
+        }
+
+        if (this.skillFCooldown > 0) {
+            this.skillFCooldown--;
+        }
+    }
+
+    handleAttack() {
+        if (this.game.attack && this.spellCooldown <= 0) {
+            this.isCasting = true;
+            this.spellCooldown = 100; 
+            this.spellDuration = 30; 
+
+            let spell = new SpellProjectile(this.game, this.x, this.y, this.attackDirection, this);
+            this.game.addEntity(spell);
+        }
+
+        if (this.isCasting && this.spellDuration > 0) {
+            this.spellDuration--;
+            this.currentAnimator = this.animators[this.characterType].attacking; 
+        } else {
+            this.isCasting = false;
+        }
+
+        if (this.spellCooldown > 0) {
+            this.spellCooldown--;
+        }
+    }
+
+    draw(ctx) {
+        super.draw(ctx);
+
+        if (this.isCasting) {
+            const spellBB = new BoundingBox(
+                this.x - 20,
+                this.y - 20,
+                this.width + 40,
+                this.height + 40
+            );
+            ctx.strokeStyle = "purple";
+            ctx.strokeRect(spellBB.x, spellBB.y, spellBB.width, spellBB.height);
+        }
+    }
+}
+
+class SpellProjectile {
+    constructor(game, x, y, direction, player) {
+        Object.assign(this, { game, x, y, direction, player });
+        this.width = 20;
+        this.height = 20;
+        this.speed = 5;
+        this.player = player;
+        this.damage = player.damage;
+        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+    }
+
+    update() {
+
+        if (this.direction === "right") {
+            this.x += this.speed;
+        } else if (this.direction === "left") {
+            this.x -= this.speed;
+        } else if (this.direction === "up") {
+            this.y -= this.speed;
+        }
+
+        this.BB.x = this.x;
+        this.BB.y = this.y;
+
+ 
+        for (let entity of this.game.entities) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
+                if(this.player.power === true && this.player.powerUpDuration > 0) {
+                    this.player.powerUpDuration -= 1;
+                    entity.takeDamage(this.damage * 3);
+                } else {
+                    this.player.power = false;
+                    this.player.powerUpDuration = 5;
+                    entity.takeDamage(this.damage);
+                }
+                if (entity.isDead) {
+                    console.log(this.player.totalKills);
+                    this.player.totalKills++;
+                    entity.removeFromWorld = true;
+                }
+                this.removeFromWorld = true;
+            }
+            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox) && this.player) {
+                this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
+            }
+            if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
+                this.player.totalChests += 1;
+                this.player.power = entity.openChest();
+                entity.keepOpen();
+            }
+
+        }
+   
+        if (this.x < 0 || this.x > this.game.ctx.canvas.width || this.y < 0 || this.y > this.game.ctx.canvas.height) {
+            this.removeFromWorld = true;
+        }
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = "purple"; 
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+
+        ctx.strokeStyle = "purple";
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    }
+}
+class LaserBeam {
+    constructor(game, x, y, direction, mage) {
+        Object.assign(this, { game, x, y, direction, mage });
+        this.startX = x; 
+        this.startY = y; 
+        this.maxWidth = 500; 
+        this.minWidth = 20; 
+        this.height = 20; 
+        this.speed = 10; 
+        this.damage = 10000; 
+        this.duration = 60; 
+        this.length = 1000; 
+        this.BB = new BoundingBox(this.x, this.y, this.maxWidth, this.height);
+    }
+
+    update() {
+
+        if (this.direction === "right") {
+            this.x += this.speed;
+        } else if (this.direction === "left") {
+            this.x -= this.speed;
+        }
+
+        this.BB.x = this.x;
+        this.BB.y = this.y;
+
+
+        for (let entity of this.game.entities) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
+                if(this.player.power === true && this.player.powerUpDuration > 0) {
+                    this.player.powerUpDuration -= 1;
+                    entity.takeDamage(this.damage * 3);
+                } else {
+                    this.player.power = false;
+                    this.player.powerUpDuration = 5;
+                    entity.takeDamage(this.damage);
+                }
+                if (entity.isDead) {
+                    this.player.totalKills++;
+                    entity.removeFromWorld = true;
+                }
+                this.removeFromWorld = true;
+            }
+            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox) && this.player) {
+                this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
+            }
+            if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
+                this.player.totalChests += 1;
+                this.player.power = entity.openChest();
+                entity.keepOpen();
+            }
+
+        
+        }
+
+        this.duration--;
+        if (this.duration <= 0) {
+            this.removeFromWorld = true;
+        }
+    }
+
+    draw(ctx) {
+
+        const distanceFromStart = Math.abs(this.x - this.startX);
+        const width = this.maxWidth - (distanceFromStart / this.length) * (this.maxWidth - this.minWidth);
+
+     
+        ctx.save();
+        ctx.fillStyle = "blue"; 
+        if (this.direction === "right") {
+            ctx.fillRect(this.x, this.y, width, this.height);
+        } else if (this.direction === "left") {
+            ctx.fillRect(this.x - width, this.y, width, this.height);
+        }
+        ctx.restore();
+
+        if(this.direction === "right" || this.direction === "left") {
+            ctx.strokeStyle = "blue";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+        
     }
 }

@@ -28,6 +28,7 @@ class GameEngine {
         this.speedup = false;
         this.speed = true;
         this.dash = false;
+        this.skillF
     };
 
     init(ctx) {
@@ -75,6 +76,9 @@ class GameEngine {
                 case "KeyS":
                     that.dash = true;
                     break;
+                case "KeyF": 
+                    that.skillF = true;
+                    break;    
             }
 
         }, false);
@@ -106,6 +110,9 @@ class GameEngine {
                 case "KeyS":
                     that.dash = false;
                     break;    
+                case "KeyF":
+                    that.skillF = false;
+                    break;
             }
 
         }, false);

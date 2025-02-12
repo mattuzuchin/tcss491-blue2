@@ -45,6 +45,6 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(new Pirate());
 	
 	gameEngine.init(ctx);
-	new entitiesmanager(gameEngine, "marksman");
+	new entitiesmanager(gameEngine, "mage");
 	gameEngine.start();
 });
