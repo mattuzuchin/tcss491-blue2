@@ -124,7 +124,7 @@ class entitiesmanager {
     draw(ctx) {
         ctx.fillStyle = "#EE4B2B";
         ctx.font = "30px 'Press Start 2P', sans-serif"; 
-        ctx.fillText("Hearts: ", 100, 50);
+        ctx.fillText("Hearts: ", 125, 50);
         ctx.fillStyle = "Gold";
         ctx.fillText("Coins: " + this.player.coinCount, 550, 50);
         this.heartanimation = ASSET_MANAGER.getAsset("./sprites/heart.png");
@@ -134,12 +134,12 @@ class entitiesmanager {
             let hasHalfHeart = this.player.hearts % 1 !== 0; 
         
             for (let i = 0; i < fullHearts; i++) {
-                ctx.drawImage(this.heartanimation, 320 + i * 40, 20, 30, 30);
+                ctx.drawImage(this.heartanimation, 225 + i * 40, 20, 30, 30);
             }
         
     
             if (hasHalfHeart) {
-                ctx.drawImage(this.halfheart, 320 + fullHearts * 40, 20, 30, 30);
+                ctx.drawImage(this.halfheart, 225 + fullHearts * 40, 20, 30, 30);
             }
         }
     }
