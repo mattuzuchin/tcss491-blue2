@@ -19,7 +19,7 @@ class Player {
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.attackDirection = "right";
-        this.damage = 50;
+        this.damage = 400;
         this.isDashing = false;
         this.currentScene = 1;
         this.dashCooldown = 0;
@@ -30,6 +30,7 @@ class Player {
         this.totalChests = 0;
         this.coinCount = 0;
         this.hearts = 5;
+        this.bosslevel1Defeat = 0;
         this.totalKills = 0;
         this.power = false;
         this.assets = {
@@ -170,14 +171,25 @@ class Player {
 
     checkObjectives(level) {
         this.levelO = level;
-        if (this.totalKills >= this.levelO.objectives[0].pirates &&
-            this.totalChests >= this.levelO.objectives[0].chests &&
-            this.artifactCounts >= this.levelO.objectives[0].artifact) {
-            this.removechest();
-            this.resetValues();
-            console.log("Moving to next scene!");
-            this.moveToNextScene();
+        if(this.levelO.objectives[0].bosslevel) {
+            if (this.bosslevel1Defeat >= 1 &&
+                this.artifactCounts >= 1) {
+                this.removechest();
+                this.resetValues();
+                console.log("Moving to next scene!");
+                this.moveToNextScene();
+            }
+        } else  {
+            if (this.totalKills >= this.levelO.objectives[0].pirates &&
+                this.totalChests >= this.levelO.objectives[0].chests &&
+                this.artifactCounts >= this.levelO.objectives[0].artifact) {
+                this.removechest();
+                this.resetValues();
+                console.log("Moving to next scene!");
+                this.moveToNextScene();
+            }
         }
+
     }
 
     resetValues() {
@@ -288,7 +300,7 @@ class Player {
 class Warrior extends Player {
     constructor(game, x, y) {
         super(game, x, y, 1); // 1 "Warrior"
-        this.damage = 1000; 
+        this.damage = 100; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
@@ -302,7 +314,7 @@ class Warrior extends Player {
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
             this.isAttacking = true;
-            this.attackDuration = 60;
+            this.attackDuration = 0.05;
             this.attackCooldown = 80;
         }
 
@@ -328,10 +340,14 @@ class Warrior extends Player {
                         this.powerUpDuration = 5;
                         entity.takeDamage(this.damage);
                     }
-                    if (entity.isDead) {
-                        this.totalKills++;
-                        console.log(this.totalKills);
-                        entity.removeFromWorld = true;
+                    if(entity.isDead) {
+                        if(entity instanceof PirateBoss) {
+                            this.bosslevel1Defeat++;
+                            entity.removeFromWorld = true;
+                        } else {
+                            this.totalKills++;
+                            entity.removeFromWorld = true;
+                        }
                     }
                 }
                 if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {

@@ -5,7 +5,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 4100;
+        this.damage = 400;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/bullet.png");
@@ -34,9 +34,14 @@ class Projectile {
                     this.player.powerUpDuration = 5;
                     entity.takeDamage(this.damage);
                 }
-                if (entity.isDead) {
-                    this.player.totalKills++;
-                    entity.removeFromWorld = true;
+                if(entity.isDead) {
+                    if(entity instanceof PirateBoss) {
+                        this.player.bosslevel1Defeat++;
+                        entity.removeFromWorld = true;
+                    } else {
+                        this.player.totalKills++;
+                        entity.removeFromWorld = true;
+                    }
                 }
                 this.removeFromWorld = true;
             }
@@ -56,6 +61,10 @@ class Projectile {
                 }
                 this.removeFromWorld = true;
             }
+            
+        }
+        if (this.x < 0 || this.x > this.game.ctx.canvas.width || this.y < 0 || this.y > this.game.ctx.canvas.height) {
+            this.removeFromWorld = true;
         }
     }
 

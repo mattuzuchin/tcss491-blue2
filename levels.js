@@ -1,4 +1,4 @@
-var level1Scene1 = {
+var level1Scene1  = {
     ghostpirate: [
         { x: 100, y: 100, type: "gun" }, 
     ],
@@ -343,81 +343,68 @@ level1Scene4.objectives = [
 ];
 
 
-var bosslevel1 = {
-    ghostpirate: [{ x: 295, y: 500 }, { x: 100, y: 400 },{ x: 970, y: 500 }],
-    pirate: [{ x: 135, y: 700 }, { x: 360, y: 700 }, { x: 540, y: 600 }, { x: 295, y: 300 }, { x: 475, y: 150}],
-    boss: [{x: 700, y: 200 }],
+var bosslevel1= {
+    ghostpirate: [],
+    pirate: [],
+    boss: [{x: 500, y: 200}],
     grass_m: [
         //grassblockmiddle, left, and right are 45x45
+        { x: 0, y: 700, width: 45, height: 45 }, 
         { x: 45, y: 700, width: 45, height: 45 }, 
         { x: 90, y: 700, width: 45, height: 45 }, 
         { x: 135, y: 700, width: 45, height: 45 }, 
-        { x: 765, y: 500, width: 45, height: 45 }, 
-        { x: 810, y: 500, width: 45, height: 45 }, 
-        { x: 855, y: 500, width: 45, height: 45 }, 
-        { x: 900, y: 500, width: 45, height: 45 }, 
-        { x: 945, y: 500, width: 45, height: 45 }, 
-        { x: 990, y: 500, width: 45, height: 45 },     
+        { x: 180, y: 700, width: 45, height: 45 }, 
+        { x: 225, y: 700, width: 45, height: 45 }, 
+        { x: 270, y: 700, width: 45, height: 45 }, 
+        { x: 315, y: 700, width: 45, height: 45 }, 
+        { x: 360, y: 700, width: 45, height: 45 }, 
+        { x: 405, y: 700, width: 45, height: 45 }, 
+        { x: 450, y: 700, width: 45, height: 45 }, 
+        { x: 495, y: 700, width: 45, height: 45 }, 
+        { x: 540, y: 700, width: 45, height: 45 }, 
+        { x: 585, y: 700, width: 45, height: 45 }, 
+        { x: 630, y: 700, width: 45, height: 45 }, 
+        { x: 675, y: 700, width: 45, height: 45 }, 
+        { x: 720, y: 700, width: 45, height: 45 }, 
+        { x: 765, y: 700, width: 45, height: 45 }, 
+        { x: 810, y: 700, width: 45, height: 45 }, 
+        { x: 855, y: 700, width: 45, height: 45 }, 
+        { x: 900, y: 700, width: 45, height: 45 }, 
+        { x: 945, y: 700, width: 45, height: 45 }, 
+        { x: 990, y: 700, width: 45, height: 45 }, 
     ],
     grass_l: [
         { x: 0, y: 700, width: 45, height: 45 }, 
-        { x: 720, y: 500, width: 45, height: 45 }, 
-
-
+        
     ],
     grass_r: [
         { x: 180, y: 700, width: 45, height: 45 }, 
     ],
     crates: [
-        { x: 360, y: 700, width: 45, height: 45 }, 
-        { x: 405, y: 700, width: 45, height: 45 }, 
-        { x: 250, y: 300, width: 45, height: 45 }, 
-        { x: 295, y: 300, width: 45, height: 45 }, 
-        { x: 855, y: 455, width: 45, height: 45 }, 
-        { x: 810, y: 455, width: 45, height: 45 }, 
-        { x: 810, y: 410, width: 45, height: 45 }, 
-        { x: 855, y: 410, width: 45, height: 45 }, 
-        { x: 765, y: 455, width: 45, height: 45 }, 
-        { x: 765, y: 410, width: 45, height: 45 }, 
-        { x: 765, y: 365, width: 45, height: 45 }, 
     ],
     chests: [
-        { x: 733, y: 455, width: 32, height: 32 }, 
-        { x: 50, y: 400, width: 32, height: 32 }, 
     ],
     grass_m_p: [
-        { x: 540, y: 600, width: 45, height: 20 }, 
-        { x: 585, y: 600, width: 45, height: 20 },
-        { x: 295, y: 500, width: 45, height: 20 }, 
-        { x: 95, y: 400, width: 45, height: 20 },
-        { x: 430, y: 200, width: 45, height: 20 },
-        { x: 475, y: 200, width: 45, height: 20 },
-        { x: 520, y: 200, width: 45, height: 20 }
+        { x: 90, y: 550, width: 45, height: 20 }, 
+        { x: 135, y: 550, width: 45, height: 20 }, 
+        { x: 180, y: 550, width: 45, height: 20 }, 
+        { x: 745, y: 550, width: 45, height: 20 }, 
+        { x: 790, y: 550, width: 45, height: 20 }, 
+        { x: 835, y: 550, width: 45, height: 20 }, 
          
     ],
     grass_l_p: [
-        { x: 495, y: 600, width: 45, height: 20 }, 
-        { x: 250, y: 500, width: 45, height: 20 }, 
-        { x: 50, y: 400, width: 45, height: 20 },
-        { x: 385, y: 200, width: 45, height: 20 }
+        { x: 45, y: 550, width: 45, height: 20 }, 
+        { x: 700, y: 550, width: 45, height: 20 }, 
+
     ],
     grass_r_p: [
-        { x: 630, y: 600, width: 45, height: 20 },
-        { x: 340, y: 500, width: 45, height: 20 }, 
-        { x: 140, y: 400, width: 45, height: 20 },
-        { x: 565, y: 200, width: 45, height: 20 }
+        { x: 225, y: 550, width: 45, height: 20 }, 
+        { x: 880, y: 550, width: 45, height: 20 }, 
     ],
-    artifacts: [{ x: 990, y: 500}], 
-    coins: [
-        {x: 450, y: 25},
-        {x: 350, y: 400},
-        {x: 777, y: 455},
-        {x: 822, y: 500},
-        {x: 867, y: 455},
-        {x: 430, y: 500},
-        {x: 550, y: 400},
-    ], 
+    artifacts: [], 
+    coins: [], 
 };
 bosslevel1.objectives = [
-    { pirates: bosslevel1.pirate.length + bosslevel1.ghostpirate.length, boss: bosslevel1.boss.length, chests: bosslevel1.chests.length }
+    {boss: 1, artifact: 1, bosslevel: true}
 ];

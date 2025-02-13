@@ -9,19 +9,18 @@ class PirateBoss {
         this.direction = 1;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 1);
         this.isAttacking = false;
-        // gravity stuffs
+    
         this.gravity = 0.5;
         this.velocity = 0;
         this.groundLevel = y;
         this.isOnGround = false;
         this.attackDirection = "right";
-        
-        // Movement stuffs  
+        this.pirateSpawnCount = 0;
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
-        
-        this.health = 1200;  
+        this.pirateTimer = 100;
+        this.health = 10000;  
         this.damage = 1;
         this.attackCooldown = 0;
         this.attackDuration = 60;
@@ -54,6 +53,28 @@ class PirateBoss {
             if (this.type === "gun") {
                 this.handleShooting();
             }
+        }
+        if(this.pirateTimer > 0) {
+            this.pirateTimer--;
+        } else if(this.pirateSpawnCount < 10) {
+            this.pirateTimer = 100;
+            this.random = Math.floor(Math.random() * 2);
+            let type = "";
+            if(this.random === 0) {
+                type = "gun";
+            } else {
+                type = "sword";
+            }
+            
+            let ghostPirate = new GhostPirate(this.game, this.x, this.y, type);
+            this.game.addEntity(ghostPirate);
+        }
+        this.pirateSpawnCount = 0;
+        for (let entity of this.game.entities) {
+            if(entity instanceof GhostPirate) {
+                this.pirateSpawnCount++;
+        }
+    
         }
         this.handleGravity();
         this.handleCollisions();
