@@ -6,14 +6,16 @@ class entitiesmanager {
         this.game.camera = this;
         this.startingPointX = 0;
         this.startingPointY = 655;
-        this.title = true;
-        this.player = new Warrior(this.game, this.startingPointX, this.startingPointY);
-        this.loadLevel(level1Scene1, true);
+        if(this.character === "marksman") {
+            this.player = new Marksman(this.game, this.startingPointX, this.startingPointY);
+        } else {
+            this.player = new Warrior(this.game, this.startingPointX, this.startingPointY);
+        }
+        this.loadLevel(level1Scene1);
     }
-    
-    loadLevel(level, title) {
+
+    loadLevel(level) {
         this.level = level;
-        this.title = title;
         this.game.entities = [];
         // Load ghost pirates
         if (level.ghostpirate) {
@@ -112,63 +114,32 @@ class entitiesmanager {
 
             }
         }
-        
         this.game.addEntity(this.player);
     }
 
     update() {
-        if(this.title && this.game.click){
-            if(this.game.click && this.game.click.y >= 150 && this.game.click.y <= 200 ) {
-                this.title = false
-                this.player = new Marksman(this.game, this.startingPointX, this.startingPointY);
-                this.loadLevel(level1Scene1, false);
-            }
-            if(this.game.click && this.game.click.y >= 250 && this.game.click.y <= 300) {
-                this.title = false;
-                this.player = new Warrior(this.game, this.startingPointX, this.startingPointY);
-                this.loadLevel(level1Scene1, false);
-            }
-        }
+ 
     }
 
     draw(ctx) {
-        if(!this.title) {
-            ctx.fillStyle = "#EE4B2B";
-            ctx.font = "30px 'Press Start 2P', sans-serif"; 
-            ctx.fillText("Hearts: ", 100, 50);
-            ctx.fillStyle = "Gold";
-            ctx.fillText("Coins: " + this.player.coinCount, 550, 50);
-            this.heartanimation = ASSET_MANAGER.getAsset("./sprites/heart.png");
-            this.halfheart = ASSET_MANAGER.getAsset("./sprites/halfheart.png");
-        }
-        
-        if(this.title) {
-            
-            ctx.fillStyle = "black";
-            
-            
-        
-            ctx.fillStyle = "white";
-            ctx.font = "40px 'Press Start 2P', sans-serif";
-            ctx.fillText("Select Your Character", 100, 100);
-        
-            ctx.fillStyle = this.game.mouse && this.game.mouse.y >= 150 && this.game.mouse.y <= 200 ? "grey" : "white";
-            ctx.fillText("1. Marksman", 150, 200);
-            ctx.fillStyle = this.game.mouse && this.game.mouse.y >= 250 && this.game.mouse.y <= 300 ? "grey" : "white";
-            ctx.fillText("2. Warrior", 150, 300);
-            
-        }
+        ctx.fillStyle = "#EE4B2B";
+        ctx.font = "30px 'Press Start 2P', sans-serif"; 
+        ctx.fillText("Hearts: ", 125, 50);
+        ctx.fillStyle = "Gold";
+        ctx.fillText("Coins: " + this.player.coinCount, 550, 50);
+        this.heartanimation = ASSET_MANAGER.getAsset("./sprites/heart.png");
+        this.halfheart = ASSET_MANAGER.getAsset("./sprites/halfheart.png");
         if (this.heartanimation) {
             let fullHearts = Math.floor(this.player.hearts); 
             let hasHalfHeart = this.player.hearts % 1 !== 0; 
         
             for (let i = 0; i < fullHearts; i++) {
-                ctx.drawImage(this.heartanimation, 320 + i * 40, 20, 30, 30);
+                ctx.drawImage(this.heartanimation, 225 + i * 40, 20, 30, 30);
             }
         
     
             if (hasHalfHeart) {
-                ctx.drawImage(this.halfheart, 320 + fullHearts * 40, 20, 30, 30);
+                ctx.drawImage(this.halfheart, 225 + fullHearts * 40, 20, 30, 30);
             }
         }
     }

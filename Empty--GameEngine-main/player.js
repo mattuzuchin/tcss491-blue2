@@ -72,6 +72,7 @@ class Player {
         this.isDead = true;
         this.totalKills = 0;
         this.removeFromWorld = true;
+        this.game.addEntity(new DeathScreen(this.game));
     }
 
     update() {

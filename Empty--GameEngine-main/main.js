@@ -1,5 +1,3 @@
-
-
 const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/marksmentemp.png");
 ASSET_MANAGER.queueDownload("./sprites/marksmenwalkLeft.png");
@@ -34,17 +32,17 @@ ASSET_MANAGER.queueDownload("./sprites/bullet.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateBossAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateBossenter.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateBossIdle.png");
+ASSET_MANAGER.queueDownload("./sprites/death.png"); //448 x 444
+ASSET_MANAGER.queueDownload("./sprites/arrow.png"); //448 x 444
+ASSET_MANAGER.queueDownload("./sprites/title.png"); 
 
 
 ASSET_MANAGER.downloadAll(() => {
-	const gameEngine = new GameEngine();
-	const canvas = document.getElementById("gameWorld");
-	const ctx = canvas.getContext("2d");
-	// gameEngine.addEntity(new Marksmen());d
-	// gameEngine.addEntity(new GhostPirate());
-	// gameEngine.addEntity(new Pirate());
-	
-	gameEngine.init(ctx);
-	new entitiesmanager(gameEngine, "marksman");
-	gameEngine.start();
+    const gameEngine = new GameEngine();
+    const canvas = document.getElementById("gameWorld");
+    const ctx = canvas.getContext("2d");
+    
+    gameEngine.init(ctx);
+    gameEngine.addEntity(new TitleScreen(gameEngine));
+    gameEngine.start();
 });

@@ -10,7 +10,7 @@ class Projectile {
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/bullet.png");
         } else {
-            this.image = ASSET_MANAGER.getAsset("./sprites/heart.png"); // Change to arrow in future
+            this.image = ASSET_MANAGER.getAsset("./sprites/arrow.png"); // Change to arrow in future
         }
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }
