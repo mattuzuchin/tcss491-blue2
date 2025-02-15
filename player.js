@@ -1,7 +1,8 @@
 class Player {
-    constructor(game, x, y, characterNumber) {
+    constructor(game, x, y, characterNumber, emanage) {
         Object.assign(this, { game, x, y });
         this.startingPointX = x;
+        this.entitiesMan = emanage;
         this.startingPointY = y;
         const characterTypes = ["Marksman", "Warrior"];
         this.characterType = characterTypes[characterNumber] || "Marksman";
@@ -73,7 +74,9 @@ class Player {
         this.isDead = true;
         this.totalKills = 0;
         this.removeFromWorld = true;
-        this.game.addEntity(new DeathScreen(this.game));
+        this.game.entities = [];
+        this.entitiesMan.toggleDeath();
+        this.game.addEntity(new DeathScreen(this.game, this));
     }
 
     update() {
@@ -276,30 +279,12 @@ class Player {
         if (this.facingLeft) {
             ctx.restore();
         }
-
-        // Debug bounding box
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-
-        // Debug attack hitbox
-        if (this.isAttacking) {
-            let attackBB;
-            if (this.attackDirection === "right") {
-                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
-            } else if (this.attackDirection === "left") {
-                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
-            } else if (this.attackDirection === "up") {
-                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
-            }
-            ctx.strokeStyle = "green";
-            ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
-        }
     }
 }
 
 class Warrior extends Player {
-    constructor(game, x, y) {
-        super(game, x, y, 1); // 1 "Warrior"
+    constructor(game, x, y, emanage) {
+        super(game, x, y, 1, emanage); // 1 "Warrior"
         this.damage = 100; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
@@ -412,23 +397,12 @@ class Warrior extends Player {
     draw(ctx) {
         super.draw(ctx); 
 
-        // Debug: Draw the downward strike bounding box
-        if (this.isDownwardStriking) {
-            const downwardStrikeBB = new BoundingBox(
-                this.x - 20,
-                this.y + this.height,
-                this.width + 40,
-                30
-            );
-            ctx.strokeStyle = "blue";
-            ctx.strokeRect(downwardStrikeBB.x, downwardStrikeBB.y, downwardStrikeBB.width, downwardStrikeBB.height);
-        }
     }
 }
 
 class Marksman extends Player {
-    constructor(game, x, y) {
-        super(game, x, y, 0);  // 0 = marksman
+    constructor(game, x, y, emanage) {
+        super(game, x, y, 0, emanage);  // 0 = marksman
         this.damage = 30; 
     }
 

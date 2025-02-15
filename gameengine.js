@@ -28,8 +28,11 @@ class GameEngine {
         this.speedup = false;
         this.speed = true;
         this.dash = false;
+        this.paused = false;
     };
-
+    togglePause() {
+        this.paused = !this.paused;
+    }
     init(ctx) {
         this.ctx = ctx;
         this.startInput();
@@ -144,6 +147,8 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
 
+        
+
         this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
         this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
     };
@@ -185,6 +190,10 @@ class GameEngine {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
+        // if (!this.paused) {
+        //     this.update();
+        //     this.draw();
+        // }
     };
 
 };

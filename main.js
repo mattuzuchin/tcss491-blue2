@@ -35,7 +35,8 @@ ASSET_MANAGER.queueDownload("./sprites/pirateBossAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateBossenter.png");
 ASSET_MANAGER.queueDownload("./sprites/pirateBossIdle.png");
 ASSET_MANAGER.queueDownload("./sprites/death.png"); //448 x 444
-ASSET_MANAGER.queueDownload("./sprites/arrow.png"); //448 x 444
+ASSET_MANAGER.queueDownload("./sprites/arrow.png");
+ASSET_MANAGER.queueDownload("./sprites/title.png"); 
 
 
 ASSET_MANAGER.downloadAll(() => {

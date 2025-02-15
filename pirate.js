@@ -204,22 +204,5 @@ class Pirate {
             ctx.restore();
         }
 
-       // Debug bounding box
-       ctx.strokeStyle = "red";
-       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-           
-       // Debug attack hitbox
-       if (this.isAttacking) {
-           let attackBB;
-           if (this.attackDirection === "right") {
-               attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
-           } else if (this.attackDirection === "left") {
-               attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
-           } else if (this.attackDirection === "up") {
-               attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
-           }
-           ctx.strokeStyle = "green";
-           ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
-       }
     }
 }

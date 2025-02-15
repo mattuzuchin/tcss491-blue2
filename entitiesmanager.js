@@ -1,17 +1,20 @@
 class entitiesmanager {
-    constructor(game, character) {
+    constructor(game, character, levelScene) {
         this.character = character;
+        this.levelS = levelScene;
         this.game = game;
         this.level = null; 
         this.game.camera = this;
         this.startingPointX = 0;
         this.startingPointY = 655;
+        this.isDead = false;
         if(this.character === "marksman") {
-            this.player = new Marksman(this.game, this.startingPointX, this.startingPointY);
+            this.player = new Marksman(this.game, this.startingPointX, this.startingPointY, this);
         } else {
-            this.player = new Warrior(this.game, this.startingPointX, this.startingPointY);
+            this.player = new Warrior(this.game, this.startingPointX, this.startingPointY, this);
         }
-        this.loadLevel(level1Scene1);
+
+        this.loadLevel(this.levelS);
     }
 
     loadLevel(level) {
@@ -115,18 +118,24 @@ class entitiesmanager {
             }
         }
         this.game.addEntity(this.player);
+        this.game.addEntity(new MainMenu(this.game, this.player));
     }
 
     update() {
  
     }
+    toggleDeath() {
+        this.isDead = !this.isDead;
+    }
 
     draw(ctx) {
-        ctx.fillStyle = "#EE4B2B";
-        ctx.font = "30px 'Press Start 2P', sans-serif"; 
-        ctx.fillText("Hearts: ", 125, 50);
-        ctx.fillStyle = "Gold";
-        ctx.fillText("Coins: " + this.player.coinCount, 550, 50);
+        if(!this.isDead) {
+            ctx.fillStyle = "#EE4B2B";
+            ctx.font = "30px 'Press Start 2P', sans-serif"; 
+            ctx.fillText("Hearts: ", 125, 50);
+            ctx.fillStyle = "Gold";
+            ctx.fillText("Coins: " + this.player.coinCount, 600, 50);
+        }
         this.heartanimation = ASSET_MANAGER.getAsset("./sprites/heart.png");
         this.halfheart = ASSET_MANAGER.getAsset("./sprites/halfheart.png");
         if (this.heartanimation) {
