@@ -5,12 +5,12 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 10000;
         this.removeFromWorld = false;
         if(this.player === null) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/bullet.png");
+            this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
         } else {
-            this.image = ASSET_MANAGER.getAsset("./sprites/arrow.png"); // Change to arrow in future
+            this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/arrow.png"); // Change to arrow in future
         }
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }

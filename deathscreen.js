@@ -1,7 +1,7 @@
 class DeathScreen {
     constructor(game, player) {
         Object.assign(this, {game, player});
-        this.death = ASSET_MANAGER.getAsset("./sprites/death.png");
+        this.death = ASSET_MANAGER.getAsset("./sprites/background/death.png");
         this.quitButton = {
             x: 350,
             y: 650,

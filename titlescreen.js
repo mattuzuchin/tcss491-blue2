@@ -5,8 +5,8 @@ class TitleScreen {
         this.showCredits = false;
         this.gameEngine.camera = this;
         this.characters = [
-            { name: "Marksman", sprite: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png") },
-            { name: "Warrior", sprite: ASSET_MANAGER.getAsset("./sprites/warriortemp.png") }
+            { name: "Marksman", sprite: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png") },
+            { name: "Warrior", sprite: ASSET_MANAGER.getAsset("./sprites/player entities/warriortemp.png") }
         ];
         
         this.selectedCharacter = null;
@@ -114,7 +114,7 @@ class TitleScreen {
                 ctx.fillStyle = "#FFFFFF";
                 ctx.font = "48px Arial";
                 ctx.textAlign = "center";
-                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), ctx.canvas.width/5, this.titleY - 100, 600, 400);
+                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/background/title.png"), ctx.canvas.width/5, this.titleY - 100, 600, 400);
                 ctx.fillText("Select Your Character", ctx.canvas.width / 2, this.titleY + 350);
 
                 this.characters.forEach((char, index) => {
