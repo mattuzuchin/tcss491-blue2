@@ -1,7 +1,8 @@
 class Player {
-    constructor(game, x, y, characterNumber) {
+    constructor(game, x, y, characterNumber, emanage) {
         Object.assign(this, { game, x, y });
         this.startingPointX = x;
+        this.entitiesMan = emanage;
         this.startingPointY = y;
         const characterTypes = ["Marksman", "Warrior"];
         this.characterType = characterTypes[characterNumber] || "Marksman";
@@ -19,7 +20,7 @@ class Player {
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.attackDirection = "right";
-        this.damage = 50;
+        this.damage = 400;
         this.isDashing = false;
         this.currentScene = 1;
         this.dashCooldown = 0;
@@ -30,15 +31,16 @@ class Player {
         this.totalChests = 0;
         this.coinCount = 0;
         this.hearts = 5;
+        this.bosslevel1Defeat = 0;
         this.totalKills = 0;
         this.power = false;
         this.assets = {
-            Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
-            MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
-            WarriorIdle: ASSET_MANAGER.getAsset("./sprites/warriortemp.png"),
-            WarriorAttack: ASSET_MANAGER.getAsset("./sprites/warriorattack.png"),
-            Warrior: ASSET_MANAGER.getAsset("./sprites/warriorwalk1.png"),
-            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/pirateswordattack.png")
+            Marksman: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenwalkLeft.png"),
+            MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png"),
+            WarriorIdle: ASSET_MANAGER.getAsset("./sprites/player entities/warriortemp.png"),
+            WarriorAttack: ASSET_MANAGER.getAsset("./sprites/player entities/warriorattack.png"),
+            Warrior: ASSET_MANAGER.getAsset("./sprites/player entities/warriorwalk1.png"),
+            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenattack.png")
         };
 
         this.sprite = this.assets[this.characterType];
@@ -47,7 +49,7 @@ class Player {
             Marksman: {
                 idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
                 walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.MarksmanAttack, 0, 0, this.width, this.height, 3, 0.1),
+                attacking: new Animator(this.assets.MarksmanAttack, 0, 5, 37, 45, 20, 0.02),
             },
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
@@ -72,7 +74,9 @@ class Player {
         this.isDead = true;
         this.totalKills = 0;
         this.removeFromWorld = true;
-        this.game.addEntity(new DeathScreen(this.game));
+        this.game.entities = [];
+        this.entitiesMan.toggleDeath();
+        this.game.addEntity(new DeathScreen(this.game, this));
     }
 
     update() {
@@ -94,13 +98,18 @@ class Player {
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <=0) {
+                this.currentAnimator = this.animators[this.characterType].walking;
+            }
+            
             this.facingLeft = true;
         }
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <=0) {
+                this.currentAnimator = this.animators[this.characterType].walking;
+            }
             this.facingLeft = false;
         }
         if (this.game.isJump && this.isOnGround) {
@@ -111,7 +120,9 @@ class Player {
             this.attackDirection = "up";
         }
         if (!this.game.left && !this.game.right) {
-            this.currentAnimator = this.animators[this.characterType].idle;
+            if(this.attackDuration <=0) {
+                this.currentAnimator = this.animators[this.characterType].idle;
+            }
         }
         if (this.game.speedup) {
             this.speed = 6;
@@ -170,14 +181,25 @@ class Player {
 
     checkObjectives(level) {
         this.levelO = level;
-        if (this.totalKills >= this.levelO.objectives[0].pirates &&
-            this.totalChests >= this.levelO.objectives[0].chests &&
-            this.artifactCounts >= this.levelO.objectives[0].artifact) {
-            this.removechest();
-            this.resetValues();
-            console.log("Moving to next scene!");
-            this.moveToNextScene();
+        if(this.levelO.objectives[0].bosslevel) {
+            if (this.bosslevel1Defeat >= 1 &&
+                this.artifactCounts >= 1) {
+                this.removechest();
+                this.resetValues();
+                console.log("Moving to next scene!");
+                this.moveToNextScene();
+            }
+        } else  {
+            if (this.totalKills >= this.levelO.objectives[0].pirates &&
+                this.totalChests >= this.levelO.objectives[0].chests &&
+                this.artifactCounts >= this.levelO.objectives[0].artifact) {
+                this.removechest();
+                this.resetValues();
+                console.log("Moving to next scene!");
+                this.moveToNextScene();
+            }
         }
+
     }
 
     resetValues() {
@@ -264,31 +286,13 @@ class Player {
         if (this.facingLeft) {
             ctx.restore();
         }
-
-        // Debug bounding box
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-
-        // Debug attack hitbox
-        if (this.isAttacking) {
-            let attackBB;
-            if (this.attackDirection === "right") {
-                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
-            } else if (this.attackDirection === "left") {
-                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
-            } else if (this.attackDirection === "up") {
-                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
-            }
-            ctx.strokeStyle = "green";
-            ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
-        }
     }
 }
 
 class Warrior extends Player {
-    constructor(game, x, y) {
-        super(game, x, y, 1); // 1 "Warrior"
-        this.damage = 1000; 
+    constructor(game, x, y, emanage) {
+        super(game, x, y, 1, emanage); // 1 "Warrior"
+        this.damage = 100; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
@@ -302,7 +306,7 @@ class Warrior extends Player {
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
             this.isAttacking = true;
-            this.attackDuration = 60;
+            this.attackDuration = 0.05;
             this.attackCooldown = 80;
         }
 
@@ -328,10 +332,14 @@ class Warrior extends Player {
                         this.powerUpDuration = 5;
                         entity.takeDamage(this.damage);
                     }
-                    if (entity.isDead) {
-                        this.totalKills++;
-                        console.log(this.totalKills);
-                        entity.removeFromWorld = true;
+                    if(entity.isDead) {
+                        if(entity instanceof PirateBoss) {
+                            this.bosslevel1Defeat++;
+                            entity.removeFromWorld = true;
+                        } else {
+                            this.totalKills++;
+                            entity.removeFromWorld = true;
+                        }
                     }
                 }
                 if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
@@ -396,32 +404,26 @@ class Warrior extends Player {
     draw(ctx) {
         super.draw(ctx); 
 
-        // Debug: Draw the downward strike bounding box
-        if (this.isDownwardStriking) {
-            const downwardStrikeBB = new BoundingBox(
-                this.x - 20,
-                this.y + this.height,
-                this.width + 40,
-                30
-            );
-            ctx.strokeStyle = "blue";
-            ctx.strokeRect(downwardStrikeBB.x, downwardStrikeBB.y, downwardStrikeBB.width, downwardStrikeBB.height);
-        }
     }
 }
 
 class Marksman extends Player {
-    constructor(game, x, y) {
-        super(game, x, y, 0);  // 0 = marksman
+    constructor(game, x, y, emanage) {
+        super(game, x, y, 0, emanage);  // 0 = marksman
         this.damage = 30; 
+        this.attackDuration = 10;
     }
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
+            this.attackDuration = 15;
             let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(projectile);
             console.log(this.totalKills);
             this.attackCooldown = 100;
+            this.currentAnimator = this.animators[this.characterType].attacking;
+        } else {
+            this.attackDuration--;
         }
     }
 }

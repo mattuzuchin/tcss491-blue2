@@ -1,8 +1,8 @@
 class Chest {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/treasureChest.png");
-        this.spriteKeep = ASSET_MANAGER.getAsset("./sprites/treasureChestOpen.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/interactive entities/treasureChest.png");
+        this.spriteKeep = ASSET_MANAGER.getAsset("./sprites/interactive entities/treasureChestOpen.png");
         this.width = 32;
         this.height = 32;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);
