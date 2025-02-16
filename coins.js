@@ -1,7 +1,7 @@
 class Coins {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/coin.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/interactive entities/coin.png");
         this.width = 20;
         this.height = 20;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);

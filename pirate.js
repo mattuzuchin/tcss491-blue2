@@ -2,9 +2,9 @@ class Pirate {
     constructor(game, x, y, type) {
         Object.assign(this, { game, x, y, type});
         if(this.type === "sword") {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratewalk.png");
         } else {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirategunattack.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirategunattack.png");
         }
         this.width = 40;
         this.height = 40;
@@ -45,7 +45,7 @@ class Pirate {
 
     die() {
         this.isDead = true;
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratestanddead.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratestanddead.png");
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
         let coin = new Coins(this.game, this.x , this.y );
         this.game.addEntity(coin);
@@ -100,7 +100,7 @@ class Pirate {
             this.game.addEntity(projectile);
             this.currentShootCooldown = this.shootCooldown;
             
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirategunattack.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirategunattack.png");
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
         }
     }
@@ -175,7 +175,7 @@ class Pirate {
     handleAttack(player) {
         if (this.attackCooldown <= 0) {  
             if (this.type === "sword") {
-                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateattack.png");
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateattack.png");
                 this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
                 
                 if (player) {
@@ -186,7 +186,7 @@ class Pirate {
         }
         this.isAttacking = false;
         if (this.type === "sword") {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/piratewalk.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratewalk.png");
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
         }
     }

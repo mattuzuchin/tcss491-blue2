@@ -1,7 +1,7 @@
 class PirateBoss {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y});
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateBossIdle.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateBossIdle.png");
         this.width = 75.25;
         this.height = 72;
         this.speed = .5;
@@ -151,7 +151,7 @@ class PirateBoss {
 
     handleAttack(player) {
         if (this.attackCooldown <= 0) {  
-                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateBossAttack.png");
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateBossAttack.png");
                 this.animator = new Animator(this.spritesheet, 0, 0, 80, 72, 4, 0.1); 
                 
                 if (player) {
@@ -161,7 +161,7 @@ class PirateBoss {
             this.attackCooldown = this.attackDuration; 
         
         this.isAttacking = false;
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pirateBossIdle.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateBossIdle.png");
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 0.1);
         
     }

@@ -3,19 +3,19 @@ class Platform {
         this.boundingBox = new BoundingBox(x, y, width, height);
         Object.assign(this, { x, y, width, height });
         if(number == 1) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassblockmiddle.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassblockmiddle.png"); 
         } else if (number == 2) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassright.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassright.png"); 
         } else if (number == 3){
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassleft.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassleft.png"); 
         } else if (number == 4) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/crate.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/crate.png"); 
         } else if (number == 5) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassblockmiddleplat.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassblockmiddleplat.png"); 
         }else if (number == 6) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassrightplat.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassrightplat.png"); 
         }else if (number == 7) {
-            this.image = ASSET_MANAGER.getAsset("./sprites/grassleftplat.png"); 
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassleftplat.png"); 
         }
     }
     draw(ctx) {

@@ -35,12 +35,12 @@ class Player {
         this.totalKills = 0;
         this.power = false;
         this.assets = {
-            Marksman: ASSET_MANAGER.getAsset("./sprites/marksmenwalkLeft.png"),
-            MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/marksmentemp.png"),
-            WarriorIdle: ASSET_MANAGER.getAsset("./sprites/warriortemp.png"),
-            WarriorAttack: ASSET_MANAGER.getAsset("./sprites/warriorattack.png"),
-            Warrior: ASSET_MANAGER.getAsset("./sprites/warriorwalk1.png"),
-            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/pirateswordattack.png")
+            Marksman: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenwalkLeft.png"),
+            MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png"),
+            WarriorIdle: ASSET_MANAGER.getAsset("./sprites/player entities/warriortemp.png"),
+            WarriorAttack: ASSET_MANAGER.getAsset("./sprites/player entities/warriorattack.png"),
+            Warrior: ASSET_MANAGER.getAsset("./sprites/player entities/warriorwalk1.png"),
+            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenattack.png")
         };
 
         this.sprite = this.assets[this.characterType];
@@ -49,7 +49,7 @@ class Player {
             Marksman: {
                 idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
                 walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.MarksmanAttack, 0, 0, this.width, this.height, 3, 0.1),
+                attacking: new Animator(this.assets.MarksmanAttack, 45, 0, this.width, this.height, 20, 0.01),
             },
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
@@ -98,13 +98,18 @@ class Player {
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <=0) {
+                this.currentAnimator = this.animators[this.characterType].walking;
+            }
+            
             this.facingLeft = true;
         }
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <=0) {
+                this.currentAnimator = this.animators[this.characterType].walking;
+            }
             this.facingLeft = false;
         }
         if (this.game.isJump && this.isOnGround) {
@@ -115,7 +120,9 @@ class Player {
             this.attackDirection = "up";
         }
         if (!this.game.left && !this.game.right) {
-            this.currentAnimator = this.animators[this.characterType].idle;
+            if(this.attackDuration <=0) {
+                this.currentAnimator = this.animators[this.characterType].idle;
+            }
         }
         if (this.game.speedup) {
             this.speed = 6;
@@ -404,14 +411,19 @@ class Marksman extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 0, emanage);  // 0 = marksman
         this.damage = 30; 
+        this.attackDuration = 10;
     }
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
+            this.attackDuration = 30;
             let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(projectile);
             console.log(this.totalKills);
             this.attackCooldown = 100;
+            this.currentAnimator = this.animators[this.characterType].attacking;
+        } else {
+            this.attackDuration--;
         }
     }
 }
