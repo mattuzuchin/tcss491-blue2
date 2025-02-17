@@ -42,31 +42,7 @@ class DeathScreen {
     }
 
     resetGame() {        
-        const currentCoins = this.game.camera.player.coinCount;
-        const character = this.game.camera.character;
-        const currentScene = this.player.getNextLevel();
-        this.game.click = null;
-        this.game.mouse = null;
-        this.game.wheel = null;
-        this.game.keys = {};
-        
-        this.game.left = false;
-        this.game.right = false;
-        this.game.up = false;
-        this.game.fall = false;
-        this.game.down = false;
-        this.game.isJump = false;
-        this.game.speedup = false;
-        this.game.speed = true;
-        this.game.dash = false;
-        this.game.paused = false;
-    
-        this.game.camera = new entitiesmanager(this.game, character, currentScene);
-
-        this.game.camera.player.coinCount = currentCoins;
-     
-        this.game.camera.player.hearts = 5;
-        this.game.camera.isDead = false;
+       this.player.reset();
         
         console.log("Game Reset");
     }

@@ -1,7 +1,6 @@
 class Projectile {
     constructor(game, x, y, direction, player) {
         Object.assign(this, { game, x, y, direction, player });
-        this.player = player;
         this.width = 20;
         this.height = 10;
         this.speed = 5;
@@ -10,7 +9,7 @@ class Projectile {
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
         } else {
-            this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/arrow.png"); // Change to arrow in future
+            this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/arrow.png"); 
         }
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }
@@ -34,6 +33,7 @@ class Projectile {
                     this.player.powerUpDuration = 5;
                     entity.takeDamage(this.damage);
                 }
+                this.player.activateMessage("-1", entity.x, entity.y);
                 if(entity.isDead) {
                     if(entity instanceof PirateBoss) {
                         this.player.bosslevel1Defeat++;

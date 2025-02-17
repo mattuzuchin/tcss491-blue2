@@ -148,32 +148,7 @@ class MainMenu {
         if(this.showShop) {
             this.shopObject.draw(ctx);
         } else if (this.showReset) {
-                 
-            const currentCoins = this.gameEngine.camera.player.coinCount;
-            const character = this.gameEngine.camera.character;
-            const currentScene = this.player.getNextLevel();
-            this.gameEngine.click = null;
-            this.gameEngine.mouse = null;
-            this.gameEngine.wheel = null;
-            this.gameEngine.keys = {};
-                
-            this.gameEngine.left = false;
-            this.gameEngine.right = false;
-            this.gameEngine.up = false;
-            this.gameEngine.fall = false;
-            this.gameEngine.down = false;
-            this.gameEngine.isJump = false;
-            this.gameEngine.speedup = false;
-            this.gameEngine.speed = true;
-            this.gameEngine.dash = false;
-            this.gameEngine.paused = false;
-        
-            this.gameEngine.camera = new entitiesmanager(this.gameEngine, character, currentScene);
-        
-            this.gameEngine.camera.player.coinCount = currentCoins;
-             
-            this.gameEngine.camera.player.hearts = 5;
-            this.gameEngine.camera.isDead = false;
+            this.player.reset();
             
         } else if(this.showQuit) {
 
