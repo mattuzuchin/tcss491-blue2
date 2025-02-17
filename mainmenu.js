@@ -22,13 +22,6 @@ class MainMenu {
             height: 18,
             text: "Reset"
         }
-        this.shopButton = {
-            x: 850,
-            y: 90,
-            width: 100,
-            height: 18,
-            text: "Shop"
-        };
         this.quitButton = {
             x: 850,
             y: 110,
@@ -36,7 +29,7 @@ class MainMenu {
             height: 18,
             text: "Quit"
         };
-        this.shopObject = new Shop(this.gameEngine);
+        this.shopObject = new Shop(this.gameEngine, this.player);
         this.showMenu = false;
         this.showShop = false;
         this.showReset = false;
@@ -44,45 +37,47 @@ class MainMenu {
     }
 
     handleClick(click) {
-        //handle when user hits menu
-        if (!this.showMenu &&
-            click.x >= this.mainMenuButton.x && 
+        if (click.x >= this.mainMenuButton.x && 
             click.x <= this.mainMenuButton.x + this.mainMenuButton.width &&
             click.y >= this.mainMenuButton.y && 
             click.y <= this.mainMenuButton.y + this.mainMenuButton.height) {
-            this.showMenu = true;
+            this.showMenu = !this.showMenu;
             return;
         }
+
+        this.shopObject.items.forEach((item, index) => {
+            let itemX = 250; 
+            let itemY = 100 + index * 60;
+            let itemWidth = 300;
+            let itemHeight = 50;
+
+            if (
+                click.x >= itemX && click.x <= itemX + itemWidth &&
+                click.y >= itemY && click.y <= itemY + itemHeight
+            ) {
+                console.log("Clicked on item");
+                let result = this.shopObject.purchaseItem(item);
+                if(result) {
+                    if(item.name === "Power Boost") {
+                        this.player.power = true;
+                    } else if (item.name === "Extra Life") {
+                        this.player.hearts +=1;
+                    } else if (item.name === "Double Coins") {
+                        this.player.coinCount = this.player.coinCount * 2;
+                    }
+                }
+            }
+        });
         if (this.showMenu &&
-            click.x >= this.mainMenuButton.x && 
-            click.x <= this.mainMenuButton.x + 90 &&
-            click.y >= this.mainMenuButton.y && 
-            click.y <= this.mainMenuButton.y + 40) {
-            this.gameEngine.togglePause();
-            this.showMenu = false;
+            click.x >= this.shopObject.shopButton.x && 
+            click.x <= this.shopObject.shopButton.x + this.shopObject.shopButton.width &&
+            click.y >= this.shopObject.shopButton.y && 
+            click.y <= this.shopObject.shopButton.y + this.shopObject.shopButton.height) {
+            this.showShop = !this.showShop;
             return;
         }
 
-        //handle when user hits shop
-        if (!this.showShop && this.showMenu &&
-            click.x >= this.shopButton.x && 
-            click.x <= this.shopButton.x + this.shopButton.width &&
-            click.y >= this.shopButton.y && 
-            click.y <= this.shopButton.y + this.shopButton.height) {
-            this.showShop = true;
-            return;
-        }
-        if (this.showShop &&
-            click.x >= 20 && 
-            click.x <= 120 &&
-            click.y >= 20 && 
-            click.y <= 60) {
-            this.showShop = false;
-            return;
-        }
-
-        //handle when user hits reset
-        if (!this.showReset && this.showMenu &&
+        if (this.showMenu &&
             click.x >= this.resetButton.x && 
             click.x <= this.resetButton.x + this.resetButton.width &&
             click.y >= this.resetButton.y && 
@@ -90,8 +85,17 @@ class MainMenu {
             this.showReset = true;
             return;
         }
-    
+        //user hits quit
+        if (this.showMenu &&
+            click.x >= this.quitButton.x && 
+            click.x <= this.quitButton.x + this.quitButton.width &&
+            click.y >= this.quitButton.y && 
+            click.y <= this.quitButton.y + this.quitButton.height) {
+            this.showQuit = true;
+            return;
+        }
     }
+
     update() {
         if (this.gameEngine.click) {
             this.handleClick(this.gameEngine.click);
@@ -99,10 +103,6 @@ class MainMenu {
         }
     }
 
-    drawShop(ctx) {
-        //TODO
-
-    }
 
     drawMainMenu(ctx) {
         //this.gameEngine.togglePause();
@@ -138,15 +138,15 @@ class MainMenu {
         ctx.strokeRect(this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height); 
         
         // shop
-        ctx.fillText(this.shopButton.text, this.shopButton.x + this.shopButton.width / 2, this.shopButton.y + this.shopButton.height/2 + 4);
-        ctx.strokeRect(this.shopButton.x, this.shopButton.y, this.shopButton.width, this.shopButton.height); 
+        ctx.fillText(this.shopObject.shopButton.text, this.shopObject.shopButton.x + this.shopObject.shopButton.width / 2, this.shopObject.shopButton.y + this.shopObject.shopButton.height/2 + 4);
+        ctx.strokeRect(this.shopObject.shopButton.x, this.shopObject.shopButton.y, this.shopObject.shopButton.width, this.shopObject.shopButton.height); 
         
         //quit
         ctx.fillText(this.quitButton.text, this.quitButton.x + this.quitButton.width / 2, this.quitButton.y + this.quitButton.height/2 + 4);
         ctx.strokeRect(this.quitButton.x, this.quitButton.y, this.quitButton.width, this.quitButton.height); 
 
         if(this.showShop) {
-            this.drawShop(ctx);
+            this.shopObject.draw(ctx);
         } else if (this.showReset) {
                  
             const currentCoins = this.gameEngine.camera.player.coinCount;
@@ -175,8 +175,10 @@ class MainMenu {
             this.gameEngine.camera.player.hearts = 5;
             this.gameEngine.camera.isDead = false;
             
-        } else {
-            //for qui when imoplemnted
+        } else if(this.showQuit) {
+
+            console.log("Game Quit");
+            this.showQuit = false;
         }
         
     }

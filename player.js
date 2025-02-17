@@ -49,7 +49,7 @@ class Player {
             Marksman: {
                 idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
                 walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.MarksmanAttack, 45, 0, this.width, this.height, 20, 0.01),
+                attacking: new Animator(this.assets.MarksmanAttack, 0, 5, 37, 45, 20, 0.02),
             },
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
@@ -292,7 +292,7 @@ class Player {
 class Warrior extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 1, emanage); // 1 "Warrior"
-        this.damage = 100; 
+        this.damage = 400; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
