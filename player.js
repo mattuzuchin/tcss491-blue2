@@ -493,7 +493,7 @@ class Marksman extends Player {
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
-            this.attackDuration = 30;
+            this.attackDuration = 20;
             let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(projectile);
             console.log(this.totalKills);
