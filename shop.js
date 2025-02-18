@@ -2,9 +2,9 @@ class Shop {
     constructor(gameEngine, player) {
         Object.assign(this, { gameEngine, player });
         this.items = [
-            { name: "Power Boost", cost: 1 },
-            { name: "Extra Life", cost: 1 },
-            { name: "Double Coins", cost: 2 }
+            { name: "Power Boost", cost: 50 },
+            { name: "Extra Life", cost: 25 },
+            { name: "Double Coins", cost: 100 }
         ];
         this.shopButton = {
             x: 850,

@@ -37,14 +37,12 @@ class DeathScreen {
     }
 
     quitGame() {
-        console.log("Game Quit");
+        this.player.quit();
        
     }
 
     resetGame() {        
        this.player.reset();
-        
-        console.log("Game Reset");
     }
 
     update() {

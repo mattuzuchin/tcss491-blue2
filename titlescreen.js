@@ -94,7 +94,7 @@ class TitleScreen {
         ctx.font = "24px Arial";
         ctx.fillText("Artwork", ctx.canvas.width / 2, 280);
         ctx.font = "20px Arial";
-        ctx.fillText("Matthew, Liam, Anthony, Minh", ctx.canvas.width / 2, 320);
+        ctx.fillText("Matthew, Liam, Anthony, Minh. Also courtesy of Jemastock for the Death Image", ctx.canvas.width / 2, 320);
         
         ctx.font = "24px Arial";
         ctx.fillText("Music", ctx.canvas.width / 2, 380);
