@@ -25,7 +25,7 @@ class Projectile {
 
         for (let entity of this.game.entities) {
             if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
-                if(this.player.power === true && this.player.powerUpDuration > 0) {
+                if(this.player.power && this.player.powerUpDuration > 0) {
                     this.player.powerUpDuration -= 1;
                     entity.takeDamage(this.damage * 3);
                 } else {

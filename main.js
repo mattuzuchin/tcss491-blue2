@@ -1,5 +1,3 @@
-
-
 const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/player entities/marksmentemp.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/marksmenwalkLeft.png");

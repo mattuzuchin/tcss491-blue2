@@ -34,7 +34,7 @@ class Player {
         this.bosslevel1Defeat = 0;
         this.totalKills = 0;
         this.power = false;
-        this.durationMessage = 150;
+        this.durationMessage = 0;
         this.messageText = "";
         this.messageX = 0;
         this.messageY = 0;
@@ -104,7 +104,9 @@ class Player {
         } else {
             this.isMessage = false;
         }
-
+        if(this.power) {
+            this.activateMessage("PowerUp!", this.x, this.y);
+        }
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.dashCooldown > 0) this.dashCooldown--;
     }
@@ -134,6 +136,10 @@ class Player {
          
         this.game.camera.player.hearts = 5;
         this.game.camera.isDead = false;
+    }
+    quit() {
+        //todo
+        
     }
     handleMovement() {
 
@@ -319,6 +325,8 @@ class Player {
             ctx.fillStyle = "orange";
         } else if (this.messageText === "Artifact Found!") {
             ctx.fillStyle = "green";
+        } else if (this.messageText === "PowerUp!") {
+            ctx.fillStyle = "white";
         } else {
             ctx.fillStyle = "gold";
         }
@@ -382,7 +390,7 @@ class Warrior extends Player {
             }
             for (let entity of this.game.entities) {
                 if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && attackBB.collide(entity.BB)) {
-                    if(this.power === true && this.powerUpDuration > 0) {
+                    if(this.power && this.powerUpDuration > 0) {
                         this.powerUpDuration -= 1;
                         entity.takeDamage(this.damage * 3);
                     } else {

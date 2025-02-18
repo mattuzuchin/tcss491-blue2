@@ -151,9 +151,7 @@ class MainMenu {
             this.player.reset();
             
         } else if(this.showQuit) {
-
-            console.log("Game Quit");
-            this.showQuit = false;
+            this.player.quit();
         }
         
     }
