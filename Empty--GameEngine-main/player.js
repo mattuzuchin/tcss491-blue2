@@ -34,6 +34,11 @@ class Player {
         this.bosslevel1Defeat = 0;
         this.totalKills = 0;
         this.power = false;
+        this.durationMessage = 0;
+        this.messageText = "";
+        this.messageX = 0;
+        this.messageY = 0;
+        this.isMessage = false;
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png"),
@@ -68,7 +73,13 @@ class Player {
         if (this.hearts < 0) this.hearts = 0;
         if (this.hearts === 0) this.die();
     }
-
+    activateMessage(message, x,y) {
+        this.isMessage = true;
+        this.messageText = message;
+        this.durationMessage = 150;
+        this.messageX = x;
+        this.messageY = y;
+    }
     die() {
         console.log("Player has been defeated!");
         this.isDead = true;
@@ -88,11 +99,59 @@ class Player {
         this.handleDash();
         this.updateBoundingBox();
         this.checkComplete();
-
+        if(this.durationMessage != 0 ) {
+            this.isMessage = true;
+        } else {
+            this.isMessage = false;
+        }
+        if(this.power) {
+            this.activateMessage("PowerUp!", this.x, this.y);
+        }
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.dashCooldown > 0) this.dashCooldown--;
     }
+    reset() {
+        const currentCoins = this.game.camera.player.coinCount;
+        const character = this.game.camera.character;
+        const currentScene = this.getNextLevel();
+        this.game.click = null;
+        this.game.mouse = null;
+        this.game.wheel = null;
+        this.game.keys = {};
+            
+        this.game.left = false;
+        this.game.right = false;
+        this.game.up = false;
+        this.game.fall = false;
+        this.game.down = false;
+        this.game.isJump = false;
+        this.game.speedup = false;
+        this.game.speed = true;
+        this.game.dash = false;
+        this.game.paused = false;
+    
+        this.game.camera = new entitiesmanager(this.game, character, currentScene);
+    
+        this.game.camera.player.coinCount = currentCoins;
+         
+        this.game.camera.player.hearts = 5;
+        this.game.camera.isDead = false;
+    }
+    quit() {
+        const ctx = this.game.ctx;
+    
+        this.game.running = false;
+        this.game.entities = []; 
+        
+        const gameEngine = new GameEngine();
+    
+        gameEngine.init(ctx);
 
+        gameEngine.addEntity(new TitleScreen(gameEngine));
+    
+        gameEngine.start();
+        this.game = gameEngine;
+    }
     handleMovement() {
 
         if (this.game.left) {
@@ -154,11 +213,13 @@ class Player {
             if (entity instanceof Artifact && this.BB.collide(entity.BB)) {
                 this.artifactCounts += 1;
                 entity.removeFromWorld = true;
+                this.activateMessage("Artifact Found!", entity.x, entity.y);
                 console.log(this.artifactCounts);
             }
             if (entity instanceof Coins && this.BB.collide(entity.BB)) {
                 this.coinCount += 1;
                 entity.removeFromWorld = true;
+                this.activateMessage("+1", this.x, this.y);
             }
         }
     }
@@ -238,10 +299,6 @@ class Player {
         }
     }
 
-    handleAttack() {
-  
-    }
-
     handleDash() {
         if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing && this.isOnGround) {
             this.isDashing = true;
@@ -272,10 +329,29 @@ class Player {
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
-
+    drawMessage(ctx) {
+        if(this.messageText === "+1") {
+            ctx.fillStyle = "gold";
+        } else if (this.messageText === "-1") {
+            ctx.fillStyle = "orange";
+        } else if (this.messageText === "Artifact Found!") {
+            ctx.fillStyle = "green";
+        } else if (this.messageText === "PowerUp!") {
+            ctx.fillStyle = "white";
+        } else {
+            ctx.fillStyle = "gold";
+        }
+        ctx.font = "15px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(this.messageText, this.messageX + 15, this.messageY - 10);
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
-
+        if(this.isMessage && this.durationMessage != 0) {
+            this.drawMessage(ctx, this.messageX, this.messageY);
+            this.durationMessage--;
+        }
+    
         if (this.facingLeft) {
             ctx.save();
             ctx.scale(-1, 1);
@@ -287,12 +363,13 @@ class Player {
             ctx.restore();
         }
     }
+    
 }
 
 class Warrior extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 1, emanage); // 1 "Warrior"
-        this.damage = 100; 
+        this.damage = 400; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
@@ -324,7 +401,7 @@ class Warrior extends Player {
             }
             for (let entity of this.game.entities) {
                 if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && attackBB.collide(entity.BB)) {
-                    if(this.power === true && this.powerUpDuration > 0) {
+                    if(this.power && this.powerUpDuration > 0) {
                         this.powerUpDuration -= 1;
                         entity.takeDamage(this.damage * 3);
                     } else {
@@ -332,6 +409,7 @@ class Warrior extends Player {
                         this.powerUpDuration = 5;
                         entity.takeDamage(this.damage);
                     }
+                    this.activateMessage("-1", entity.x, entity.y);
                     if(entity.isDead) {
                         if(entity instanceof PirateBoss) {
                             this.bosslevel1Defeat++;
@@ -353,7 +431,6 @@ class Warrior extends Player {
             this.attackDuration = 60;
         }
     }
-
     handleDownwardStrike() {
         // attack + fall keys
         if (this.game.attack && this.game.down && this.downwardStrikeCooldown <= 0 && !this.isOnGround) {
@@ -416,7 +493,7 @@ class Marksman extends Player {
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
-            this.attackDuration = 15;
+            this.attackDuration = 20;
             let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(projectile);
             console.log(this.totalKills);
