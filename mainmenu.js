@@ -56,12 +56,19 @@ class MainMenu {
                 click.y >= itemY && click.y <= itemY + itemHeight
             ) {
                 console.log("Clicked on item");
-                let result = this.shopObject.purchaseItem(item);
+                let result = null;
+                if(this.player.hearts >= 4.5 && item.name === "Extra Life") {
+                    console.log("Cannot purchase item with 4.5 hearts or more!");
+                } else {
+                    result = this.shopObject.purchaseItem(item);
+                }
                 if(result) {
                     if(item.name === "Power Boost") {
                         this.player.power = true;
                     } else if (item.name === "Extra Life") {
+
                         this.player.hearts +=1;
+                        
                     } else if (item.name === "Double Coins") {
                         this.player.coinCount = this.player.coinCount * 2;
                     }
