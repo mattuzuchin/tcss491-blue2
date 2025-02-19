@@ -60,7 +60,7 @@ class TitleScreen {
 
     startNewGame() {
         this.gameEngine.entities = [];
-        new entitiesmanager(this.gameEngine, this.selectedCharacter, level1Scene1);
+        new entitiesmanager(this.gameEngine, this.selectedCharacter, bosslevel1);
     }
 
     update() {

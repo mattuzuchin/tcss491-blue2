@@ -4,7 +4,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 10000;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");

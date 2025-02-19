@@ -9,7 +9,7 @@ class PirateBoss {
         this.direction = 1;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 1);
         this.isAttacking = false;
-    
+        
         this.gravity = 0.5;
         this.velocity = 0;
         this.groundLevel = y;
@@ -29,6 +29,13 @@ class PirateBoss {
         this.currentShootCooldown = 0;
         this.shootRange = 1000;
 
+
+        this.miniPirate = 12;
+        this.bigAttackCooldown = 500; 
+        this.currentBigAttackCooldown = 0; 
+        this.bigAttackDuration = 120; 
+        this.isBigAttacking = false; 
+        this.bigAttackIndicatorDuration = 60; 
     }
 
     takeDamage(amount) {
@@ -47,7 +54,20 @@ class PirateBoss {
 
     update() {
         if (this.attackCooldown > 0) this.attackCooldown--;
-        if (this.currentShootCooldown > 0) this.currentShootCooldown--;
+    if (this.currentShootCooldown > 0) this.currentShootCooldown--;
+    if (this.currentBigAttackCooldown > 0) this.currentBigAttackCooldown--;
+
+    if (!this.isDead) {
+        this.handleMovement();
+        if (this.type === "gun") {
+            this.handleShooting();
+        }
+
+
+        if (Math.random() < 0.01 && this.currentBigAttackCooldown <= 0) { 
+            this.handleBigAttack();
+        }
+    }
         if(!this.isDead) {
             this.handleMovement();
             if (this.type === "gun") {
@@ -56,7 +76,7 @@ class PirateBoss {
         }
         if(this.pirateTimer > 0) {
             this.pirateTimer--;
-        } else if(this.pirateSpawnCount < 10) {
+        } else if(this.pirateSpawnCount < 10 && this.miniPirate > 0) {
             this.pirateTimer = 100;
             this.random = Math.floor(Math.random() * 2);
             let type = "";
@@ -65,7 +85,7 @@ class PirateBoss {
             } else {
                 type = "sword";
             }
-            
+            this.miniPirate--;
             let ghostPirate = new GhostPirate(this.game, this.x, this.y, type);
             this.game.addEntity(ghostPirate);
         }
@@ -80,7 +100,34 @@ class PirateBoss {
         this.handleCollisions();
         this.updateBoundingBox();
     }
-
+    handleBigAttack() {
+        if (this.currentBigAttackCooldown <= 0 && !this.isBigAttacking) {
+            this.isBigAttacking = true;
+            this.currentBigAttackCooldown = this.bigAttackCooldown;
+    
+            setTimeout(() => {
+                this.performBigAttack();
+            }, this.bigAttackIndicatorDuration * 1000 / 60); 
+        }
+    }
+    
+    performBigAttack() {
+        let attackBBLeft = new BoundingBox(this.x - 1000, this.y, 1000, 200);
+        let attackBBRight = new BoundingBox(this.x + this.width, this.y, 1000, 200);
+    
+        for (let entity of this.game.entities) {
+            if (entity instanceof Player) {
+                if (entity.BB.collide(attackBBLeft) || entity.BB.collide(attackBBRight)) {
+                    entity.takeDamage(2); 
+                }
+            }
+        }
+    
+ 
+        setTimeout(() => {
+            this.isBigAttacking = false;
+        }, this.bigAttackDuration * 1000 / 60); 
+    }
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
@@ -173,28 +220,35 @@ class PirateBoss {
             ctx.scale(-1, 1);
             ctx.translate(-this.x * 2 - this.width, 0);
         }
-
+    
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
         if (this.facingLeft) {
             ctx.restore();
         }
-
-       // Debug bounding box
-       ctx.strokeStyle = "red";
-       ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-           
-       // Debug attack hitbox
-       if (this.isAttacking) {
-           let attackBB;
-           if (this.attackDirection === "right") {
-               attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
-           } else if (this.attackDirection === "left") {
-               attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
-           } else if (this.attackDirection === "up") {
-               attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
-           }
-           ctx.strokeStyle = "green";
-           ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
-       }
+    
+        // Debug bounding box
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    
+        // Draw big attack indicator
+        if (this.isBigAttacking && this.currentBigAttackCooldown > this.bigAttackCooldown - this.bigAttackIndicatorDuration) {
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+            ctx.fillRect(this.x - 1000, this.y, 1000, 200); // Left side
+            ctx.fillRect(this.x + this.width, this.y, 1000, 200); // Right side
+        }
+    
+        // Debug attack hitbox
+        if (this.isAttacking) {
+            let attackBB;
+            if (this.attackDirection === "right") {
+                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
+            } else if (this.attackDirection === "left") {
+                attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
+            } else if (this.attackDirection === "up") {
+                attackBB = new BoundingBox(this.x + 10, this.y - 20, 20, 20);
+            }
+            ctx.strokeStyle = "green";
+            ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
+        }
     }
-}
+} 
