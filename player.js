@@ -113,7 +113,7 @@ class Player {
     reset() {
         const currentCoins = this.game.camera.player.coinCount;
         const character = this.game.camera.character;
-        const currentScene = this.getNextLevel();
+        const currentscene = this.currentScene;
         this.game.click = null;
         this.game.mouse = null;
         this.game.wheel = null;
@@ -130,12 +130,13 @@ class Player {
         this.game.dash = false;
         this.game.paused = false;
     
-        this.game.camera = new entitiesmanager(this.game, character, currentScene);
+        this.game.camera = new entitiesmanager(this.game, character, this.getNextLevel(currentscene));
     
         this.game.camera.player.coinCount = currentCoins;
          
         this.game.camera.player.hearts = 5;
         this.game.camera.isDead = false;
+        this.game.camera.player.currentScene = currentscene;
     }
     quit() {
         const ctx = this.game.ctx;
@@ -236,6 +237,9 @@ class Player {
             this.checkObjectives(this.level);
         } else if (this.currentScene === 4) {
             this.level = level1Scene4;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 5) {
+            this.level = bosslevel1;
             this.checkObjectives(this.level);
         } 
     }

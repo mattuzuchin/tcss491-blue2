@@ -115,21 +115,14 @@ class MainMenu {
         //this.gameEngine.togglePause();
         //actual man menu
         ctx.strokeStyle = "#f54242";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(this.mainMenuButton.x, this.mainMenuButton.y, 
-                     90, 40);
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.mainMenuButton.x, this.mainMenuButton.y, this.mainMenuButton.width, this.mainMenuButton.height);
-        //back button for user          
-        ctx.font = "12px Arial";
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#f54242";
-        ctx.fillText("Back", this.mainMenuButton.x + 90/2, this.mainMenuButton.y + 40/2+4);
+        ctx.lineWidth = 0;
+        //back button for user     
+        let backButtonImage = ASSET_MANAGER.getAsset("./sprites/background/back.png");
+        ctx.drawImage(backButtonImage, 850,10, 100, 40);
+        
         //menu outline
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.mainMenuOutline.x,this.mainMenuOutline.y, this.mainMenuOutline.width, this.mainMenuOutline.height);
-        ctx.fillStyle = "gray";
-        ctx.fillRect(this.mainMenuOutline.x,this.mainMenuOutline.y, this.mainMenuOutline.width, this.mainMenuOutline.height);
+        let menuButtonImage = ASSET_MANAGER.getAsset("./sprites/background/outline.png");
+        ctx.drawImage(menuButtonImage, 850,50, 100, 85);
 
         ctx.font = "10px Arial";
         ctx.textAlign = "top";
@@ -138,8 +131,8 @@ class MainMenu {
 
         //menu items
         ctx.fillStyle = "black";
+        ctx.strokeStyle = "rgba(1, 1, 1, 0)";
         ctx.font = "12px Arial";
-
         // reset
         ctx.fillText(this.resetButton.text, this.resetButton.x + this.resetButton.width / 2, this.resetButton.y + this.resetButton.height/2 + 4);
         ctx.strokeRect(this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height); 
