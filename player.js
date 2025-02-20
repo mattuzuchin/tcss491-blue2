@@ -47,7 +47,13 @@ class Player {
             Warrior: ASSET_MANAGER.getAsset("./sprites/player entities/warriorwalk1.png"),
             MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenattack.png")
         };
-
+        this.highestArtifactPerScene = {
+            1: false,
+            2: false,
+            3: false,
+            4: false,
+            5: false
+        };
         this.sprite = this.assets[this.characterType];
 
         this.animators = {
@@ -213,6 +219,7 @@ class Player {
             }
             if (entity instanceof Artifact && this.BB.collide(entity.BB)) {
                 this.artifactCounts += 1;
+                this.highestArtifactPerScene[this.currentScene] = true;
                 entity.removeFromWorld = true;
                 this.activateMessage("Artifact Found!", entity.x, entity.y);
                 console.log(this.artifactCounts);
@@ -349,8 +356,46 @@ class Player {
         ctx.textAlign = "center";
         ctx.fillText(this.messageText, this.messageX + 15, this.messageY - 10);
     }
+    drawArtifact(ctx) {
+        let image;
+        if (this.currentScene === 1) {
+            if(!this.highestArtifactPerScene[1]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
+            }
+        } else if (this.currentScene === 2) {
+            if(!this.highestArtifactPerScene[2]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+            }
+        } else if (this.currentScene === 3 ) {
+            if(!this.highestArtifactPerScene[3]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+            }else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+            }
+        } else if (this.currentScene === 4) {
+            if(!this.highestArtifactPerScene[4]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
+            }
+        } else if (this.currentScene === 5) {
+            if(!this.highestArtifactPerScene[5]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
+            }
+        } else {
+            image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
+        }
+        ctx.drawImage(image, 30, 100, 65, 65);
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
+        this.drawArtifact(ctx);
         if(this.isMessage && this.durationMessage != 0) {
             this.drawMessage(ctx, this.messageX, this.messageY);
             this.durationMessage--;
@@ -362,7 +407,6 @@ class Player {
             ctx.translate(-this.x * 2 - this.width, 0);
         }
         this.currentAnimator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-
         if (this.facingLeft) {
             ctx.restore();
         }

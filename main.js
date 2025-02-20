@@ -40,6 +40,12 @@ ASSET_MANAGER.queueDownload("./sprites/background/creditsbutton.png");
 ASSET_MANAGER.queueDownload("./sprites/background/howtoplay.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/back.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/outline.png"); 
+ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_20.png"); 
+ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_40.png"); 
+ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_60.png"); 
+ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_80.png"); 
+ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_complete.png"); 
+ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_empty.png"); 
 ASSET_MANAGER.downloadAll(() => {
     const gameEngine = new GameEngine();
     const canvas = document.getElementById("gameWorld");
