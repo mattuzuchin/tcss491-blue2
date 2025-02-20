@@ -29,13 +29,21 @@ class PirateBoss {
         this.currentShootCooldown = 0;
         this.shootRange = 1000;
 
-
         this.miniPirate = 12;
+
+
         this.bigAttackCooldown = 500; 
         this.currentBigAttackCooldown = 0; 
         this.bigAttackDuration = 120; 
         this.isBigAttacking = false; 
         this.bigAttackIndicatorDuration = 60; 
+
+        this.maxCannon = 10;
+        this.cannonSpace = 200;
+        this.cannonAttackCooldown = 400; 
+        this.currentCannonAttackCooldown = 0; 
+        this.isCannonAttacking = false;
+        this.cannonAttackIndicatorDuration = 60;
     }
 
     takeDamage(amount) {
@@ -67,13 +75,9 @@ class PirateBoss {
         if (Math.random() < 0.01 && this.currentBigAttackCooldown <= 0) { 
             this.handleBigAttack();
         }
+        
     }
-        if(!this.isDead) {
-            this.handleMovement();
-            if (this.type === "gun") {
-                this.handleShooting();
-            }
-        }
+
         if(this.pirateTimer > 0) {
             this.pirateTimer--;
         } else if(this.pirateSpawnCount < 10 && this.miniPirate > 0) {
@@ -96,10 +100,38 @@ class PirateBoss {
         }
     
         }
+        if (this.currentCannonAttackCooldown > 0) this.currentCannonAttackCooldown--;
+        
+        if (!this.isDead && Math.random() < 0.008 && this.currentCannonAttackCooldown <= 0) {
+            this.handleCannonAttack();
+        }
         this.handleGravity();
         this.handleCollisions();
         this.updateBoundingBox();
     }
+    handleCannonAttack() {
+        if (!this.isCannonAttacking) {
+            this.isCannonAttacking = true;
+            this.currentCannonAttackCooldown = this.cannonAttackCooldown;
+            setTimeout(() => {
+                this.performCannonAttack();
+            }, this.cannonAttackIndicatorDuration * 1000 / 60);
+        }
+    }
+    performCannonAttack() {
+        let cannonCount = 0;
+        while(cannonCount < this.maxCannon) {
+            let cannonball = new CannonBall(
+                this.game, 
+                 (cannonCount * this.cannonSpace), 
+                0
+            );
+            this.game.addEntity(cannonball);
+            cannonCount++;
+        }
+        this.isCannonAttacking = false;
+    }
+
     handleBigAttack() {
         if (this.currentBigAttackCooldown <= 0 && !this.isBigAttacking) {
             this.isBigAttacking = true;
@@ -112,22 +144,19 @@ class PirateBoss {
     }
     
     performBigAttack() {
-        let attackBBLeft = new BoundingBox(this.x - 1000, this.y, 1000, 200);
-        let attackBBRight = new BoundingBox(this.x + this.width, this.y, 1000, 200);
-    
+        let bigAttackBB = new BoundingBox(0, 568, 3000, 300);
         for (let entity of this.game.entities) {
             if (entity instanceof Player) {
-                if (entity.BB.collide(attackBBLeft) || entity.BB.collide(attackBBRight)) {
+                if (entity.BB.collide(bigAttackBB)) {
                     entity.takeDamage(2); 
                 }
             }
         }
-    
- 
         setTimeout(() => {
             this.isBigAttacking = false;
-        }, this.bigAttackDuration * 1000 / 60); 
+        }, this.bigAttackDuration * 100 / 60); 
     }
+
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
@@ -147,8 +176,7 @@ class PirateBoss {
                 }
             }
         }
-    
-        if (hasGround) {
+        if (hasGround && !this.isBigAttacking) {
             this.x = nextX;
             this.facingLeft = this.direction === -1;
             this.attackDirection = this.facingLeft ? "left" : "right";
@@ -230,14 +258,13 @@ class PirateBoss {
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     
-        // Draw big attack indicator
+        // Draw big attack indicator (keep this)
         if (this.isBigAttacking && this.currentBigAttackCooldown > this.bigAttackCooldown - this.bigAttackIndicatorDuration) {
             ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-            ctx.fillRect(this.x - 1000, this.y, 1000, 200); // Left side
-            ctx.fillRect(this.x + this.width, this.y, 1000, 200); // Right side
+            ctx.fillRect(0, 568, 3000, 300); 
         }
     
-        // Debug attack hitbox
+        // Debug attack hitbox (maybe delete or comment)
         if (this.isAttacking) {
             let attackBB;
             if (this.attackDirection === "right") {
@@ -250,5 +277,60 @@ class PirateBoss {
             ctx.strokeStyle = "green";
             ctx.strokeRect(attackBB.x, attackBB.y, attackBB.width, attackBB.height);
         }
+
+        // Draw cannon ball attack indicator (keep this)
+        if (this.isCannonAttacking && 
+            this.currentCannonAttackCooldown > this.cannonAttackCooldown - this.cannonAttackIndicatorDuration) {
+            
+            ctx.fillStyle = "rgba(255, 100, 0, 0.4)";
+            let cannonCount = 0;
+        
+            while(cannonCount < this.maxCannon) {
+                ctx.fillRect(
+                    (cannonCount * this.cannonSpace) - 25, 
+                    this.y - 100, 
+                    50, 
+                    this.game.ctx.canvas.height
+                );
+                cannonCount++;
+            }
+        }
+    }
+}
+class CannonBall {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
+        this.velocity = 8;
+        this.width = 24;
+        this.height = 24;
+        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.damage = 2;
+        this.animator = new Animator(this.spritesheet, 0, 0, 24, 24, 1, 0.1);
+    }
+
+    update() {
+        this.y += this.velocity;
+        this.BB.y = this.y;
+        
+ 
+        for (let entity of this.game.entities) {
+            if (entity instanceof Player && this.BB.collide(entity.BB)) {
+                entity.takeDamage(this.damage);
+                this.removeFromWorld = true;
+            }
+        }
+        
+
+        if (this.y > this.game.ctx.canvas.height) {
+            this.removeFromWorld = true;
+        }
+    }
+
+    draw(ctx) {
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        // debug hitbox
+        ctx.strokeStyle = "orange";
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     }
 } 
