@@ -268,7 +268,7 @@ class PirateBoss {
         if (this.isAttacking) {
             let attackBB;
             if (this.attackDirection === "right") {
-                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 20, 20);
+                attackBB = new BoundingBox(this.x + this.width, 0, 20, 20);
             } else if (this.attackDirection === "left") {
                 attackBB = new BoundingBox(this.x - 20, this.y + 10, 20, 20);
             } else if (this.attackDirection === "up") {
@@ -288,7 +288,7 @@ class PirateBoss {
             while(cannonCount < this.maxCannon) {
                 ctx.fillRect(
                     (cannonCount * this.cannonSpace) - 25, 
-                    this.y - 100, 
+                    0, 
                     50, 
                     this.game.ctx.canvas.height
                 );
