@@ -32,7 +32,7 @@ class GhostPirate {
         this.isDead = false;
         this.shootCooldown = 300;
         this.currentShootCooldown = 0;
-        this.shootRange = 100;
+        this.shootRange = 1000;
 
     }
 

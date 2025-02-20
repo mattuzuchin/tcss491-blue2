@@ -34,6 +34,7 @@ ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirateBossenter.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirateBossIdle.png");
 ASSET_MANAGER.queueDownload("./sprites/background/death.png"); //448 x 444
 ASSET_MANAGER.queueDownload("./sprites/projectiles/arrow.png");
+ASSET_MANAGER.queueDownload("./sprites/projectiles/cannonball.png");
 ASSET_MANAGER.queueDownload("./sprites/background/title.png"); 
 ASSET_MANAGER.queueDownload("./sprites/player entities/marksmenattack.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/creditsbutton.png"); 

@@ -300,7 +300,7 @@ class PirateBoss {
 class CannonBall {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/projectiles/cannonball.png");
         this.velocity = 8;
         this.width = 24;
         this.height = 24;

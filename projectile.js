@@ -4,7 +4,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 1400;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
@@ -45,7 +45,7 @@ class Projectile {
                 }
                 this.removeFromWorld = true;
             }
-            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox) && this.player) {
+            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox)) {
                 this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
             }
             if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {

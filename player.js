@@ -9,7 +9,7 @@ class Player {
         this.isDead = false;
         this.width = 40;
         this.height = 40;
-        this.speed = 3;
+        this.speed = 2;
         this.jump = -10;
         this.gravity = 0.5;
         this.velocity = 0;
@@ -191,9 +191,9 @@ class Player {
             }
         }
         if (this.game.speedup) {
-            this.speed = 6;
+            this.speed = 4;
         } else {
-            this.speed = 3;
+            this.speed = 2;
         }
     }
 
