@@ -282,7 +282,7 @@ class PirateBoss {
         if (this.isCannonAttacking && 
             this.currentCannonAttackCooldown > this.cannonAttackCooldown - this.cannonAttackIndicatorDuration) {
             
-            ctx.fillStyle = "rgba(255, 100, 0, 0.4)";
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
             let cannonCount = 0;
         
             while(cannonCount < this.maxCannon) {
