@@ -86,7 +86,7 @@ var level1Scene2 = {
         { x: 550, y: 321, type: "sword"},
         { x: 920, y: 350 , type: "sword"}],
     pirate: [],
-    boss: [{}],
+    boss: [],
     grass_m: [
         //grassblockmiddle, left, and right are 45x45
         { x: 0, y: 700, width: 45, height: 45 }, 
@@ -170,7 +170,7 @@ var level1Scene3 = {
         {x: 310, y: 55, type: "sword"},
          {x: 90, y: 155, type: "sword"}, 
          {x: 135, y: 555, type: "sword"} ],
-    boss: [{}],
+    boss: [],
     grass_m: [
         { x: 45, y: 700, width: 45, height: 45 }, 
         { x: 90, y: 700, width: 45, height: 45 }, 
@@ -265,7 +265,7 @@ var level1Scene4 = {
          { x: 540, y: 600 , type: "sword"},
           { x: 295, y: 300 , type: "sword"},
            { x: 475, y: 150, type: "sword"}],
-    boss: [{}],
+    boss: [],
     grass_m: [
         //grassblockmiddle, left, and right are 45x45
 
