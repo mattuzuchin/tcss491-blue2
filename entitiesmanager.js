@@ -90,6 +90,7 @@ class entitiesmanager {
         if(level.chests) {
             for (let i = 0; i < level.chests.length; i++) {
                 let platform = level.chests[i];
+                console.log("I'm a chest created on " + level );
                 this.game.addEntity(new Chest(this.game, platform.x, platform.y));
           
             }
@@ -113,6 +114,7 @@ class entitiesmanager {
         if(level.boss) {
             for (let i = 0; i < level.boss.length; i++) {
                 let coin = level.boss[i];
+                console.log("I'm created?? on " + level );
                 this.game.addEntity(new PirateBoss(this.game, coin.x, coin.y));
 
             }
