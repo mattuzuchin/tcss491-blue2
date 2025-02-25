@@ -159,20 +159,8 @@ class MainMenu {
     
     draw(ctx) {
         if (!this.showMenu) {
-
-            ctx.strokeStyle = "#f54242";
-            ctx.lineWidth = 1;
-            ctx.strokeRect(this.mainMenuButton.x, this.mainMenuButton.y, 
-                this.mainMenuButton.width, this.mainMenuButton.height);
-            ctx.fillStyle = "black";
-            ctx.fillRect(this.mainMenuButton.x, this.mainMenuButton.y, 
-                this.mainMenuButton.width, this.mainMenuButton.height);             
-            ctx.font = "12px Arial";
-            ctx.textAlign = "center";
-            ctx.fillStyle = "#f54242";
-            ctx.fillText(this.mainMenuButton.text, 
-                       this.mainMenuButton.x + this.mainMenuButton.width/2, 
-                       this.mainMenuButton.y + this.mainMenuButton.height/2+4);
+            let mainButtonImage = ASSET_MANAGER.getAsset("./sprites/background/mainmenubutton.png");
+            ctx.drawImage(mainButtonImage, this.mainMenuButton.x,this.mainMenuButton.y, 100, 40);
         } else if (this.showMenu) {
             this.drawMainMenu(ctx);
         }

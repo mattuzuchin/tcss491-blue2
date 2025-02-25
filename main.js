@@ -40,6 +40,7 @@ ASSET_MANAGER.queueDownload("./sprites/player entities/marksmenattack.png");
 ASSET_MANAGER.queueDownload("./sprites/background/creditsbutton.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/howtoplay.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/back.png"); 
+ASSET_MANAGER.queueDownload("./sprites/background/mainmenubutton.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/outline.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_20.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_40.png"); 
