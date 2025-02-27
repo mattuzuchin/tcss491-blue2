@@ -72,6 +72,7 @@ var level1Scene1  = {
     ],
     artifacts: [{x: 795, y: 700}],
     coins: [{x: 635, y: 315}],
+    potions:[{x: 650, y: 315}],
 };
 
 level1Scene1.objectives = [

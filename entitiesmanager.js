@@ -10,8 +10,10 @@ class entitiesmanager {
         this.isDead = false;
         if(this.character === "marksman") {
             this.player = new Marksman(this.game, this.startingPointX, this.startingPointY, this);
-        } else {
+        } else if(this.character === "warrior") {
             this.player = new Warrior(this.game, this.startingPointX, this.startingPointY, this);
+        } else{
+            this.player = new Mage(this.game, this.startingPointX, this.startingPointY, this);
         }
 
         this.loadLevel(this.levelS);
@@ -108,6 +110,13 @@ class entitiesmanager {
             for (let i = 0; i < level.coins.length; i++) {
                 let coin = level.coins[i];
                 this.game.addEntity(new Coins(this.game, coin.x, coin.y));
+
+            }
+        }
+        if(level.potions) {
+            for (let i = 0; i < level.potions.length; i++) {
+                let potion = level.potions[i];
+                this.game.addEntity(new Potion(this.game, potion.x, potion.y));
 
             }
         }

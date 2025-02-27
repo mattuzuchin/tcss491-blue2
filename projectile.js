@@ -74,3 +74,68 @@ class Projectile {
         }
     }
 }
+
+class MagicBall extends Projectile {
+    constructor(game, x, y, direction, player) {
+        super(game, x, y, direction, player);
+        this.speed = 8;
+        this.damage = 200;
+        this.width = 20;
+        this.height = 20;
+        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/arrow.png"); //TODO: fireball
+    }
+}
+
+class LaserBeam {
+    constructor(game, x, y, direction, player) {
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
+        this.player = player;
+        this.damage = 1000;
+        this.duration = 30;
+        this.width = 1000;
+        this.height = 10;
+        this.BB = new BoundingBox(this.x,this.y + this.height, this.width, this.height);
+        if (this.direction === "left") {
+            this.x -= 1000;
+        } 
+        //TODO: sprite laser
+    }
+
+    update() {
+        if (--this.duration <= 0) this.removeFromWorld = true;
+        for (let entity of this.game.entities) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
+                console.log("laser beam touch something");
+                if(this.player.power && this.player.powerUpDuration > 0) {
+                    this.player.powerUpDuration -= 1;
+                    entity.takeDamage(this.damage * 3);
+                } else {
+                    this.player.power = false;
+                    this.player.powerUpDuration = 5;
+                    entity.takeDamage(this.damage);
+                }
+                this.player.activateMessage("-1", entity.x, entity.y);
+                if(entity.isDead) {
+                    if(entity instanceof PirateBoss) {
+                        this.player.bosslevel1Defeat++;
+                        entity.removeFromWorld = true;
+                    } else {
+                        this.player.totalKills++;
+                        entity.removeFromWorld = true;
+                    }
+                }
+                this.removeFromWorld = true;
+            }
+
+        }
+
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(this.x,this.y + this.height, this.width, this.height);
+    }
+}

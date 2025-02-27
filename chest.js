@@ -26,25 +26,43 @@ class Chest {
         this.updateBoundingBox();
     }
 
+    // openChest() {
+    //     //implement logic here to give user stuff
+    //     if(!this.open && !this.stayOpen) {
+    //         let randomNum= Math.floor(Math.random() * 10);
+    //         if(randomNum === 6) { // 10% chance to get a powerboost
+    //             this.isPower = true;
+    //         } else {
+    //             this.isPower = false;
+    //         }
+    //         for(let i = 0; i < randomNum; i++) {
+    //             let coin = new Coins(this.game, this.x, this.y);
+    //             this.game.addEntity(coin);
+    //         }
+    //     }
+    //     this.open = true;
+        
+    //     return this.isPower;
+    // }
     openChest() {
         //implement logic here to give user stuff
         if(!this.open && !this.stayOpen) {
-            let randomNum= Math.floor(Math.random() * 10);
-            if(randomNum === 6) { // 10% chance to get a powerboost
-                this.isPower = true;
-            } else {
-                this.isPower = false;
-            }
+            let randomNum = Math.floor(Math.random() * 10);
+            this.isPower = randomNum === 6; // 10% chance to get a powerboost
+            
+            // Spawn coins
             for(let i = 0; i < randomNum; i++) {
-                let coin = new Coins(this.game, this.x, this.y);
-                this.game.addEntity(coin);
+                this.game.addEntity(new Coins(this.game, this.x, this.y));
+            }
+            
+            // 30% chance to spawn a potion
+            if(Math.random() < 0.3) {
+                this.game.addEntity(new Potion(this.game, this.x, this.y));
             }
         }
         this.open = true;
-        
         return this.isPower;
     }
-
     keepOpen() {
         this.stayOpen = true;
         this.open = false;

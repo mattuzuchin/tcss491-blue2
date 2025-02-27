@@ -102,6 +102,7 @@ class Player {
         this.handleGravity();
         this.handleCollisions();
         this.handleAttack();
+        this.handleSpecialAttack();
         this.handleDash();
         this.updateBoundingBox();
         this.checkComplete();
@@ -227,7 +228,14 @@ class Player {
             if (entity instanceof Coins && this.BB.collide(entity.BB)) {
                 this.coinCount += 1;
                 entity.removeFromWorld = true;
-                this.activateMessage("+1", this.x, this.y);
+                this.activateMessage("+1 Coin", this.x, this.y);
+            }
+            if (entity instanceof Potion && this.BB.collide(entity.BB)) {
+                if(this.hearts < 5) {
+                    this.hearts = Math.min(this.hearts + 1, 5);
+                    this.activateMessage("+1 Heart", entity.x, entity.y);
+                }
+                entity.removeFromWorld = true;
             }
         }
     }
@@ -427,7 +435,10 @@ class Warrior extends Player {
         this.handleDownwardStrike();
         super.update(); 
     }
-
+    handleSpecialAttack() {
+        //TODO
+        this.hearts = 0;
+    }
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
             this.isAttacking = true;
@@ -534,10 +545,49 @@ class Warrior extends Player {
 
 class Marksman extends Player {
     constructor(game, x, y, emanage) {
-        super(game, x, y, 0, emanage);  // 0 = marksman
-        this.damage = 30; 
+        super(game, x, y, 0, emanage);
+        this.damage = 30;
         this.attackDuration = 10;
+        this.specialAttackCooldown = 0;
+        
+        // Special attack 
+        this.specialArrowsRemaining = 0;
+        this.specialAttackFrameCounter = 0;
+        this.isSpecialAttacking = false;
     }
+
+    handleSpecialAttack() {
+        if (this.game.specialAttack && this.specialAttackCooldown <= 0 && !this.isSpecialAttacking) {
+  
+            this.isSpecialAttacking = true;
+            this.specialArrowsRemaining = 3;
+            this.specialAttackCooldown = 180; 
+            this.game.specialAttack = false;
+        }
+
+        if (this.isSpecialAttacking) {
+            this.specialAttackFrameCounter++;
+            
+            if (this.specialAttackFrameCounter >= 10) {
+                let projectile = new Projectile(
+                    this.game, 
+                    this.x, 
+                    this.y, 
+                    this.attackDirection, 
+                    this
+                );
+                this.game.addEntity(projectile);
+                this.currentAnimator = this.animators[this.characterType].attacking;
+                this.specialArrowsRemaining--;
+                this.specialAttackFrameCounter = 0;
+                
+                if (this.specialArrowsRemaining <= 0) {
+                    this.isSpecialAttacking = false;
+                }
+            }
+        }
+    }
+
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
@@ -551,4 +601,54 @@ class Marksman extends Player {
             this.attackDuration--;
         }
     }
+    update() {
+        super.update();
+        if (this.specialAttackCooldown > 0) this.specialAttackCooldown--;
+    }
 }
+class Mage extends Player {
+    constructor(game, x, y, emanage) {
+        super(game, x, y, 0, emanage); 
+        this.damage = 20;
+        this.specialAttackCooldown = 0;
+    }
+
+    handleAttack() {
+        if (this.game.attack && this.attackCooldown <= 0) {
+            let magicBall = new MagicBall(
+                this.game, 
+                this.x, 
+                this.y, 
+                this.attackDirection, 
+                this
+            );
+            this.game.addEntity(magicBall);
+            this.attackCooldown = 30;
+            this.currentAnimator = this.animators[this.characterType].attacking;
+        }
+        else {
+            this.attackDuration--;
+        }
+    }
+
+    handleSpecialAttack() {
+        if (this.game.specialAttack && this.specialAttackCooldown <= 0) {
+            let laser = new LaserBeam(
+                this.game, 
+                this.x, 
+                this.y, 
+                this.attackDirection, 
+                this
+            );
+            this.game.addEntity(laser);
+            this.specialAttackCooldown = 200; 
+            this.game.specialAttack = false;
+        }
+    }
+
+    update() {
+        super.update();
+        if (this.specialAttackCooldown > 0) this.specialAttackCooldown--;
+    }
+}
+
