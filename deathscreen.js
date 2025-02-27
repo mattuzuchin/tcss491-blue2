@@ -3,6 +3,7 @@ class DeathScreen {
         Object.assign(this, {game, player});
         this.death = ASSET_MANAGER.getAsset("./sprites/background/death.png");
         this.quit = ASSET_MANAGER.getAsset("./sprites/background/quit.png");
+        this.resetB = ASSET_MANAGER.getAsset("./sprites/background/resetbutton.png");
         this.quitButton = {
             x: 350,
             y: 650,
@@ -17,8 +18,6 @@ class DeathScreen {
             height: 18,
             text: "Reset"
         };
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/background/resetbutton.png");
-        this.animator = new Animator(this.spritesheet, 0, 0, 100, 18, 3, 1); 
     }
 
     handleClick() {
@@ -57,7 +56,7 @@ class DeathScreen {
 
     draw(ctx) {
         ctx.font = "30px 'Press Start 2P', sans-serif"; 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "gold";
         ctx.fillText("GAME OVER - YOU DIED!", 500, 100);
         ctx.drawImage(this.death, 300, 200, 400, 400);
 
@@ -73,6 +72,6 @@ class DeathScreen {
         ctx.fillText(this.quitButton.text, this.quitButton.x + this.quitButton.width / 2, this.quitButton.y + this.quitButton.height / 2 + 4);
 
         ctx.drawImage(this.quit, this.quitButton.x, this.quitButton.y, this.quitButton.width, this.quitButton.height);
-        this.animator.drawFrame(this.game.clockTick, ctx, this.resetButton.x, this.resetButton.y);
+        ctx.drawImage(this.resetB, this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height);
     }
 }
