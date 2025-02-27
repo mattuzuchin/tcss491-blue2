@@ -33,7 +33,7 @@ class Projectile {
                     this.player.powerUpDuration = 5;
                     entity.takeDamage(this.damage);
                 }
-                this.player.activateMessage("-1", entity.x, entity.y);
+                this.player.activateMessage(this.damage, entity.x, entity.y);
                 if(entity.isDead) {
                     if(entity instanceof PirateBoss) {
                         this.player.bosslevel1Defeat++;
