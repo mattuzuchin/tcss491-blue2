@@ -42,6 +42,8 @@ ASSET_MANAGER.queueDownload("./sprites/background/howtoplay.png");
 ASSET_MANAGER.queueDownload("./sprites/background/back.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/mainmenubutton.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/outline.png"); 
+ASSET_MANAGER.queueDownload("./sprites/background/quit.png"); 
+ASSET_MANAGER.queueDownload("./sprites/background/resetbutton.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_20.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_40.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_60.png"); 
