@@ -437,7 +437,10 @@ class Warrior extends Player {
     }
     handleSpecialAttack() {
         //TODO
-        this.hearts = 0;
+        if(this.game.specialAttack ) {
+            this.hearts = 0.5;
+        }
+        
     }
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {

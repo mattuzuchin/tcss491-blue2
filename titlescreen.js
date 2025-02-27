@@ -8,7 +8,7 @@ class TitleScreen {
         this.characters = [
             { name: "Marksman", sprite: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png") },
             { name: "Warrior", sprite: ASSET_MANAGER.getAsset("./sprites/player entities/warriortemp.png") },
-            // { name: "Mage", sprite: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png") }
+            { name: "Mage", sprite: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png") }
         ];
         
         this.selectedCharacter = null;
