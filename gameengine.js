@@ -28,6 +28,7 @@ class GameEngine {
         this.speedup = false;
         this.speed = true;
         this.dash = false;
+        this.specialAttack = false;
         this.paused = false;
     };
     togglePause() {
@@ -75,6 +76,9 @@ class GameEngine {
                 case "KeyD":
                     that.attack = true;
                     break;
+                case "KeyF":
+                    that.specialAttack = true;
+                    break;
                 case "KeyS":
                     that.dash = true;
                     break;
@@ -105,6 +109,9 @@ class GameEngine {
                     break;
                 case "KeyD":
                     that.attack = false;
+                    break;
+                case "KeyF":
+                    that.specialAttack = false;
                     break;
                 case "KeyS":
                     that.dash = false;
