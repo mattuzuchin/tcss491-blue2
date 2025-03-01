@@ -80,7 +80,37 @@ class entitiesmanager {
                 this.game.addEntity(new Platform(grass.x, grass.y, grass.width, grass.height,7));
             }
         }
+        // Sand floor blocks (8)
+        if (level.sand_floor) {
+            for (let i = 0; i < level.sand_floor.length; i++) {
+                let sand = level.sand_floor[i];
+                this.game.addEntity(new Platform(sand.x, sand.y, sand.width, sand.height, 8));
+            }
+        }
 
+        // Sand middle blocks (9)
+        if (level.sand_m) {
+            for (let i = 0; i < level.sand_m.length; i++) {
+                let sand = level.sand_m[i];
+                this.game.addEntity(new Platform(sand.x, sand.y, sand.width, sand.height, 9));
+            }
+        }
+
+        // Sand right blocks (10)
+        if (level.sand_r) {
+            for (let i = 0; i < level.sand_r.length; i++) {
+                let sand = level.sand_r[i];
+                this.game.addEntity(new Platform(sand.x, sand.y, sand.width, sand.height, 10));
+            }
+        }
+
+        // Sand left blocks (11)
+        if (level.sand_l) {
+            for (let i = 0; i < level.sand_l.length; i++) {
+                let sand = level.sand_l[i];
+                this.game.addEntity(new Platform(sand.x, sand.y, sand.width, sand.height, 11));
+            }
+        }
         //crates
         if(level.crates) {
             for (let i = 0; i < level.crates.length; i++) {
@@ -122,9 +152,17 @@ class entitiesmanager {
         }
         if(level.boss) {
             for (let i = 0; i < level.boss.length; i++) {
-                let coin = level.boss[i];
+                let bossl = level.boss[i];
                 console.log("I'm created?? on " + level );
-                this.game.addEntity(new PirateBoss(this.game, coin.x, coin.y));
+                this.game.addEntity(new PirateBoss(this.game, bossl.x, bossl.y));
+
+            }
+        }
+        if(level.shop) {
+            for (let i = 0; i < level.shop.length; i++) {
+                let shops = level.shop[i];
+                console.log("I'm created?? on " + level );
+                this.game.addEntity(new Shop(this.game, this.player, shops.x, shops.y));
 
             }
         }
@@ -146,6 +184,10 @@ class entitiesmanager {
             ctx.fillText("Hearts: ", 125, 50);
             ctx.fillStyle = "Gold";
             ctx.fillText("Coins: " + this.player.coinCount, 600, 50);
+            ctx.fillStyle = "#EE4B2B";
+            ctx.font = "bold 12px 'Press Start 2P', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("Current Level: " + this.player.getLevelName(), 150, 75);
         }
         this.heartanimation = ASSET_MANAGER.getAsset("./sprites/player entities/heart.png");
         this.halfheart = ASSET_MANAGER.getAsset("./sprites/player entities/halfheart.png");

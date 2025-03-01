@@ -305,6 +305,8 @@ class Player {
 
     getNextLevel() {
         switch (this.currentScene) {
+            case 6:
+                return level2Scene1;
             case 5:
                 return bosslevel1;
             case 4:
@@ -317,7 +319,22 @@ class Player {
                 return level1Scene1;
         }
     }
-
+    getLevelName() {
+        switch (this.currentScene) {
+            case 6:
+                return "2 Scene 1";
+            case 5:
+                return "1 BOSS";
+            case 4:
+                return "1 Scene 4";
+            case 3:
+                return "1 Scene 3";
+            case 2:
+                return "1 Scene 2";
+            default:
+                return "1 Scene 1";
+        }
+    }
     handleDash() {
         if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing && this.isOnGround) {
             this.isDashing = true;
@@ -349,18 +366,20 @@ class Player {
         this.BB.y = this.y;
     }
     drawMessage(ctx) {
-        if(this.messageText === "+1") {
+        if(this.messageText === "+1 Coin") {
             ctx.fillStyle = "gold";
         } else if (this.messageText === "-1") {
             ctx.fillStyle = "orange";
+        } else if (this.messageText == "+1 Heart") {
+            ctx.fillStyle = "red";
         } else if (this.messageText === "Artifact Found!") {
             ctx.fillStyle = "green";
         } else if (this.messageText === "PowerUp!") {
             ctx.fillStyle = "white";
         } else {
-            ctx.fillStyle = "gold";
+            ctx.fillStyle = "#EE4B2B";
         }
-        ctx.font = "15px Arial";
+        ctx.font = "bold 9px 'Press Start 2P', sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(this.messageText, this.messageX + 15, this.messageY - 10);
     }

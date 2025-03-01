@@ -16,6 +16,14 @@ class Platform {
             this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassrightplat.png"); 
         }else if (number == 7) {
             this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/grassleftplat.png"); 
+        } else if (number == 8) {
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/sandFloor.png");
+        } else if (number == 9) {
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/sandMiddlePlatform.png");
+        } else if (number == 10) {
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/sandRightPlatform.png");
+        } else if (number == 11) {
+            this.image = ASSET_MANAGER.getAsset("./sprites/platforms+ground/sandLeftPlatform.png");
         }
     }
     draw(ctx) {

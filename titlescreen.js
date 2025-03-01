@@ -117,21 +117,21 @@ class TitleScreen {
         ctx.font = "36px Arial";
         ctx.fillText("HOW TO PLAY", ctx.canvas.width / 2, 100);
         
-        ctx.font = "24px Arial";
+        ctx.font = "15px Arial";
         ctx.fillText("Objectives", ctx.canvas.width / 2, 180);
-        ctx.font = "20px Arial";
-        ctx.fillText("There are multiple scenes per level. With a total of 4 levels to complete. Each level will have a boss at the end.", ctx.canvas.width / 2, 220);
-        ctx.fillText("In each scene, there is an artifact you must collect. The final artifact for that level will be when you beat the boss", ctx.canvas.width / 2, 250);
-        ctx.fillText("You must kill all entities, collect all chests, and get the artifact in order to advance to the next scene.", ctx.canvas.width / 2, 280);
-
-        ctx.font = "24px Arial";
-        ctx.fillText("Extras", ctx.canvas.width / 2, 340);
-        ctx.font = "20px Arial";
-        ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, etc.).", ctx.canvas.width / 2, 370);
+        ctx.font = "11px Arial";
+        ctx.fillText("There are multiple scenes per level. With a total of 4 levels to complete. Each level will have a boss at the end. In each scene, there is an artifact you must collect.", ctx.canvas.width / 2, 220);
+        ctx.fillText("The final artifact for that level will be when you beat the boss. You must kill all entities, collect all chests, and get the artifact in order to advance to the next scene.", ctx.canvas.width / 2, 250);
+        ctx.fillText("Chests can spawn a powerup, allowing you to KILL 5 ENEMIES. Regular damage resumes after. There are extra potions around the map [tbd]", ctx.canvas.width / 2, 280);
+        ctx.fillText("It takes 3 hits to kill special enemies (ghost pirate), and 2 for regular enemies (pirate)", ctx.canvas.width / 2, 310);
+        ctx.font = "15px Arial";
+        ctx.fillText("Extras", ctx.canvas.width / 2, 350);
+        ctx.font = "11px Arial";
+        ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, and double coins). The shop will spawn every other level and boss levels.", ctx.canvas.width / 2, 380);
         
-        ctx.font = "24px Arial";
+        ctx.font = "15px Arial";
         ctx.fillText("Controls", ctx.canvas.width / 2, 430);
-        ctx.font = "20px Arial";
+        ctx.font = "11px Arial";
         ctx.fillText("Movement is with arrow keys (L-R-U-D). S = dash, D = attack, SpaceBar = Jump, and Shift = sprint", ctx.canvas.width / 2, 460);
     }
     drawCreditsScreen(ctx) {

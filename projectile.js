@@ -4,7 +4,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 4200;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
@@ -33,7 +33,7 @@ class Projectile {
                     this.player.powerUpDuration = 5;
                     entity.takeDamage(this.damage);
                 }
-                this.player.activateMessage(this.damage, entity.x, entity.y);
+                this.player.activateMessage("-1", entity.x, entity.y);
                 if(entity.isDead) {
                     if(entity instanceof PirateBoss) {
                         this.player.bosslevel1Defeat++;

@@ -22,10 +22,16 @@ ASSET_MANAGER.queueDownload("./sprites/platforms+ground/grassright.png");
 ASSET_MANAGER.queueDownload("./sprites/platforms+ground/grassblockmiddleplat.png");
 ASSET_MANAGER.queueDownload("./sprites/platforms+ground/grassleftplat.png");
 ASSET_MANAGER.queueDownload("./sprites/platforms+ground/grassrightplat.png");
+//40 x40
+ASSET_MANAGER.queueDownload("./sprites/platforms+ground/sandFloor.png");
+ASSET_MANAGER.queueDownload("./sprites/platforms+ground/sandLeftPlatform.png");
+ASSET_MANAGER.queueDownload("./sprites/platforms+ground/sandMiddlePlatform.png");
+ASSET_MANAGER.queueDownload("./sprites/platforms+ground/sandRightPlatform.png");
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/coin.png");
 ASSET_MANAGER.queueDownload("./sprites/platforms+ground/crate.png");
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/treasureChest.png");
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/treasureChestOpen.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/strong.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/ghostpirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/bullet.png");
@@ -50,6 +56,7 @@ ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_60.png");
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_80.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_complete.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_empty.png"); 
+ASSET_MANAGER.queueDownload("./sprites/background/explosion.png")
 ASSET_MANAGER.downloadAll(() => {
     const gameEngine = new GameEngine();
     const canvas = document.getElementById("gameWorld");
