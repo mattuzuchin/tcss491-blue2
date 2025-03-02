@@ -163,7 +163,7 @@ class TitleScreen {
         ctx.font = "24px 'Press Start 2P', sans-serif";
         ctx.fillText("Music", ctx.canvas.width / 2, 390);
         ctx.font = "20px Arial";
-        ctx.fillText("tbd", ctx.canvas.width / 2, 420);
+        ctx.fillText("BOSSFIGHT", ctx.canvas.width / 2, 420);
     }
 
     draw(ctx) {
