@@ -57,6 +57,7 @@ ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_80.png");
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_complete.png"); 
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_empty.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/explosion.png")
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/shop.png");
 ASSET_MANAGER.downloadAll(() => {
     const gameEngine = new GameEngine();
     const canvas = document.getElementById("gameWorld");

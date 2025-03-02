@@ -8,7 +8,8 @@ class Shop {
         this.powerBoostImage = ASSET_MANAGER.getAsset("./sprites/interactive entities/strong.png");
         this.extraLifeImage = ASSET_MANAGER.getAsset("./sprites/player entities/heart.png");
         this.doubleCoinsImage = ASSET_MANAGER.getAsset("./sprites/interactive entities/coin.png");
-        
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/interactive entities/shop.png");
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 0.5);
         this.items = [
             { name: "Power Boost", cost: 50, image: this.powerBoostImage },
             { name: "Extra Life", cost: 25, image: this.extraLifeImage },
@@ -41,8 +42,12 @@ class Shop {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "gold";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        ctx.imageSmoothingEnabled = false;
+        this.animator.drawFrame(this.gameEngine.clockTick, ctx, this.x, this.y);
+        
+        // ctx.fillStyle = "gold";
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
         if (this.playerInRange) {
             this.items.forEach((item, index) => {
                 const itemX = this.x -30 + (index * 50);
