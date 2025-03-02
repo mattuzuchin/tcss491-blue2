@@ -14,7 +14,10 @@ class GameEngine {
         this.mouse = null;
         this.wheel = null;
         this.keys = {};
-
+        this.backgroundMusic = new Audio("./audio/mazeofmayointro.mp3");
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.2;
+        this.backgroundMusic.play();
         // Options and the Details
         this.options = options || {
             debugging: false,
@@ -123,6 +126,8 @@ class GameEngine {
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
+
+        this.ctx.canvas.addEventListener("click", () => this.startMusic(), { once: true });
         
         this.ctx.canvas.addEventListener("mousemove", e => {
             if (this.options.debugging) {
@@ -163,6 +168,12 @@ class GameEngine {
     addEntity(entity) {
         this.entities.push(entity);
     };
+
+    startMusic() {
+        if (this.backgroundMusic.paused) {
+            this.backgroundMusic.play();
+        }
+    }
 
     draw() {
         

@@ -29,6 +29,8 @@ class TitleScreen {
             width: 100,
             height: 40
         };
+
+        
     }
 
     handleClick(click) {
@@ -83,8 +85,9 @@ class TitleScreen {
             });
         }
     }
-
     startNewGame() {
+        this.gameEngine.backgroundMusic.pause();
+        this.gameEngine.backgroundMusic.currentTime = 0;
         this.gameEngine.entities = [];
         new entitiesmanager(this.gameEngine, this.selectedCharacter, level1Scene1);
     }
@@ -105,31 +108,28 @@ class TitleScreen {
         ctx.lineWidth = 2;
         ctx.strokeRect(20, 20, 100, 40);
         ctx.fillStyle = "#FFFFFF";
-        ctx.font = "24px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("Back", 70, 47); 
 
         let backButtonImage = ASSET_MANAGER.getAsset("./sprites/background/back.png");
         ctx.drawImage(backButtonImage, 20,20, this.howButton.width, this.howButton.height);
 
         ctx.strokeStyle = "#FFFFFF";
         ctx.lineWidth = 2;
-        ctx.font = "36px Arial";
+        ctx.font = "36px 'Press Start 2P', sans-serif";
         ctx.fillText("HOW TO PLAY", ctx.canvas.width / 2, 100);
         
-        ctx.font = "15px Arial";
+        ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Objectives", ctx.canvas.width / 2, 180);
         ctx.font = "11px Arial";
         ctx.fillText("There are multiple scenes per level. With a total of 4 levels to complete. Each level will have a boss at the end. In each scene, there is an artifact you must collect.", ctx.canvas.width / 2, 220);
         ctx.fillText("The final artifact for that level will be when you beat the boss. You must kill all entities, collect all chests, and get the artifact in order to advance to the next scene.", ctx.canvas.width / 2, 250);
         ctx.fillText("Chests can spawn a powerup, allowing you to KILL 5 ENEMIES. Regular damage resumes after. There are extra potions around the map [tbd]", ctx.canvas.width / 2, 280);
         ctx.fillText("It takes 3 hits to kill special enemies (ghost pirate), and 2 for regular enemies (pirate)", ctx.canvas.width / 2, 310);
-        ctx.font = "15px Arial";
+        ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Extras", ctx.canvas.width / 2, 350);
         ctx.font = "11px Arial";
         ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, and double coins). The shop will spawn every other level and boss levels.", ctx.canvas.width / 2, 380);
         
-        ctx.font = "15px Arial";
+        ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Controls", ctx.canvas.width / 2, 430);
         ctx.font = "11px Arial";
         ctx.fillText("Movement is with arrow keys (L-R-U-D). S = dash, D = attack, SpaceBar = Jump, and Shift = sprint", ctx.canvas.width / 2, 460);
@@ -143,27 +143,25 @@ class TitleScreen {
         ctx.lineWidth = 2;
         ctx.strokeRect(20, 20, 100, 40);
         ctx.fillStyle = "#FFFFFF";
-        ctx.font = "24px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("Back", 70, 47); 
 
         let backButtonImage = ASSET_MANAGER.getAsset("./sprites/background/back.png");
         ctx.drawImage(backButtonImage, 20,20, this.howButton.width, this.howButton.height);
         
-        ctx.font = "36px Arial";
+        ctx.font = "36px 'Press Start 2P', sans-serif";
         ctx.fillText("Credits", ctx.canvas.width / 2, 100);
         
-        ctx.font = "24px Arial";
+        ctx.font = "24px 'Press Start 2P', sans-serif";
         ctx.fillText("Game Development Team", ctx.canvas.width / 2, 180);
         ctx.font = "20px Arial";
         ctx.fillText("Matthew, Liam, Anthony, and Minh", ctx.canvas.width / 2, 220);
         
-        ctx.font = "24px Arial";
+        ctx.font = "24px 'Press Start 2P', sans-serif";
         ctx.fillText("Artwork", ctx.canvas.width / 2, 280);
         ctx.font = "20px Arial";
         ctx.fillText("Matthew, Liam, Anthony, and Minh.", ctx.canvas.width / 2, 320);
         ctx.fillText("Also courtesy of Jemastock for the Death Image and PixilArt (Robonkey, CodeMaster111) for the Menu Buttons", ctx.canvas.width / 2, 350);
-        ctx.fillText("Music", ctx.canvas.width / 2, 380);
+        ctx.font = "24px 'Press Start 2P', sans-serif";
+        ctx.fillText("Music", ctx.canvas.width / 2, 390);
         ctx.font = "20px Arial";
         ctx.fillText("tbd", ctx.canvas.width / 2, 420);
     }
@@ -179,7 +177,7 @@ class TitleScreen {
                 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     
                 ctx.fillStyle = "#FFFFFF";
-                ctx.font = "48px Arial";
+                ctx.font = "35px 'Press Start 2P', sans-serif";
                 ctx.textAlign = "center";
                 ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/background/title.png"), ctx.canvas.width / 5, this.titleY - 100, 600, 400);
                 ctx.fillText("Select Your Character", ctx.canvas.width / 2, this.titleY + 350);
@@ -198,7 +196,7 @@ class TitleScreen {
                         this.characterBoxSize / 2,
                         this.characterBoxSize / 2);
     
-                    ctx.font = "24px Arial";
+                    ctx.font = "12px 'Press Start 2P', sans-serif";
                     ctx.fillStyle = "#FFFFFF";
                     ctx.fillText(char.name, boxX, boxY + this.characterBoxSize + 30);
                 });
