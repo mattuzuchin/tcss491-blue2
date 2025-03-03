@@ -21,10 +21,10 @@ class Shop {
         let bought = false;
         if (this.player.coinCount >= item.cost) {
             this.player.coinCount -= item.cost;
+            this.player.activateMessage("Purchased!", this.player.x, this.player.y);
             bought = true;
-            console.log("item has been purchased");
         } else {
-            console.log("no sufficent coin count");
+            this.player.activateMessage("You are too poor!", this.player.x, this.player.y);
         }
         return bought;
     }
@@ -92,7 +92,7 @@ class Shop {
                 
                 let result = null;
                 if (this.player.hearts >= 4.5 && item.name === "Extra Life") {
-                    console.log("Cannot purchase item with 4.5 hearts or more!");
+                    this.player.activateMessage("Enough coins, but too many hearts!", this.player.x, this.player.y);
                 } else {
                     result = this.purchaseItem(item);
                 }
