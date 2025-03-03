@@ -5,17 +5,17 @@ class DeathScreen {
         this.quit = ASSET_MANAGER.getAsset("./sprites/background/quit.png");
         this.resetB = ASSET_MANAGER.getAsset("./sprites/background/resetbutton.png");
         this.quitButton = {
-            x: 350,
+            x: 275,
             y: 650,
-            width: 100,
-            height: 18,
+            width: 200,
+            height: 36,
             text: "Quit"
         };
         this.resetButton = {
-            x: 550,
+            x: 525,
             y: 650, 
-            width: 100,
-            height: 18,
+            width: 200,
+            height: 36,
             text: "Reset"
         };
     }
