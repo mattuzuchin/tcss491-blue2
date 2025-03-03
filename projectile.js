@@ -45,15 +45,17 @@ class Projectile {
                 }
                 this.removeFromWorld = true;
             }
-            if ((entity instanceof Platform || entity instanceof Chest) && this.BB.collide(entity.boundingBox)) {
+            if ((entity instanceof Platform) && this.BB.collide(entity.boundingBox)) {
                 this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
             }
             if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
+                if (!entity.stayOpen) { 
+                    this.removeFromWorld = true;
+                }
                 this.player.totalChests += 1;
                 this.player.power = entity.openChest();
                 entity.keepOpen();
             }
-
             if((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
                 entity.takeDamage(0.5);
                 if (entity.isDead) {

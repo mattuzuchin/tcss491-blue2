@@ -355,7 +355,7 @@ class Player {
     }
 
     updateBoundingBox() {
-        if (this.BB.y >= 728) {
+        if (this.BB.y + this.BB.height >= 728) {
             this.x = this.startingPointX;
             this.y = this.startingPointY;
             this.takeDamage(1);
@@ -365,6 +365,7 @@ class Player {
         this.BB.x = this.x;
         this.BB.y = this.y;
     }
+    
     drawMessage(ctx) {
         if(this.messageText === "+1 Coin") {
             ctx.fillStyle = "gold";
@@ -444,7 +445,7 @@ class Player {
 class Warrior extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 1, emanage); // 1 "Warrior"
-        this.damage = 400; 
+        this.damage = 1000; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
