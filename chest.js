@@ -5,9 +5,9 @@ class Chest {
         this.spriteKeep = ASSET_MANAGER.getAsset("./sprites/interactive entities/treasureChestOpen.png");
         this.width = 32;
         this.height = 32;
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);
-        this.animatorOpen = new Animator(this.spritesheet, 0, 0, this.width, this.height,  4, 0.1);
-        this.animatorStay = new Animator(this.spriteKeep, 0, 0, this.width, this.height,  1, 0.1);
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 1);
+        this.animatorOpen = new Animator(this.spritesheet, 0, 0, this.width, this.height,  4, 1);
+        this.animatorStay = new Animator(this.spriteKeep, 0, 0, this.width, this.height,  1, 1);
         this.open = false;
         this.stayOpen = false;
         // gravity stuffs
@@ -29,6 +29,7 @@ class Chest {
     openChest() {
         //implement logic here to give user stuff
         if(!this.open && !this.stayOpen) {
+            this.playSound("chest");
             let randomNum= Math.floor(Math.random() * 10);
             if(randomNum === 6) { // 10% chance to get a powerboost
                 this.isPower = true;
@@ -79,7 +80,12 @@ class Chest {
         }
     }
 
-
+    playSound(sound) {
+        this.Sound = new Audio(`./audio/${sound}.mp3`);
+        this.Sound.play();
+        this.Sound.volume = 0.7;
+        this.Sound.loop = false;
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         if(this.open && this.stayOpen) {

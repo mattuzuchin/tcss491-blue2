@@ -21,6 +21,7 @@ class Shop {
         let bought = false;
         if (this.player.coinCount >= item.cost) {
             this.player.coinCount -= item.cost;
+            this.player.playSound("purchasegood");
             this.player.activateMessage("Purchased!", this.player.x, this.player.y);
             bought = true;
         } else {

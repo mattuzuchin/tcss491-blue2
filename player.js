@@ -65,7 +65,7 @@ class Player {
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
                 walking: new Animator(this.assets.Warrior, 0, 0, 50, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 6, 0.1),
+                attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 6, 1),
             }
         };
 
@@ -93,9 +93,16 @@ class Player {
         this.removeFromWorld = true;
         this.game.entities = [];
         this.entitiesMan.toggleDeath();
+        this.entitiesMan.stopMusic();
+        this.playSound("died");
         this.game.addEntity(new DeathScreen(this.game, this));
     }
-
+    playSound(sound) {
+        this.Sound = new Audio(`./audio/${sound}.mp3`);
+        this.Sound.play();
+        this.Sound.volume = 0.7;
+        this.Sound.loop = false;
+    }
     update() {
         if (this.isDead) return;
         this.handleMovement();
@@ -118,6 +125,7 @@ class Player {
         if (this.dashCooldown > 0) this.dashCooldown--;
     }
     reset() {
+        this.entitiesMan.stopMusic();
         const currentCoins = this.game.camera.player.coinCount;
         const character = this.game.camera.character;
         const currentscene = this.currentScene;
@@ -146,6 +154,7 @@ class Player {
         this.game.camera.player.currentScene = currentscene;
     }
     quit() {
+        this.entitiesMan.stopMusic();
         const ctx = this.game.ctx;
     
         this.game.running = false;
@@ -219,6 +228,7 @@ class Player {
                 }
             }
             if (entity instanceof Artifact && this.BB.collide(entity.BB)) {
+                this.playSound("artifact");
                 this.artifactCounts += 1;
                 this.highestArtifactPerScene[this.currentScene] = true;
                 entity.removeFromWorld = true;
@@ -226,20 +236,23 @@ class Player {
                 console.log(this.artifactCounts);
             }
             if (entity instanceof Coins && this.BB.collide(entity.BB)) {
+                this.playSound("coin");
                 this.coinCount += 1;
                 entity.removeFromWorld = true;
                 this.activateMessage("+1 Coin", this.x, this.y);
             }
             if (entity instanceof Potion && this.BB.collide(entity.BB)) {
+                
                 if(this.hearts < 5) {
                     this.hearts = Math.min(this.hearts + 1, 5);
                     this.activateMessage("+1 Heart", entity.x, entity.y);
+                    this.playSound("heart");
                 }
                 entity.removeFromWorld = true;
             }
         }
     }
-
+    
     checkComplete() {
         if (this.currentScene === 1) {
             this.level = level1Scene1;
@@ -281,7 +294,7 @@ class Player {
         }
 
     }
-
+    
     resetValues() {
         this.totalKills = 0;
         this.totalChests = 0;
@@ -481,9 +494,14 @@ class Warrior extends Player {
             } else if (this.attackDirection === "up") {
                 attackBB = new BoundingBox(this.x + 10, this.y - 30, 30, 30);
             }
+            this.swordSound = new Audio("./audio/sword.mp3");
+            this.swordSound.play();
+            this.swordSound.volume = 0.2;
+            this.swordSound.loop = false;
             for (let entity of this.game.entities) {
                 if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && attackBB.collide(entity.BB)) {
                     if(this.power && this.powerUpDuration > 0) {
+                        this.playSound("powerup");
                         this.powerUpDuration -= 1;
                         entity.takeDamage(this.damage * 3);
                     } else {
@@ -614,6 +632,10 @@ class Marksman extends Player {
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
+            this.arrowSound = new Audio("./audio/arrowshoot.mp3");
+            this.arrowSound.play();
+            this.arrowSound.volume = 0.2;
+            this.arrowSound.loop = false;
             this.attackDuration = 20;
             let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(projectile);

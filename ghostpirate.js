@@ -96,7 +96,10 @@ class GhostPirate {
                 direction,
                 null 
             );
-            
+            this.gunSound = new Audio("./audio/gun.mp3");
+            this.gunSound.play();
+            this.gunSound.volume = 0.2;
+            this.gunSound.loop = false;
             this.game.addEntity(projectile);
             this.currentShootCooldown = this.shootCooldown;
             
@@ -175,6 +178,10 @@ class GhostPirate {
     handleAttack(player) {
         if (this.attackCooldown <= 0) {  
             if (this.type === "sword") {
+                this.swordSound = new Audio("./audio/sword.mp3");
+                this.swordSound.play();
+                this.swordSound.volume = 0.2;
+                this.swordSound.loop = false;
                 this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpirateattack.png");
                 this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
                 
