@@ -24,7 +24,8 @@ class Projectile {
         this.BB.x = this.x;
 
         for (let entity of this.game.entities) {
-            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
+                || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && this.BB.collide(entity.BB) && this.player) {
                 if(this.player.power && this.player.powerUpDuration > 0) {
                     this.player.powerUpDuration -= 1;
                     entity.takeDamage(this.damage * 3);
@@ -69,12 +70,22 @@ class Projectile {
             this.removeFromWorld = true;
         }
     }
-
     draw(ctx) {
         if (this.image) {
-            ctx.drawImage(this.image, this.x, this.y + 10, this.width, this.height);
+            ctx.save();
+    
+            if (this.direction === "left") {
+                ctx.translate(this.x + this.width, 0);
+                ctx.scale(-1, 1); 
+                ctx.drawImage(this.image, 0, this.y + 10, this.width, this.height);
+            } else {
+                ctx.drawImage(this.image, this.x, this.y + 10, this.width, this.height);
+            }
+    
+            ctx.restore();
         }
     }
+    
 }
 
 class MagicBall extends Projectile {
@@ -109,7 +120,8 @@ class LaserBeam {
     update() {
         if (--this.duration <= 0) this.removeFromWorld = true;
         for (let entity of this.game.entities) {
-            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && this.BB.collide(entity.BB) && this.player) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
+                || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && this.BB.collide(entity.BB) && this.player) {
                 console.log("laser beam touch something");
                 if(this.player.power && this.player.powerUpDuration > 0) {
                     this.player.powerUpDuration -= 1;

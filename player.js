@@ -66,7 +66,7 @@ class Player {
             Warrior: {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
                 walking: new Animator(this.assets.Warrior, 0, 0, 50, this.height, 8, 0.1),
-                attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 6, 1),
+                attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 10, 0.05),
             }
         };
 
@@ -189,18 +189,13 @@ class Player {
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            if(this.attackDuration <=0) {
-                this.currentAnimator = this.animators[this.characterType].walking;
-            }
-            
+            this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = true;
         }
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            if(this.attackDuration <=0) {
-                this.currentAnimator = this.animators[this.characterType].walking;
-            }
+            this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = false;
         }
         if (this.game.isJump && this.isOnGround) {
@@ -211,9 +206,7 @@ class Player {
             this.attackDirection = "up";
         }
         if (!this.game.left && !this.game.right) {
-            if(this.attackDuration <=0) {
-                this.currentAnimator = this.animators[this.characterType].idle;
-            }
+            this.currentAnimator = this.animators[this.characterType].idle; 
         }
         if (this.game.speedup) {
             this.speed = 4;
@@ -363,6 +356,9 @@ class Player {
                 return "1 Scene 1";
         }
     }
+    getCurrentScene() {
+        return this.currentScene;
+    }
     handleDash() {
         if (this.game.dash && this.dashCooldown <= 0 && !this.isDashing && this.isOnGround) {
             this.isDashing = true;
@@ -456,16 +452,15 @@ class Player {
             this.drawMessage(ctx, this.messageX, this.messageY);
             this.durationMessage--;
         }
-    
+        ctx.save();
         if (this.facingLeft) {
-            ctx.save();
+            ctx.translate(this.x + this.width, 0); 
             ctx.scale(-1, 1);
-            ctx.translate(-this.x * 2 - this.width, 0);
+            this.currentAnimator.drawFrame(this.game.clockTick, ctx, 0, this.y);
+        } else {
+            this.currentAnimator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
         }
-        this.currentAnimator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        if (this.facingLeft) {
-            ctx.restore();
-        }
+        ctx.restore();
     }
     
 }
@@ -491,16 +486,12 @@ class Warrior extends Player {
         
     }
     handleAttack() {
-        if (this.game.attack && this.attackCooldown <= 0) {
+        if (this.game.attack && !this.attackPressed && this.attackCooldown <= 0) {
             this.isAttacking = true;
-            this.attackDuration = 0.05;
-            this.attackCooldown = 80;
-        }
-
-        if (this.isAttacking && this.attackDuration > 0) {
-            this.attackDuration--;
-            this.currentAnimator = this.animators[this.characterType].attacking;
-
+            this.attackPressed = true; 
+            this.attackDuration = 50;
+            this.attackCooldown = 180;
+            
             let attackBB;
             if (this.attackDirection === "right") {
                 attackBB = new BoundingBox(this.x + this.width, this.y + 10, 30, 30); 
@@ -509,13 +500,16 @@ class Warrior extends Player {
             } else if (this.attackDirection === "up") {
                 attackBB = new BoundingBox(this.x + 10, this.y - 30, 30, 30);
             }
+    
             this.swordSound = new Audio("./audio/sword.mp3");
             this.swordSound.play();
             this.swordSound.volume = 0.2;
             this.swordSound.loop = false;
+    
             for (let entity of this.game.entities) {
-                if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss) && attackBB.collide(entity.BB)) {
-                    if(this.power && this.powerUpDuration > 0) {
+                if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
+                    || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && attackBB.collide(entity.BB)) {
+                    if (this.power && this.powerUpDuration > 0) {
                         this.playSound("powerup");
                         this.powerUpDuration -= 1;
                         entity.takeDamage(this.damage * 3);
@@ -525,8 +519,8 @@ class Warrior extends Player {
                         entity.takeDamage(this.damage);
                     }
                     this.activateMessage("-1", entity.x, entity.y);
-                    if(entity.isDead) {
-                        if(entity instanceof PirateBoss) {
+                    if (entity.isDead) {
+                        if (entity instanceof PirateBoss) {
                             this.bosslevel1Defeat++;
                             entity.removeFromWorld = true;
                         } else {
@@ -535,17 +529,22 @@ class Warrior extends Player {
                         }
                     }
                 }
-                if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
-                    this.totalChests += 1;
-                    this.power =  entity.openChest();
-                    entity.keepOpen();
-                }
             }
+        }
+    
+        if (!this.game.attack) {
+            this.attackPressed = false; 
+        }
+    
+        if (this.isAttacking && this.attackDuration > 0) {
+            this.attackDuration--;
+            this.currentAnimator = this.animators[this.characterType].attacking;
         } else {
             this.isAttacking = false;
-            this.attackDuration = 60;
+            this.attackDuration = 50;
         }
     }
+    
     handleDownwardStrike() {
         // attack + fall keys
         if (this.game.attack && this.game.down && this.downwardStrikeCooldown <= 0 && !this.isOnGround) {
@@ -567,7 +566,8 @@ class Warrior extends Player {
             );
 
             for (let entity of this.game.entities) {
-                if ((entity instanceof GhostPirate || entity instanceof Pirate) && downwardStrikeBB.collide(entity.BB)) {
+                if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
+                    || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && downwardStrikeBB.collide(entity.BB)) {
                     if(this.power === true && this.powerUpDuration > 0) {
                         this.powerUpDuration -= 1;
                         entity.takeDamage(this.damage * 3);
@@ -593,10 +593,6 @@ class Warrior extends Player {
         }
     }
 
-    draw(ctx) {
-        super.draw(ctx); 
-
-    }
 }
 
 class Marksman extends Player {

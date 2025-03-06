@@ -67,46 +67,48 @@ class GhostPirate {
     }
 
     handleShooting() {
-     
         let nearestPlayer = null;
         let shortestDistance = Infinity;
-
+    
         for (let entity of this.game.entities) {
             if (entity instanceof Player) {
                 const dx = entity.x - this.x;
                 const dy = entity.y - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                
+    
                 if (distance < shortestDistance) {
                     shortestDistance = distance;
                     nearestPlayer = entity;
                 }
             }
         }
-
+    
         if (nearestPlayer && shortestDistance <= this.shootRange && this.currentShootCooldown <= 0) {
+            const playerDirection = nearestPlayer.x > this.x ? "right" : "left";
 
-            const direction = nearestPlayer.x > this.x ? "right" : "left";
-            this.facingLeft = direction === "left";
-            
-            const projectile = new Projectile(
-                this.game,
-                this.x + (direction === "right" ? this.width : 0),
-                this.y + (this.height / 2) - 15, //position of the bullet
-                direction,
-                null 
-            );
-            this.gunSound = new Audio("./audio/gun.mp3");
-            this.gunSound.play();
-            this.gunSound.volume = 0.2;
-            this.gunSound.loop = false;
-            this.game.addEntity(projectile);
-            this.currentShootCooldown = this.shootCooldown;
-            
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpirategunattack.png");
-            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+            if ((this.facingLeft && playerDirection === "left") || (!this.facingLeft && playerDirection === "right")) {
+                
+                const projectile = new Projectile(
+                    this.game,
+                    this.x + (playerDirection === "right" ? this.width : 0),
+                    this.y + (this.height / 2) - 15, 
+                    playerDirection,
+                    null
+                );
+    
+                this.gunSound = new Audio("./audio/gun.mp3");
+                this.gunSound.volume = 0.2;
+                this.gunSound.loop = false;
+                this.gunSound.play();
+                this.game.addEntity(projectile);
+                this.currentShootCooldown = this.shootCooldown;
+
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpirategunattack.png");
+                this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+            }
         }
     }
+    
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
@@ -200,16 +202,16 @@ class GhostPirate {
     
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
+    
+        ctx.save();
         if (this.facingLeft) {
-            ctx.save();
+            ctx.translate(this.x + this.width, 0); 
             ctx.scale(-1, 1);
-            ctx.translate(-this.x * 2 - this.width, 0);
+            this.animator.drawFrame(this.game.clockTick, ctx, 0, this.y);
+        } else {
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
         }
-
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        if (this.facingLeft) {
-            ctx.restore();
-        }
-
+        ctx.restore();
     }
+    
 }

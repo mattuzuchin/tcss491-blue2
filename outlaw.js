@@ -1,10 +1,10 @@
-class Pirate {
+class Outlaw {
     constructor(game, x, y, type) {
         Object.assign(this, { game, x, y, type});
         if(this.type === "sword") {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratewalk.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/outlawwalk.png");
         } else {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirategunattack.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/outlawgunattack.png");
         }
         this.width = 40;
         this.height = 40;
@@ -25,14 +25,14 @@ class Pirate {
         this.randomMoveCounter = 0;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         
-        this.health = 800;  
-        this.damage = 0.5;
+        this.health = 1200;  
+        this.damage = 1;
         this.attackCooldown = 200;
         this.attackDuration = 60;
         this.isDead = false;
         this.shootCooldown = 300;
         this.currentShootCooldown = 0;
-        this.shootRange = 100;
+        this.shootRange = 300;
 
     }
 
@@ -45,7 +45,7 @@ class Pirate {
 
     die() {
         this.isDead = true;
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratestanddead.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/outlawstanddead.png");
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
         let coin = new Coins(this.game, this.x , this.y );
         this.game.addEntity(coin);
@@ -95,7 +95,7 @@ class Pirate {
                     playerDirection,
                     null
                 );
-
+    
                 this.gunSound = new Audio("./audio/gun.mp3");
                 this.gunSound.volume = 0.2;
                 this.gunSound.loop = false;
@@ -103,11 +103,12 @@ class Pirate {
                 this.game.addEntity(projectile);
                 this.currentShootCooldown = this.shootCooldown;
 
-                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirategunattack.png");
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/outlawgunattack.png");
                 this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
             }
         }
     }
+    
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
@@ -183,18 +184,18 @@ class Pirate {
                 this.swordSound.play();
                 this.swordSound.volume = 0.2;
                 this.swordSound.loop = false;
-                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateattack.png");
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/outlawattack.png");
                 this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
                 
                 if (player) {
                     player.takeDamage(this.damage);
                 }
             }
-            this.attackCooldown = 200;
+            this.attackCooldown = 200; 
         }
         this.isAttacking = false;
         if (this.type === "sword") {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratewalk.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/outlawwalk.png");
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
         }
     }
@@ -212,4 +213,5 @@ class Pirate {
         }
         ctx.restore();
     }
+    
 }

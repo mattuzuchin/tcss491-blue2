@@ -37,6 +37,27 @@ class entitiesmanager {
         
             }
         }
+        if (level.native) {
+            for (let i = 0; i < level.native.length; i++) {
+                let pirate = level.native[i];
+                this.game.addEntity(new Native(this.game, pirate.x, pirate.y));
+        
+            }
+        }
+        if (level.cactus) {
+            for (let i = 0; i < level.cactus.length; i++) {
+                let pirate = level.cactus[i];
+                this.game.addEntity(new Cactus(this.game, pirate.x, pirate.y));
+        
+            }
+        }
+        if (level.outlaw) {
+            for (let i = 0; i < level.outlaw.length; i++) {
+                let pirate = level.outlaw[i];
+                this.game.addEntity(new Outlaw(this.game, pirate.x, pirate.y, pirate.type));
+        
+            }
+        }
         //grass middle blocks (1)
         if (level.grass_m) {
             for (let i = 0; i < level.grass_m.length; i++) {
