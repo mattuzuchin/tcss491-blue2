@@ -8,7 +8,6 @@ class entitiesmanager {
         this.startingPointX = 0;
         this.startingPointY = 655;
         this.isDead = false;
-        this.backgroundMusic = null;
         if(this.character === "marksman") {
             this.player = new Marksman(this.game, this.startingPointX, this.startingPointY, this);
         } else if(this.character === "warrior") {
@@ -19,26 +18,9 @@ class entitiesmanager {
 
         this.loadLevel(this.levelS);
     }
-    startMusic(level) {
-        if(level.boss.length == 0) {
-            this.backgroundMusic = new Audio("./audio/level1scene1-4.wav");
-        } else {
-            this.backgroundMusic = new Audio("./audio/level1bosssound.mp3");
-        }
-        this.backgroundMusic.loop = true;
-        this.backgroundMusic.volume = 0.2;
-        this.backgroundMusic.play();
-        this.backgroundMusic.loop = true;
-    }
-
-    stopMusic() {
-        this.backgroundMusic.pause();
-        this.backgroundMusic.currentTime = 0;
-    }
     loadLevel(level) {
         this.level = level;
         this.game.entities = [];
-        this.startMusic(this.level);
         // Load ghost pirates
         if (level.ghostpirate) {
             for (let i = 0; i < level.ghostpirate.length; i++) {

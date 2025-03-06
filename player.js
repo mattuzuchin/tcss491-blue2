@@ -39,6 +39,7 @@ class Player {
         this.messageX = 0;
         this.messageY = 0;
         this.isMessage = false;
+        this.startLevelMusic(this.getNextLevel());
         this.assets = {
             Marksman: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenwalkLeft.png"),
             MarksmanIdle: ASSET_MANAGER.getAsset("./sprites/player entities/marksmentemp.png"),
@@ -93,7 +94,7 @@ class Player {
         this.removeFromWorld = true;
         this.game.entities = [];
         this.entitiesMan.toggleDeath();
-        this.entitiesMan.stopMusic();
+        this.stopMusic();
         this.playSound("died");
         this.game.addEntity(new DeathScreen(this.game, this));
     }
@@ -102,6 +103,21 @@ class Player {
         this.Sound.play();
         this.Sound.volume = 0.7;
         this.Sound.loop = false;
+    }
+    startLevelMusic(level) {
+        if(level.boss.length == 0) {
+            this.backgroundMusic = new Audio("./audio/level1scene1-4.wav");
+        } else {
+            this.backgroundMusic = new Audio("./audio/level1bosssound.mp3");
+        }
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.2;
+        this.backgroundMusic.play();
+    }
+
+    stopMusic() {
+        this.backgroundMusic.pause();
+        this.backgroundMusic.currentTime = 0;
     }
     update() {
         if (this.isDead) return;
@@ -125,7 +141,7 @@ class Player {
         if (this.dashCooldown > 0) this.dashCooldown--;
     }
     reset() {
-        this.entitiesMan.stopMusic();
+        this.stopMusic();
         const currentCoins = this.game.camera.player.coinCount;
         const character = this.game.camera.character;
         const currentscene = this.currentScene;
@@ -133,7 +149,6 @@ class Player {
         this.game.mouse = null;
         this.game.wheel = null;
         this.game.keys = {};
-            
         this.game.left = false;
         this.game.right = false;
         this.game.up = false;

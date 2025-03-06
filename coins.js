@@ -4,7 +4,7 @@ class Coins {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/interactive entities/coin.png");
         this.width = 20;
         this.height = 20;
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 0.1);
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  1, 1);
 
         // gravity stuffs
         this.gravity = 0.5;
