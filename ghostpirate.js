@@ -27,7 +27,7 @@ class GhostPirate {
         
         this.health = 1200;  
         this.damage = 1;
-        this.attackCooldown = 0;
+        this.attackCooldown = 200;
         this.attackDuration = 60;
         this.isDead = false;
         this.shootCooldown = 300;
@@ -189,7 +189,7 @@ class GhostPirate {
                     player.takeDamage(this.damage);
                 }
             }
-            this.attackCooldown = this.attackDuration; 
+            this.attackCooldown = 200; 
         }
         this.isAttacking = false;
         if (this.type === "sword") {

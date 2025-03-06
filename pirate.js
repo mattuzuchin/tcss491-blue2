@@ -27,7 +27,7 @@ class Pirate {
         
         this.health = 800;  
         this.damage = 0.5;
-        this.attackCooldown = 0;
+        this.attackCooldown = 200;
         this.attackDuration = 60;
         this.isDead = false;
         this.shootCooldown = 300;
@@ -189,7 +189,7 @@ class Pirate {
                     player.takeDamage(this.damage);
                 }
             }
-            this.attackCooldown = this.attackDuration; 
+            this.attackCooldown = 200;
         }
         this.isAttacking = false;
         if (this.type === "sword") {
