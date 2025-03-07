@@ -277,6 +277,9 @@ class Player {
         } else if (this.currentScene === 5) {
             this.level = bosslevel1;
             this.checkObjectives(this.level);
+        } else if (this.currentScene === 6) {
+            this.level = level2Scene1;
+            this.checkObjectives(this.level);
         } 
     }
 
@@ -291,7 +294,7 @@ class Player {
                 this.moveToNextScene();
             }
         } else  {
-            if (this.totalKills >= this.levelO.objectives[0].pirates &&
+            if (this.totalKills >= this.levelO.objectives[0].enemies &&
                 this.totalChests >= this.levelO.objectives[0].chests &&
                 this.artifactCounts >= this.levelO.objectives[0].artifact) {
                 this.removechest();
@@ -605,6 +608,10 @@ class Warrior extends Player {
         }
     }
 
+    draw(ctx) {
+        super.draw(ctx);
+    }
+
 }
 
 class Marksman extends Player {
@@ -672,6 +679,9 @@ class Marksman extends Player {
     update() {
         super.update();
         if (this.specialAttackCooldown > 0) this.specialAttackCooldown--;
+    }
+    draw(ctx) {
+        super.draw(ctx);
     }
 }
 class Mage extends Player {

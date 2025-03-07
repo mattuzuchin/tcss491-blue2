@@ -77,7 +77,7 @@ var level1Scene1  = {
 };
 
 level1Scene1.objectives = [
-    { pirates: level1Scene1.pirate.length + level1Scene1.ghostpirate.length, artifact: level1Scene1.artifacts.length, chests: level1Scene1.chests.length }
+    { enemies: level1Scene1.pirate.length + level1Scene1.ghostpirate.length, artifact: level1Scene1.artifacts.length, chests: level1Scene1.chests.length }
 ];
 
 var level1Scene2 = {
@@ -158,7 +158,7 @@ var level1Scene2 = {
     ], 
 };
 level1Scene2.objectives = [
-    { pirates: level1Scene2.pirate.length + level1Scene2.ghostpirate.length, artifact: level1Scene2.artifacts.length, chests: level1Scene2.chests.length }
+    { enemies: level1Scene2.pirate.length + level1Scene2.ghostpirate.length, artifact: level1Scene2.artifacts.length, chests: level1Scene2.chests.length }
 ];
 var level1Scene3 = {
     shop: [],
@@ -258,7 +258,7 @@ var level1Scene3 = {
     ], 
 };
 level1Scene3.objectives = [
-    { pirates: level1Scene3.pirate.length + level1Scene3.ghostpirate.length, artifact: level1Scene3.artifacts.length, chests: level1Scene3.chests.length }
+    { enemies: level1Scene3.pirate.length + level1Scene3.ghostpirate.length, artifact: level1Scene3.artifacts.length, chests: level1Scene3.chests.length }
 ];
 var level1Scene4 = {
     shop: [{x: 540, y: 550}],
@@ -344,7 +344,7 @@ var level1Scene4 = {
     ], 
 };
 level1Scene4.objectives = [
-    { pirates: level1Scene4.pirate.length + level1Scene4.ghostpirate.length, artifact: level1Scene4.artifacts.length, chests: level1Scene4.chests.length }
+    { enemies: level1Scene4.pirate.length + level1Scene4.ghostpirate.length, artifact: level1Scene4.artifacts.length, chests: level1Scene4.chests.length }
 ];
 
 
@@ -417,18 +417,19 @@ bosslevel1.objectives = [
 
 
 var level2Scene1  = {
-    ghostpirate: [
-        { x: 100, y: 100, type: "gun" }, 
-    ],
-    pirate: [{ x: 200, y: 30, type: "sword" }, 
-        { x: 800, y: 100 , type: "sword"},
-        { x: 400, y: 100 , type: "gun"}, 
-        { x: 600, y: 212, type: "sword"},
-    ],
+    ghostpirate: [],
+    pirate: [],
     boss: [],
     grass_m: [],
     grass_l: [],
     grass_r: [],
+    native: [{ x: 100, y: 100}],
+    cactus: [{ x: 200, y: 100}],
+    outlaw: [{ x: 200, y: 30, type: "sword" }, 
+        { x: 800, y: 100 , type: "sword"},
+        { x: 400, y: 100 , type: "gun"}, 
+        { x: 600, y: 212, type: "sword"}
+    ],
     sand_floor: [
         { x: 0, y: 700, width: 40, height: 40 },
         { x: 40, y: 700, width: 40, height: 40 },
@@ -456,44 +457,35 @@ var level2Scene1  = {
         { x: 920, y: 700, width: 40, height: 40 },
         { x: 960, y: 700, width: 40, height: 40 },
         { x: 1000, y: 700, width: 40, height: 40 },
-        { x: 540, y: 655, width: 40, height: 40 }
     ],
     sand_m: [
-        { x: 320, y: 450, width: 40, height: 20 },
-        { x: 200, y: 600, width: 40, height: 20 },
-        { x: 480, y: 350, width: 40, height: 20 },
-        { x: 680, y: 250, width: 40, height: 20 },
-        { x: 880, y: 350, width: 40, height: 20 }
+        {x: 565, y: 600, width: 45, height: 20},
+        {x: 610, y: 600, width: 45, height: 20},
+        {x: 655, y: 600, width: 45, height: 20},
+        {x: 700, y: 600, width: 45, height: 20},
+        {x: 745, y: 600, width: 45, height: 20},
     ],
     sand_r: [
-        { x: 360, y: 450, width: 40, height: 20 },
-        { x: 240, y: 600, width: 40, height: 20 },
-        { x: 520, y: 350, width: 40, height: 20 },
-        { x: 720, y: 250, width: 40, height: 20 },
-        { x: 920, y: 350, width: 40, height: 20 }
+        {x: 790, y: 600, width: 45, height: 20}
     ],
     sand_l: [
-        { x: 280, y: 450, width: 40, height: 20 },
-        { x: 160, y: 600, width: 40, height: 20 },
-        { x: 440, y: 350, width: 40, height: 20 },
-        { x: 640, y: 250, width: 40, height: 20 },
-        { x: 840, y: 350, width: 40, height: 20 }
+        {x: 520, y: 600, width: 45, height: 20}
     ],
     
     crates: [
-        { x: 635, y: 655, width: 45, height: 45 }, 
+        { x: 700, y: 555, width: 45, height: 45 }, 
     ],
     chests: [
-        { x: 500, y: 321, width: 32, height: 32 }, 
+        { x: 700, y: 523, width: 32, height: 32 }, 
     ],
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{x: 795, y: 700}],
+    artifacts: [{x: 400, y: 100}], //new artifcact?
     coins: [{x: 635, y: 315}],
     potions:[{x: 650, y: 315}],
 };
 
 level2Scene1.objectives = [
-    { pirates: level2Scene1.pirate.length + level2Scene1.ghostpirate.length, artifact: level2Scene1.artifacts.length, chests: level2Scene1.chests.length }
+    { enemies: level2Scene1.native.length + level2Scene1.outlaw.length + level2Scene1.cactus.length, artifact: level2Scene1.artifacts.length, chests: level2Scene1.chests.length }
 ];
