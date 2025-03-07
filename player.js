@@ -4,7 +4,7 @@ class Player {
         this.startingPointX = x;
         this.entitiesMan = emanage;
         this.startingPointY = y;
-        const characterTypes = ["Marksman", "Warrior"];
+        const characterTypes = ["Marksman", "Warrior", "Mage"];
         this.characterType = characterTypes[characterNumber] || "Marksman";
         this.isDead = false;
         this.width = 40;
@@ -46,7 +46,10 @@ class Player {
             WarriorIdle: ASSET_MANAGER.getAsset("./sprites/player entities/warriortemp.png"),
             WarriorAttack: ASSET_MANAGER.getAsset("./sprites/player entities/warriorattack.png"),
             Warrior: ASSET_MANAGER.getAsset("./sprites/player entities/warriorwalk1.png"),
-            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenattack.png")
+            MarksmanAttack: ASSET_MANAGER.getAsset("./sprites/player entities/marksmenattack.png"),
+            Mage: ASSET_MANAGER.getAsset("./sprites/player entities/Mage.png"),
+            MageAttack: ASSET_MANAGER.getAsset("./sprites/player entities/MageAttack.png")
+            
         };
         this.highestArtifactPerScene = {
             1: false,
@@ -67,6 +70,11 @@ class Player {
                 idle: new Animator(this.assets.WarriorIdle, 0, 0, this.width, this.height, 1, 0.3),
                 walking: new Animator(this.assets.Warrior, 0, 0, 50, this.height, 8, 0.1),
                 attacking: new Animator(this.assets.WarriorAttack, 0, 0, 45, this.height, 10, 0.05),
+            },
+            Mage: {
+                idle: new Animator(this.assets.Mage, 0, 0, this.width, this.height, 1, 0.3),
+                walking: new Animator(this.assets.Mage, 0, 0, this.width, this.height, 2, 0.1),
+                attacking: new Animator(this.assets.MageAttack, 0, 0, this.width, this.height, 4, 0.07),
             }
         };
 
@@ -189,13 +197,13 @@ class Player {
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <= 0) this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = true;
         }
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <= 0) this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = false;
         }
         if (this.game.isJump && this.isOnGround) {
@@ -205,7 +213,7 @@ class Player {
         if (this.game.up && this.isOnGround) {
             this.attackDirection = "up";
         }
-        if (!this.game.left && !this.game.right) {
+        if (!this.game.left && !this.game.right && this.attackDuration <= 0) {
             this.currentAnimator = this.animators[this.characterType].idle; 
         }
         if (this.game.speedup) {
@@ -686,13 +694,14 @@ class Marksman extends Player {
 }
 class Mage extends Player {
     constructor(game, x, y, emanage) {
-        super(game, x, y, 0, emanage); 
+        super(game, x, y, 2, emanage); 
         this.damage = 20;
         this.specialAttackCooldown = 0;
     }
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
+            this.attackDuration = 20;
             let magicBall = new MagicBall(
                 this.game, 
                 this.x, 
@@ -713,13 +722,13 @@ class Mage extends Player {
         if (this.game.specialAttack && this.specialAttackCooldown <= 0) {
             let laser = new LaserBeam(
                 this.game, 
-                this.x, 
-                this.y, 
+                this.x + 20, 
+                this.y + 10, 
                 this.attackDirection, 
                 this
             );
             this.game.addEntity(laser);
-            this.specialAttackCooldown = 200; 
+            this.specialAttackCooldown = 300; 
             this.game.specialAttack = false;
         }
     }

@@ -75,6 +75,11 @@ ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_complete.png");
 ASSET_MANAGER.queueDownload("./sprites/artifacts/artifact_empty.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/explosion.png")
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/shop.png");
+ASSET_MANAGER.queueDownload("./sprites/player entities/Mage.png");
+ASSET_MANAGER.queueDownload("./sprites/player entities/Magetemp.png");
+ASSET_MANAGER.queueDownload("./sprites/player entities/MageAttack.png");
+ASSET_MANAGER.queueDownload("./sprites/projectiles/Fireball.png");
+ASSET_MANAGER.queueDownload("./sprites/projectiles/Firebeam.png");
 ASSET_MANAGER.downloadAll(() => {
     const gameEngine = new GameEngine();
     const canvas = document.getElementById("gameWorld");

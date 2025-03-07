@@ -95,7 +95,7 @@ class MagicBall extends Projectile {
         this.damage = 200;
         this.width = 20;
         this.height = 20;
-        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/arrow.png"); //TODO: fireball
+        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Fireball.png"); 
     }
 }
 
@@ -107,14 +107,15 @@ class LaserBeam {
         this.direction = direction;
         this.player = player;
         this.damage = 1000;
-        this.duration = 30;
-        this.width = 1000;
+        this.duration = 1;
+        this.width = 500;
         this.height = 10;
-        this.BB = new BoundingBox(this.x,this.y + this.height, this.width, this.height);
         if (this.direction === "left") {
-            this.x -= 1000;
+            this.x -= 500;
         } 
-        //TODO: sprite laser
+        this.BB = new BoundingBox(this.x,this.y + this.height, this.width, this.height);
+       
+        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Firebeam.png"); 
     }
 
     update() {
@@ -147,7 +148,18 @@ class LaserBeam {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "blue";
-        ctx.fillRect(this.x,this.y + this.height, this.width, this.height);
+        if (this.image) {
+            ctx.save();
+    
+            if (this.direction === "left") {
+                ctx.translate(this.x + this.width, 0);
+                ctx.scale(-1, 1); 
+                ctx.drawImage(this.image, 0, this.y + 10, this.width, this.height);
+            } else {
+                ctx.drawImage(this.image, this.x, this.y + 10, this.width, this.height);
+            }
+    
+            ctx.restore();
+        }
     }
 }
