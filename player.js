@@ -701,6 +701,7 @@ class Mage extends Player {
 
     handleAttack() {
         if (this.game.attack && this.attackCooldown <= 0) {
+            this.playSound("fireball");
             this.attackDuration = 20;
             let magicBall = new MagicBall(
                 this.game, 
@@ -720,6 +721,7 @@ class Mage extends Player {
 
     handleSpecialAttack() {
         if (this.game.specialAttack && this.specialAttackCooldown <= 0) {
+            this.playSound("laser");
             let laser = new LaserBeam(
                 this.game, 
                 this.x + 20, 
