@@ -60,7 +60,7 @@ class Player {
         this.animators = {
             Marksman: {
                 idle: new Animator(this.assets.MarksmanIdle, 0, 0, this.width, this.height, 1, 0.3),
-                walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.1),
+                walking: new Animator(this.assets.Marksman, 0, 0, this.width, this.height, 8, 0.05),
                 attacking: new Animator(this.assets.MarksmanAttack, 0, 5, 37, 45, 20, 0.02),
             },
             Warrior: {
@@ -445,9 +445,21 @@ class Player {
         }
         ctx.drawImage(image, 30, 100, 65, 65);
     }
+    drawCooldownBar(ctx) {
+        if (this.attackCooldown > 0) {  
+            const barWidth = 40;  
+            const barHeight = 5; 
+            const barX = this.x;  
+            const barY = this.y - 10; 
+            ctx.fillStyle = "red";
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+        }
+    }
+    
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         this.drawArtifact(ctx);
+        this.drawCooldownBar(ctx)
         if(this.isMessage && this.durationMessage != 0) {
             this.drawMessage(ctx, this.messageX, this.messageY);
             this.durationMessage--;
