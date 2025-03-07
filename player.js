@@ -177,20 +177,7 @@ class Player {
         this.game.camera.player.currentScene = currentscene;
     }
     quit() {
-        this.entitiesMan.stopMusic();
-        const ctx = this.game.ctx;
-    
-        this.game.running = false;
-        this.game.entities = []; 
-        
-        const gameEngine = new GameEngine();
-    
-        gameEngine.init(ctx);
-
-        gameEngine.addEntity(new TitleScreen(gameEngine));
-    
-        gameEngine.start();
-        this.game = gameEngine;
+        location.reload();
     }
     handleMovement() {
 
