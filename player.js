@@ -511,10 +511,7 @@ class Warrior extends Player {
                 attackBB = new BoundingBox(this.x + 10, this.y - 30, 30, 30);
             }
     
-            this.swordSound = new Audio("./audio/sword.mp3");
-            this.swordSound.play();
-            this.swordSound.volume = 0.2;
-            this.swordSound.loop = false;
+            this.playSound("sword");
     
             for (let entity of this.game.entities) {
                 if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
@@ -566,6 +563,7 @@ class Warrior extends Player {
 
   
         if (this.isDownwardStriking && this.downwardStrikeDuration > 0) {
+            this.playSound("sword");
             this.downwardStrikeDuration--;
 
             const downwardStrikeBB = new BoundingBox(
@@ -642,6 +640,7 @@ class Marksman extends Player {
                     this.attackDirection, 
                     this
                 );
+                this.playSound("arrowshoot");
                 this.game.addEntity(projectile);
                 this.currentAnimator = this.animators[this.characterType].attacking;
                 this.specialArrowsRemaining--;
