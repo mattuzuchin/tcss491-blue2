@@ -536,6 +536,11 @@ class Warrior extends Player {
                         }
                     }
                 }
+                if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                    this.totalChests += 1;
+                    this.power = entity.openChest();
+                    entity.keepOpen();
+                }
             }
         }
     
