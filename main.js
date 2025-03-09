@@ -61,6 +61,7 @@ ASSET_MANAGER.queueDownload("./sprites/background/back.png");
 ASSET_MANAGER.queueDownload("./sprites/background/mainmenubutton.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/outline.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/quit.png"); 
+ASSET_MANAGER.queueDownload("./sprites/background/gamecomplete.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/westernbackground01.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/westernbackground02.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/westernbackground03.png"); 

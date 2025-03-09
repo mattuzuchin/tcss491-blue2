@@ -251,6 +251,7 @@ class Player {
                 } else {
                     this.coinCount += 1;
                     this.doubleDuration = 5;
+                    this.isDouble = false;
                 }
                 entity.removeFromWorld = true;
                 this.activateMessage("+1 Coin", this.x, this.y);
@@ -294,22 +295,37 @@ class Player {
         if(this.levelO.objectives[0].bosslevel) {
             if (this.bosslevel1Defeat >= 1 &&
                 this.artifactCounts >= 1) {
+                this.playSound("levelcomplete");
                 this.removechest();
                 this.resetValues();
                 console.log("Moving to next scene!");
-                this.moveToNextScene();
+                if(this.getCurrentScene() === 5) {
+                    this.checkGameWon();
+                }
             }
         } else  {
             if (this.totalKills >= this.levelO.objectives[0].enemies &&
                 this.totalChests >= this.levelO.objectives[0].chests &&
                 this.artifactCounts >= this.levelO.objectives[0].artifact) {
+                this.playSound("levelcomplete");
                 this.removechest();
                 this.resetValues();
                 console.log("Moving to next scene!");
                 this.moveToNextScene();
+
             }
         }
 
+    }
+
+    checkGameWon() {
+        console.log("Player won");
+        this.totalKills = 0;
+        this.removeFromWorld = true;
+        this.game.entities = [];
+        this.stopMusic();
+        this.playSound("gamecomplete");
+        this.game.addEntity(new CompleteGame(this.game, this));
     }
     
     resetValues() {
