@@ -34,6 +34,8 @@ class Player {
         this.bosslevel1Defeat = 0;
         this.totalKills = 0;
         this.power = false;
+        this.isDouble = false;
+        this.doubleDuration = 5;
         this.durationMessage = 0;
         this.messageText = "";
         this.messageX = 0;
@@ -142,6 +144,9 @@ class Player {
         } else {
             this.isMessage = false;
         }
+        if(this.isDouble) {
+            this.activateMessage("x2 Coins!", this.x, this.y);
+        }
         if(this.power) {
             this.activateMessage("PowerUp!", this.x, this.y);
         }
@@ -240,7 +245,13 @@ class Player {
             }
             if (entity instanceof Coins && this.BB.collide(entity.BB)) {
                 this.playSound("coin");
-                this.coinCount += 1;
+                if(this.isDouble && this.doubleDuration > 0) {
+                    this.coinCount += 2;
+                    this.doubleDuration--;
+                } else {
+                    this.coinCount += 1;
+                    this.doubleDuration = 5;
+                }
                 entity.removeFromWorld = true;
                 this.activateMessage("+1 Coin", this.x, this.y);
             }

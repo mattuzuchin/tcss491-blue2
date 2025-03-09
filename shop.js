@@ -13,7 +13,7 @@ class Shop {
         this.items = [
             { name: "Power Boost", cost: 50, image: this.powerBoostImage },
             { name: "Extra Life", cost: 25, image: this.extraLifeImage },
-            { name: "Double Coins", cost: 100, image: this.doubleCoinsImage }
+            { name: "Double Coins", cost: 30, image: this.doubleCoinsImage }
         ];
     }
 
@@ -104,7 +104,7 @@ class Shop {
                     } else if (item.name === "Extra Life") {
                         this.player.hearts += 1;
                     } else if (item.name === "Double Coins") {
-                        this.player.coinCount = this.player.coinCount * 2;
+                        this.player.isDouble = true;
                     }
                 }
             }
