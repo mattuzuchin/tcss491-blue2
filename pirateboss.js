@@ -329,8 +329,5 @@ class CannonBall {
 
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        // debug hitbox
-        ctx.strokeStyle = "orange";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     }
 } 
