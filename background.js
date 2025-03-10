@@ -1,14 +1,19 @@
-class Cloud {
-    constructor(game, x, y) {
-        Object.assign(this, {game, x, y});
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/background/cloud1.png");
+class Background {
+    constructor(game, x, y, type) {
+        Object.assign(this, {game, x, y, type});
+        if(this.type === 1) {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/background/jungleBackground.png");
+            console.log(this.spritesheet);
+        } else {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/background/westernbackground01.png");
+        }
         
     }   
-    update(){
-
+    update() {
     }
-    draw(ctx){
-        ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y );
-    }
+    draw(ctx) {
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(this.spritesheet, this.x, this.y, 1024, 768);
+     }
     
 }

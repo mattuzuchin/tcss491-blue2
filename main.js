@@ -1,5 +1,10 @@
 const ASSET_MANAGER = new AssetManager();
-ASSET_MANAGER.queueDownload("./sprites/background/jungleBackground.png"); //448 x 444
+ASSET_MANAGER.queueDownload("./sprites/background/jungleBackground.png");
+ASSET_MANAGER.queueDownload("./sprites/background/westernbackground01.png");
+ASSET_MANAGER.queueDownload("./sprites/background/westernbackground02.png");
+ASSET_MANAGER.queueDownload("./sprites/background/westernbackground04.png");
+ASSET_MANAGER.queueDownload("./sprites/background/westernbackground05.png");
+ASSET_MANAGER.queueDownload("./sprites/background/westernbackground03.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/marksmentemp.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/marksmenwalkLeft.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/warriortemp.png");

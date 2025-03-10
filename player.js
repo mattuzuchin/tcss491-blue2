@@ -40,6 +40,8 @@ class Player {
         this.messageText = "";
         this.messageX = 0;
         this.messageY = 0;
+        this.testThisCooldown = 0;
+        this.testThis = 1;
         this.isMessage = false;
         this.startLevelMusic(this.getNextLevel());
         this.assets = {
@@ -139,6 +141,33 @@ class Player {
         this.handleDash();
         this.updateBoundingBox();
         this.checkComplete();
+        if(this.testThisCooldown > 0) {
+            this.testThisCooldown--;
+        }
+        if(this.getCurrentScene() > 5) {
+            if(this.testThis === 1) {
+                this.updateBackground("./sprites/background/westernbackground01.png");
+                this.testThisCooldown = 250;
+                this.testThis++;
+            } else if(this.testThis === 2 && this.testThisCooldown <= 0) {
+                this.updateBackground("./sprites/background/westernbackground02.png");
+                this.testThisCooldown = 250;
+                this.testThis++;
+            } else if(this.testThis === 3 && this.testThisCooldown <= 0) {
+                this.updateBackground("./sprites/background/westernbackground03.png");
+                this.testThisCooldown = 250;
+                this.testThis++;
+            } else if(this.testThis === 4 && this.testThisCooldown <= 0) {
+                this.updateBackground("./sprites/background/westernbackground04.png");
+                this.testThisCooldown = 250;
+                this.testThis++;
+            } else if(this.testThis === 5 && this.testThisCooldown <= 0) {
+                this.updateBackground("./sprites/background/westernbackground05.png");
+                this.testThisCooldown = 250;
+                this.testThis = 1;
+            }
+        }
+
         if(this.durationMessage != 0 ) {
             this.isMessage = true;
         } else {
@@ -183,6 +212,10 @@ class Player {
     }
     quit() {
         location.reload();
+    }
+    updateBackground(imagePath) {
+        // Update the canvas background via CSS
+        document.getElementById("gameWorld").style.background = `url('${imagePath}')`;
     }
     handleMovement() {
 
@@ -299,9 +332,10 @@ class Player {
                 this.removechest();
                 this.resetValues();
                 console.log("Moving to next scene!");
-                if(this.getCurrentScene() === 5) {
+                if(this.getCurrentScene() === 9) {
                     this.checkGameWon();
                 }
+                this.moveToNextScene();
             }
         } else  {
             if (this.totalKills >= this.levelO.objectives[0].enemies &&
