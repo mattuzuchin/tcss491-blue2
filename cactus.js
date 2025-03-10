@@ -38,8 +38,9 @@ class Cactus {
 
     die() {
         this.isDead = true;
-        let coin = new Coins(this.game, this.x , this.y );
+        let coin = new Coins(this.game, this.x , this.y);
         this.game.addEntity(coin);
+        this.removeFromWorld = true;
         
     }
 
