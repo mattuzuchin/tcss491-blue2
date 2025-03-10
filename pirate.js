@@ -19,7 +19,7 @@ class Pirate {
         this.groundLevel = y;
         this.isOnGround = false;
         this.attackDirection = "right";
-        
+        this.deathTimer = 200;
         // Movement stuffs  
         this.randomMoveInterval = 60; 
         this.randomMoveCounter = 0;
@@ -37,22 +37,33 @@ class Pirate {
     }
 
     takeDamage(amount) {
-        this.health -= amount;
-        if (this.health <= 0) {
-            this.die();
+        if(!this.isDead) {
+            this.health -= amount;
+            if (this.health <= 0) {
+                this.die();
+            }
         }
     }
 
     die() {
         this.isDead = true;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratestanddead.png");
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
-        let coin = new Coins(this.game, this.x , this.y );
+        this.animator = new Animator(this.spritesheet, 0, 0 - 5, this.width, this.height, 1, 1);
+        this.deathTimer = 200;
+        let coin = new Coins(this.game, this.x , this.y);
         this.game.addEntity(coin);
         
     }
 
     update() {
+        if (this.isDead) {
+            if (this.deathTimer > 0) {
+                this.deathTimer--;
+            } else {
+                this.removeFromWorld = true; 
+            }
+            return;
+        }
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.currentShootCooldown > 0) this.currentShootCooldown--;
         if(!this.isDead) {
@@ -183,20 +194,28 @@ class Pirate {
                 this.swordSound.play();
                 this.swordSound.volume = 0.2;
                 this.swordSound.loop = false;
-                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateattack.png");
+                this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateswordattack.png");
                 this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1); 
                 
                 if (player) {
                     player.takeDamage(this.damage);
                 }
+  
+                this.attackDuration = 60; 
+
+                this.attackCooldown = 200;
+
+                setTimeout(() => {
+                    if (!this.isDead) { 
+                        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratewalk.png");
+                        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+                    }
+                }, this.attackDuration * 1000 / 60); 
+            } else {
+                this.attackCooldown = 200;
             }
-            this.attackCooldown = 200;
         }
         this.isAttacking = false;
-        if (this.type === "sword") {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratewalk.png");
-            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
-        }
     }
     
     draw(ctx) {

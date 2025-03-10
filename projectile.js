@@ -4,7 +4,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 1400;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
@@ -24,31 +24,41 @@ class Projectile {
         this.BB.x = this.x;
 
         for (let entity of this.game.entities) {
+    
             if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
-                || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && this.BB.collide(entity.BB) && this.player) {
-                if(this.player.power && this.player.powerUpDuration > 0) {
-                    this.player.powerUpDuration -= 1;
-                    entity.takeDamage(this.damage * 3);
-                } else {
-                    this.player.power = false;
-                    this.player.powerUpDuration = 5;
-                    entity.takeDamage(this.damage);
-                }
-                this.player.activateMessage("-1", entity.x, entity.y);
-                if(entity.isDead) {
-                    if(entity instanceof PirateBoss) {
-                        this.player.bosslevel1Defeat++;
-                        entity.removeFromWorld = true;
+                || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && 
+                this.BB.collide(entity.BB) && this.player) {
+                
+         
+                if (!entity.isDead) {
+                    if(this.player.power && this.player.powerUpDuration > 0) {
+                        this.player.powerUpDuration -= 1;
+                        entity.takeDamage(this.damage * 3);
                     } else {
-                        this.player.totalKills++;
-                        entity.removeFromWorld = true;
+                        this.player.power = false;
+                        this.player.powerUpDuration = 5;
+                        entity.takeDamage(this.damage);
+                    }
+          
+                    this.player.activateMessage("-1", entity.x, entity.y);
+    
+                    if(entity.isDead) {
+                        if(entity instanceof PirateBoss) {
+                            this.player.bosslevel1Defeat++;
+                        } else {
+                            this.player.totalKills++;
+                        }
                     }
                 }
                 this.removeFromWorld = true;
             }
+            
+    
             if ((entity instanceof Platform) && this.BB.collide(entity.boundingBox)) {
                 this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
             }
+            
+    
             if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
                 if (!entity.stayOpen) { 
                     this.removeFromWorld = true;
@@ -57,19 +67,18 @@ class Projectile {
                 this.player.power = entity.openChest();
                 entity.keepOpen();
             }
+            
+    
             if((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
                 entity.takeDamage(0.5);
-                if (entity.isDead) {
-                    entity.removeFromWorld = true;
-                }
                 this.removeFromWorld = true;
             }
-            
         }
         if (this.x < 0 || this.x > this.game.ctx.canvas.width || this.y < 0 || this.y > this.game.ctx.canvas.height) {
             this.removeFromWorld = true;
         }
     }
+    
     draw(ctx) {
         if (this.image) {
             ctx.save();
@@ -85,7 +94,6 @@ class Projectile {
             ctx.restore();
         }
     }
-    
 }
 
 class MagicBall extends Projectile {
@@ -136,10 +144,8 @@ class LaserBeam {
                 if(entity.isDead) {
                     if(entity instanceof PirateBoss) {
                         this.player.bosslevel1Defeat++;
-                        entity.removeFromWorld = true;
                     } else {
                         this.player.totalKills++;
-                        entity.removeFromWorld = true;
                     }
                 }
                 this.removeFromWorld = true;

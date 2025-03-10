@@ -19,6 +19,7 @@ class GhostPirate {
         this.groundLevel = y;
         this.isOnGround = false;
         this.attackDirection = "right";
+        this.deathTimer = 200;
         
         // Movement stuffs  
         this.randomMoveInterval = 60; 
@@ -37,22 +38,33 @@ class GhostPirate {
     }
 
     takeDamage(amount) {
-        this.health -= amount;
-        if (this.health <= 0) {
-            this.die();
+        if(!this.isDead) {
+            this.health -= amount;
+            if (this.health <= 0) {
+                this.die();
+            }
         }
     }
 
     die() {
         this.isDead = true;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpiratestanddead.png");
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 1);
+        this.animator = new Animator(this.spritesheet, 0, 0 - 5, this.width, this.height, 1, 0.5);
+        this.deathTimer = 200;
         let coin = new Coins(this.game, this.x , this.y );
         this.game.addEntity(coin);
         
     }
 
     update() {
+        if (this.isDead) {
+            if (this.deathTimer > 0) {
+                this.deathTimer--;
+            } else {
+                this.removeFromWorld = true; 
+            }
+            return;
+        }
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.currentShootCooldown > 0) this.currentShootCooldown--;
         if(!this.isDead) {
@@ -190,15 +202,24 @@ class GhostPirate {
                 if (player) {
                     player.takeDamage(this.damage);
                 }
+  
+                this.attackDuration = 60; 
+
+                this.attackCooldown = 200;
+
+                setTimeout(() => {
+                    if (!this.isDead) { 
+                        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpiratewalk.png");
+                        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
+                    }
+                }, this.attackDuration * 1000 / 60); 
+            } else {
+                this.attackCooldown = 200;
             }
-            this.attackCooldown = 200; 
         }
         this.isAttacking = false;
-        if (this.type === "sword") {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpiratewalk.png");
-            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.1);
-        }
     }
+    
     
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;

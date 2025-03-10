@@ -9,7 +9,8 @@ class PirateBoss {
         this.direction = 1;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 1);
         this.isAttacking = false;
-        
+        this.isStart = true;
+        this.introCooldown = 600;
         this.gravity = 0.5;
         this.velocity = 0;
         this.groundLevel = y;
@@ -47,9 +48,13 @@ class PirateBoss {
     }
 
     takeDamage(amount) {
-        this.health -= amount;
-        if (this.health <= 0) {
-            this.die();
+        if(this.introCooldown > 0) {
+            return;
+        } else {
+            this.health -= amount;
+            if (this.health <= 0) {
+                this.die();
+            }
         }
     }
 
@@ -61,23 +66,44 @@ class PirateBoss {
     }
 
     update() {
+        if(this.isStart && this.introCooldown > 0) {
+            this.introCooldown--;
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateBossEnter.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 1);
+        }
+        if(this.introCooldown <= 0) {
+            this.isStart = false;
+        }
         if (this.attackCooldown > 0) this.attackCooldown--;
-    if (this.currentShootCooldown > 0) this.currentShootCooldown--;
-    if (this.currentBigAttackCooldown > 0) this.currentBigAttackCooldown--;
+        if (this.currentShootCooldown > 0) this.currentShootCooldown--;
+        if (this.currentBigAttackCooldown > 0) this.currentBigAttackCooldown--;
 
-    if (!this.isDead) {
-        this.handleMovement();
-        if (this.type === "gun") {
-            this.handleShooting();
+        if (!this.isDead && !this.isStart) {
+            this.handleMovement();
+            if (this.type === "gun") {
+                this.handleShooting();
+            }
+
+            // Only allow big attacks when not in intro
+            if (Math.random() < 0.01 && this.currentBigAttackCooldown <= 0) { 
+                this.handleBigAttack();
+            }
+            
+            // Only handle pirate spawning when not in intro
+            this.handlePirateSpawning();
+            
+            // Only handle cannon attacks when not in intro
+            if (Math.random() < 0.008 && this.currentCannonAttackCooldown <= 0) {
+                this.handleCannonAttack();
+            }
         }
 
-
-        if (Math.random() < 0.01 && this.currentBigAttackCooldown <= 0) { 
-            this.handleBigAttack();
-        }
-        
+        this.handleGravity();
+        this.handleCollisions();
+        this.updateBoundingBox();
     }
-
+    
+    handlePirateSpawning() {
         if(this.pirateTimer > 0) {
             this.pirateTimer--;
         } else if(this.pirateSpawnCount < 10 && this.miniPirate > 0) {
@@ -97,18 +123,10 @@ class PirateBoss {
         for (let entity of this.game.entities) {
             if(entity instanceof GhostPirate) {
                 this.pirateSpawnCount++;
+            }
         }
-    
-        }
-        if (this.currentCannonAttackCooldown > 0) this.currentCannonAttackCooldown--;
-        
-        if (!this.isDead && Math.random() < 0.008 && this.currentCannonAttackCooldown <= 0) {
-            this.handleCannonAttack();
-        }
-        this.handleGravity();
-        this.handleCollisions();
-        this.updateBoundingBox();
     }
+    
     handleCannonAttack() {
         if (!this.isCannonAttacking) {
             this.isCannonAttacking = true;
@@ -118,6 +136,7 @@ class PirateBoss {
             }, this.cannonAttackIndicatorDuration * 1000 / 60);
         }
     }
+    
     performCannonAttack() {
         let cannonCount = 0;
         while(cannonCount < this.maxCannon) {
@@ -217,7 +236,7 @@ class PirateBoss {
                     this.isOnGround = true;
                 }
             }
-            if (entity instanceof Player && this.BB.collide(entity.BB)) {
+            if (entity instanceof Player && this.BB.collide(entity.BB) && !this.isStart) {
                 this.isAttacking = true;
                 this.handleAttack(entity); 
             }
@@ -297,6 +316,7 @@ class PirateBoss {
         }
     }
 }
+
 class CannonBall {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
@@ -330,4 +350,4 @@ class CannonBall {
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
-} 
+}

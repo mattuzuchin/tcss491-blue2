@@ -38,6 +38,7 @@ class Player {
         this.doubleDuration = 5;
         this.durationMessage = 0;
         this.messageText = "";
+        this.deathTimer = 0;
         this.messageX = 0;
         this.messageY = 0;
         this.testThisCooldown = 0;
@@ -320,7 +321,19 @@ class Player {
         } else if (this.currentScene === 6) {
             this.level = level2Scene1;
             this.checkObjectives(this.level);
-        } 
+        } else if (this.currentScene === 7) {
+            this.level = level2Scene2;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 8) {
+            this.level = level2Scene3;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 9) {
+            this.level = level2Scene4;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 10) {
+            this.level = bosslevel2;
+            this.checkObjectives(this.level);
+        }
     }
 
     checkObjectives(level) {
@@ -385,6 +398,14 @@ class Player {
 
     getNextLevel() {
         switch (this.currentScene) {
+            case 10:
+                return bosslevel2;
+            case 9:
+                return level2Scene4;
+            case 8:
+                return level2Scene3;
+            case 7:
+                return level2Scene2;
             case 6:
                 return level2Scene1;
             case 5:
@@ -401,6 +422,14 @@ class Player {
     }
     getLevelName() {
         switch (this.currentScene) {
+            case 10:
+                return "2 BOSS";
+            case 9:
+                return "2 Scene 4";
+            case 8:
+                return "2 Scene 3";
+            case 7:
+                return "2 Scene 2";
             case 6:
                 return "2 Scene 1";
             case 5:
@@ -499,8 +528,37 @@ class Player {
             } else {
                 image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
             }
-        } else {
-            image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
+        } else if (this.currentScene === 6) {
+            if(!this.highestArtifactPerScene[6]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
+            }
+            
+        } else if (this.currentScene === 7) {
+            if(!this.highestArtifactPerScene[7]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+            }
+        } else if (this.currentScene === 8) {
+            if(!this.highestArtifactPerScene[8]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+            }
+        } else if (this.currentScene === 9) {
+            if(!this.highestArtifactPerScene[9]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
+            }
+        } else if (this.currentScene === 10) {
+            if(!this.highestArtifactPerScene[10]) {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
+            } else {
+                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
+            }
         }
         ctx.drawImage(image, 30, 100, 65, 65);
     }
@@ -550,10 +608,6 @@ class Warrior extends Player {
         super.update(); 
     }
     handleSpecialAttack() {
-        //TODO
-        if(this.game.specialAttack ) {
-            this.hearts = 0.5;
-        }
         
     }
     handleAttack() {
@@ -575,25 +629,29 @@ class Warrior extends Player {
             this.playSound("sword");
     
             for (let entity of this.game.entities) {
+                // Check for collisions with enemies
                 if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
-                    || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && attackBB.collide(entity.BB)) {
-                    if (this.power && this.powerUpDuration > 0) {
-                        this.playSound("powerup");
-                        this.powerUpDuration -= 1;
-                        entity.takeDamage(this.damage * 3);
-                    } else {
-                        this.power = false;
-                        this.powerUpDuration = 5;
-                        entity.takeDamage(this.damage);
-                    }
-                    this.activateMessage("-1", entity.x, entity.y);
-                    if (entity.isDead) {
-                        if (entity instanceof PirateBoss) {
-                            this.bosslevel1Defeat++;
-                            entity.removeFromWorld = true;
+                    || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && 
+                    this.BB.collide(entity.BB)) {
+                    if (!entity.isDead) {
+                        
+                        if(this.power && this.powerUpDuration > 0) {
+                            this.powerUpDuration -= 1;
+                            entity.takeDamage(this.damage * 3);
                         } else {
-                            this.totalKills++;
-                            entity.removeFromWorld = true;
+                            this.power = false;
+                            this.powerUpDuration = 5;
+                            entity.takeDamage(this.damage);
+                        }
+    
+                        this.activateMessage("-1", entity.x, entity.y);
+                    
+                        if(entity.isDead) {
+                            if(entity instanceof PirateBoss) {
+                                this.bosslevel1Defeat++;
+                            } else {
+                                this.totalKills++;
+                            }
                         }
                     }
                 }
@@ -640,21 +698,36 @@ class Warrior extends Player {
             );
 
             for (let entity of this.game.entities) {
+                // Check for collisions with enemies
                 if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
-                    || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && downwardStrikeBB.collide(entity.BB)) {
-                    if(this.power === true && this.powerUpDuration > 0) {
-                        this.powerUpDuration -= 1;
-                        entity.takeDamage(this.damage * 3);
-                    } else {
-                        this.power = false;
-                        this.powerUpDuration = 5;
-                        entity.takeDamage(this.damage * 1.5);
+                    || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && 
+                    downwardStrikeBB.collide(entity.BB)) {
+                    if (!entity.isDead) {
+                        
+                        if(this.power && this.powerUpDuration > 0) {
+                            this.powerUpDuration -= 1;
+                            entity.takeDamage(this.damage * 3);
+                        } else {
+                            this.power = false;
+                            this.powerUpDuration = 5;
+                            entity.takeDamage(this.damage);
+                        }
+    
+                        this.activateMessage("-1", entity.x, entity.y);
+                    
+                        if(entity.isDead) {
+                            if(entity instanceof PirateBoss) {
+                                this.bosslevel1Defeat++;
+                            } else {
+                                this.totalKills++;
+                            }
+                        }
                     }
-                    if (entity.isDead) {
-                        this.totalKills++;
-                        console.log(this.totalKills);
-                        entity.removeFromWorld = true;
-                    }
+                }
+                if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                    this.totalChests += 1;
+                    this.power = entity.openChest();
+                    entity.keepOpen();
                 }
             }
 
