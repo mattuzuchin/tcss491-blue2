@@ -219,17 +219,16 @@ class Player {
         document.getElementById("gameWorld").style.background = `url('${imagePath}')`;
     }
     handleMovement() {
-
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            if(this.attackDuration <= 0) this.currentAnimator = this.animators[this.characterType].walking;
+            this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = true;
         }
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            if(this.attackDuration <= 0) this.currentAnimator = this.animators[this.characterType].walking;
+            this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = false;
         }
         if (this.game.isJump && this.isOnGround) {
@@ -239,7 +238,7 @@ class Player {
         if (this.game.up && this.isOnGround) {
             this.attackDirection = "up";
         }
-        if (!this.game.left && !this.game.right && this.attackDuration <= 0) {
+        if (!this.game.left && !this.game.right) {
             this.currentAnimator = this.animators[this.characterType].idle; 
         }
         if (this.game.speedup) {
