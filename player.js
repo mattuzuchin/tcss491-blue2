@@ -342,6 +342,21 @@ class Player {
         } else if (this.currentScene === 13) {
             this.level = level3Scene4;
             this.checkObjectives(this.level);
+        } else if (this.currentScene === 14) {
+            this.level = level4Scene1;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 15) {
+            this.level = level4Scene2;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 16) {
+            this.level = level4Scene3;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 17) {
+            this.level = level4Scene4;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 18) {
+            this.level = bosslevel4;
+            this.checkObjectives(this.level);
         }
     }
 
@@ -354,7 +369,7 @@ class Player {
                 this.removechest();
                 this.resetValues();
                 console.log("Moving to next scene!");
-                if(this.getCurrentScene() === 13) {
+                if(this.getCurrentScene() === 18) {
                     this.checkGameWon();
                 }
                 this.moveToNextScene();
@@ -407,6 +422,16 @@ class Player {
 
     getNextLevel() {
         switch (this.currentScene) {
+            case 18:
+                return bosslevel4;
+            case 17:
+                return level4Scene4;
+            case 16:
+                return level4Scene3;
+            case 15:
+                return level4Scene2;
+            case 14:
+                return level4Scene1;
             case 13:
                 return level3Scene4;
             case 12:
@@ -437,6 +462,16 @@ class Player {
     }
     getLevelName() {
         switch (this.currentScene) {
+            case 18:
+                return "4 BOSS";
+            case 17:
+                return "4 Scene 4";
+            case 16:
+                return "4 Scene 3";
+            case 15:
+                return "4 Scene 2";
+            case 14:
+                return "4 Scene 1";
             case 13:
                 return "3 Scene 4";
             case 12:

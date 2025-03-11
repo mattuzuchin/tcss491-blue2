@@ -77,10 +77,6 @@ var level1Scene1  = {
     potions:[{x: 650, y: 315}],
 };
 
-level1Scene1.objectives = [
-    { enemies: level1Scene1.pirate.length + level1Scene1.ghostpirate.length, artifact: level1Scene1.artifacts.length, chests: level1Scene1.chests.length }
-];
-
 var level1Scene2 = {
     shop: [{x: 350, y: 400}],
     ghostpirate: [{ x: 59, y: 30, type: "sword" }, 
@@ -158,9 +154,7 @@ var level1Scene2 = {
         {x: 745, y: 250}
     ], 
 };
-level1Scene2.objectives = [
-    { enemies: level1Scene2.pirate.length + level1Scene2.ghostpirate.length, artifact: level1Scene2.artifacts.length, chests: level1Scene2.chests.length }
-];
+
 var level1Scene3 = {
     shop: [],
     ghostpirate: [ {x: 585, y: 700, type: "sword"}, 
@@ -258,9 +252,7 @@ var level1Scene3 = {
     coins: [
     ], 
 };
-level1Scene3.objectives = [
-    { enemies: level1Scene3.pirate.length + level1Scene3.ghostpirate.length, artifact: level1Scene3.artifacts.length, chests: level1Scene3.chests.length }
-];
+
 var level1Scene4 = {
     shop: [{x: 540, y: 550}],
     ghostpirate: [{ x: 295, y: 500 }, 
@@ -344,9 +336,7 @@ var level1Scene4 = {
         {x: 550, y: 400},
     ], 
 };
-level1Scene4.objectives = [
-    { enemies: level1Scene4.pirate.length + level1Scene4.ghostpirate.length, artifact: level1Scene4.artifacts.length, chests: level1Scene4.chests.length }
-];
+
 
 var level2Scene1  = {
     shop: [],
@@ -416,9 +406,6 @@ var level2Scene1  = {
 };
 
 
-level2Scene1.objectives = [
-    { enemies: level2Scene1.pirate.length + level2Scene1.ghostpirate.length, artifact: level2Scene1.artifacts.length, chests: level2Scene1.chests.length }
-];
 
 var level2Scene2 = {
     shop: [{x: 578, y: 505}],
@@ -493,9 +480,7 @@ var level2Scene2 = {
     coins: [
     ], 
 };
-level2Scene2.objectives = [
-    { enemies: level2Scene2.pirate.length + level2Scene2.ghostpirate.length, artifact: level2Scene2.artifacts.length, chests: level2Scene2.chests.length }
-];
+
 var level2Scene3 = {
     shop: [],
     ghostpirate: [
@@ -629,9 +614,7 @@ var level2Scene3 = {
     artifacts: [], 
     coins: []
 };
-level2Scene3.objectives = [
-    { enemies: level2Scene3.pirate.length + level2Scene3.ghostpirate.length, artifact: level2Scene3.artifacts.length, chests: level2Scene3.chests.length }
-];
+
 
 var level2Scene4 = {
     shop: [{x: 540, y: 550}],
@@ -779,9 +762,7 @@ var level2Scene4 = {
         {x: 550, y: 400}
     ]
 };
-level2Scene4.objectives = [
-    { enemies: level2Scene4.pirate.length + level2Scene4.ghostpirate.length, artifact: level2Scene4.artifacts.length, chests: level2Scene4.chests.length }
-];
+
 
 //LEVEL 2 BOSS
 var bosslevel2= {
@@ -847,13 +828,6 @@ var bosslevel2= {
     artifacts: [], 
     coins: [], 
 };
-bosslevel2.objectives = [
-    {boss: 1, artifact: 1, bosslevel: true}
-];
-
-
-
-
 
 //LEVEL 3 - WESTERN
 var level3Scene1  = {
@@ -926,34 +900,24 @@ var level3Scene1  = {
     potions:[{x: 650, y: 315}],
 };
 
-level3Scene1.objectives = [
-    { enemies: level3Scene1.native.length + level3Scene1.outlaw.length + level3Scene1.cactus.length, artifact: level3Scene1.artifacts.length, chests: level3Scene1.chests.length }
-];
 
 // LEVEL 3 - WESTERN - SCENE 2
 var level3Scene2 = {
     ghostpirate: [],
     pirate: [],
+    shop: [{x: 120, y: 650}],
     boss: [],
     grass_m: [],
     grass_l: [],
     grass_r: [],
     native: [
         { x: 300, y: 120 },
-        { x: 500, y: 100 },
-        { x: 750, y: 150 }
     ],
     cactus: [
-        { x: 150, y: 100 },
-        { x: 450, y: 100 },
-        { x: 800, y: 100 }
     ],
     outlaw: [
         { x: 200, y: 80, type: "gun" }, 
-        { x: 380, y: 120, type: "sword" },
-        { x: 600, y: 100, type: "gun" }, 
-        { x: 700, y: 150, type: "sword" },
-        { x: 850, y: 120, type: "gun" }
+        { x: 380, y: 120, type: "sword" }
     ],
     sand_floor: [
         { x: 0, y: 700, width: 40, height: 40 },
@@ -1040,24 +1004,18 @@ var level3Scene3 = {
     grass_r: [],
     native: [
         { x: 150, y: 120 },
-        { x: 400, y: 100 },
-        { x: 650, y: 150 },
-        { x: 850, y: 120 }
+
     ],
     cactus: [
         { x: 100, y: 100 },
         { x: 300, y: 100 },
         { x: 550, y: 100 },
-        { x: 750, y: 100 },
-        { x: 900, y: 100 }
+
     ],
     outlaw: [
         { x: 200, y: 30, type: "sword" }, 
-        { x: 350, y: 80, type: "gun" },
-        { x: 480, y: 100, type: "sword" }, 
-        { x: 600, y: 80, type: "gun" },
-        { x: 720, y: 100, type: "sword" }, 
-        { x: 800, y: 80, type: "gun" }
+        { x: 350, y: 80, type: "gun" }
+
     ],
     sand_floor: [
         { x: 0, y: 700, width: 40, height: 40 },
@@ -1088,20 +1046,16 @@ var level3Scene3 = {
         { x: 1000, y: 700, width: 40, height: 40 }
     ],
     sand_m: [
-        // Staggered platforms for climbing
-        // First platform
+
         { x: 100, y: 600, width: 45, height: 20 },
         { x: 145, y: 600, width: 45, height: 20 },
-        // Second platform
+
         { x: 250, y: 550, width: 45, height: 20 },
         { x: 295, y: 550, width: 45, height: 20 },
-        // Third platform
         { x: 400, y: 500, width: 45, height: 20 },
         { x: 445, y: 500, width: 45, height: 20 },
-        // Fourth platform
         { x: 550, y: 450, width: 45, height: 20 },
         { x: 595, y: 450, width: 45, height: 20 },
-        // Fifth platform
         { x: 700, y: 400, width: 45, height: 20 },
         { x: 745, y: 400, width: 45, height: 20 }
     ],
@@ -1151,24 +1105,19 @@ var level3Scene3 = {
 var level3Scene4 = {
     ghostpirate: [],
     pirate: [],
+    shop: [{x: 680, y: 650}],
     boss: [],
     grass_m: [],
     grass_l: [],
     grass_r: [],
     native: [
         { x: 200, y: 120 },
-        { x: 300, y: 100 },
-        { x: 700, y: 120 },
-        { x: 800, y: 100 }
+        { x: 300, y: 100 }
     ],
     cactus: [
-        { x: 100, y: 100 },
-        { x: 900, y: 100 }
     ],
     outlaw: [
         { x: 150, y: 80, type: "gun" },
-        { x: 250, y: 100, type: "sword" }, 
-        { x: 750, y: 100, type: "sword" }, 
         { x: 850, y: 80, type: "gun" }
     ],
     sand_floor: [
@@ -1251,6 +1200,585 @@ var level3Scene4 = {
     ]
 };
 
+
+// LEVEL 4 - SCENE 1
+var level4Scene1 = {
+    ghostpirate: [],
+    pirate: [],
+    boss: [],
+    grass_m: [],
+    grass_l: [],
+    grass_r: [],
+    native: [
+        { x: 200, y: 150 },
+        { x: 450, y: 120 },
+        { x: 700, y: 140 }
+    ],
+    cactus: [
+        { x: 100, y: 120 },
+        { x: 300, y: 140 },
+        { x: 800, y: 130 }
+    ],
+    outlaw: [
+        { x: 150, y: 100, type: "gun" },
+        { x: 350, y: 130, type: "sword" },
+        { x: 550, y: 110, type: "gun" },
+        { x: 750, y: 120, type: "sword" },
+        { x: 900, y: 140, type: "gun" }
+    ],
+    sand_floor: [
+        { x: 0, y: 700, width: 40, height: 40 },
+        { x: 40, y: 700, width: 40, height: 40 },
+        { x: 80, y: 700, width: 40, height: 40 },
+        { x: 120, y: 700, width: 40, height: 40 },
+        { x: 160, y: 700, width: 40, height: 40 },
+        { x: 200, y: 700, width: 40, height: 40 },
+        { x: 240, y: 700, width: 40, height: 40 },
+        { x: 280, y: 700, width: 40, height: 40 },
+        { x: 320, y: 700, width: 40, height: 40 },
+        { x: 360, y: 700, width: 40, height: 40 },
+        { x: 400, y: 700, width: 40, height: 40 },
+        { x: 440, y: 700, width: 40, height: 40 },
+        { x: 480, y: 700, width: 40, height: 40 },
+        { x: 520, y: 700, width: 40, height: 40 },
+        { x: 560, y: 700, width: 40, height: 40 },
+        { x: 600, y: 700, width: 40, height: 40 },
+        { x: 640, y: 700, width: 40, height: 40 },
+        { x: 680, y: 700, width: 40, height: 40 },
+        { x: 720, y: 700, width: 40, height: 40 },
+        { x: 760, y: 700, width: 40, height: 40 },
+        { x: 800, y: 700, width: 40, height: 40 },
+        { x: 840, y: 700, width: 40, height: 40 },
+        { x: 880, y: 700, width: 40, height: 40 },
+        { x: 920, y: 700, width: 40, height: 40 },
+        { x: 960, y: 700, width: 40, height: 40 },
+        { x: 1000, y: 700, width: 40, height: 40 }
+    ],
+    // U-shaped layout with platforms
+    sand_m: [
+        // Left vertical section
+        { x: 100, y: 600, width: 45, height: 20 },
+        { x: 100, y: 550, width: 45, height: 20 },
+        { x: 100, y: 500, width: 45, height: 20 },
+        { x: 100, y: 450, width: 45, height: 20 },
+        // Bottom horizontal section
+        { x: 145, y: 450, width: 45, height: 20 },
+        { x: 190, y: 450, width: 45, height: 20 },
+        { x: 235, y: 450, width: 45, height: 20 },
+        { x: 280, y: 450, width: 45, height: 20 },
+        { x: 325, y: 450, width: 45, height: 20 },
+        // Right vertical section
+        { x: 370, y: 450, width: 45, height: 20 },
+        { x: 370, y: 500, width: 45, height: 20 },
+        { x: 370, y: 550, width: 45, height: 20 },
+        { x: 370, y: 600, width: 45, height: 20 },
+        // Separate floating platforms
+        { x: 500, y: 520, width: 45, height: 20 },
+        { x: 600, y: 470, width: 45, height: 20 },
+        { x: 700, y: 520, width: 45, height: 20 },
+        { x: 800, y: 470, width: 45, height: 20 }
+    ],
+    sand_r: [
+        { x: 415, y: 600, width: 45, height: 20 },
+        { x: 415, y: 550, width: 45, height: 20 },
+        { x: 415, y: 500, width: 45, height: 20 },
+        { x: 415, y: 450, width: 45, height: 20 },
+        { x: 545, y: 520, width: 45, height: 20 },
+        { x: 645, y: 470, width: 45, height: 20 },
+        { x: 745, y: 520, width: 45, height: 20 },
+        { x: 845, y: 470, width: 45, height: 20 }
+    ],
+    sand_l: [
+        { x: 55, y: 600, width: 45, height: 20 },
+        { x: 55, y: 550, width: 45, height: 20 },
+        { x: 55, y: 500, width: 45, height: 20 },
+        { x: 55, y: 450, width: 45, height: 20 },
+        { x: 455, y: 520, width: 45, height: 20 },
+        { x: 555, y: 470, width: 45, height: 20 },
+        { x: 655, y: 520, width: 45, height: 20 },
+        { x: 755, y: 470, width: 45, height: 20 }
+    ],
+    crates: [],
+    chests: [
+        { x: 100, y: 418, width: 32, height: 32 },
+        { x: 370, y: 418, width: 32, height: 32 },
+        { x: 700, y: 488, width: 32, height: 32 }
+    ],
+    grass_m_p: [],
+    grass_l_p: [],
+    grass_r_p: [],
+    artifacts: [{ x: 235, y: 400 }],
+    coins: [
+        { x: 100, y: 570 },
+        { x: 100, y: 520 },
+        { x: 235, y: 420 },
+        { x: 370, y: 570 },
+        { x: 370, y: 520 },
+        { x: 500, y: 490 },
+        { x: 800, y: 440 }
+    ],
+    potions: [
+        { x: 190, y: 420 },
+        { x: 280, y: 420 },
+        { x: 600, y: 440 }
+    ]
+};
+
+// LEVEL 4 - SCENE 2
+var level4Scene2 = {
+    ghostpirate: [],
+    pirate: [],
+    shop: [{ x: 480, y: 400 }],
+    boss: [],
+    grass_m: [],
+    grass_l: [],
+    grass_r: [],
+    native: [
+        { x: 180, y: 130 },
+        { x: 380, y: 150 },
+        { x: 580, y: 120 },
+        { x: 780, y: 150 }
+    ],
+    cactus: [
+        { x: 120, y: 110 },
+        { x: 320, y: 130 },
+        { x: 520, y: 100 },
+        { x: 720, y: 130 },
+        { x: 920, y: 110 }
+    ],
+    outlaw: [
+        { x: 220, y: 90, type: "sword" },
+        { x: 420, y: 110, type: "gun" },
+        { x: 620, y: 80, type: "sword" },
+        { x: 820, y: 110, type: "gun" }
+    ],
+    sand_floor: [
+        { x: 0, y: 700, width: 40, height: 40 },
+        { x: 40, y: 700, width: 40, height: 40 },
+        { x: 80, y: 700, width: 40, height: 40 },
+        { x: 120, y: 700, width: 40, height: 40 },
+        { x: 160, y: 700, width: 40, height: 40 },
+        { x: 200, y: 700, width: 40, height: 40 },
+        { x: 240, y: 700, width: 40, height: 40 },
+        { x: 280, y: 700, width: 40, height: 40 },
+        { x: 320, y: 700, width: 40, height: 40 },
+        { x: 360, y: 700, width: 40, height: 40 },
+        { x: 400, y: 700, width: 40, height: 40 },
+        { x: 440, y: 700, width: 40, height: 40 },
+        { x: 480, y: 700, width: 40, height: 40 },
+        { x: 520, y: 700, width: 40, height: 40 },
+        { x: 560, y: 700, width: 40, height: 40 },
+        { x: 600, y: 700, width: 40, height: 40 },
+        { x: 640, y: 700, width: 40, height: 40 },
+        { x: 680, y: 700, width: 40, height: 40 },
+        { x: 720, y: 700, width: 40, height: 40 },
+        { x: 760, y: 700, width: 40, height: 40 },
+        { x: 800, y: 700, width: 40, height: 40 },
+        { x: 840, y: 700, width: 40, height: 40 },
+        { x: 880, y: 700, width: 40, height: 40 },
+        { x: 920, y: 700, width: 40, height: 40 },
+        { x: 960, y: 700, width: 40, height: 40 },
+        { x: 1000, y: 700, width: 40, height: 40 }
+    ],
+    // Pyramid-like structure with platforms
+    sand_m: [
+        // Base level
+        { x: 300, y: 600, width: 45, height: 20 },
+        { x: 345, y: 600, width: 45, height: 20 },
+        { x: 390, y: 600, width: 45, height: 20 },
+        { x: 435, y: 600, width: 45, height: 20 },
+        { x: 480, y: 600, width: 45, height: 20 },
+        { x: 525, y: 600, width: 45, height: 20 },
+        { x: 570, y: 600, width: 45, height: 20 },
+        { x: 615, y: 600, width: 45, height: 20 },
+        // Second level
+        { x: 345, y: 500, width: 45, height: 20 },
+        { x: 390, y: 500, width: 45, height: 20 },
+        { x: 435, y: 500, width: 45, height: 20 },
+        { x: 480, y: 500, width: 45, height: 20 },
+        { x: 525, y: 500, width: 45, height: 20 },
+        { x: 570, y: 500, width: 45, height: 20 },
+        // Third level
+        { x: 390, y: 400, width: 45, height: 20 },
+        { x: 435, y: 400, width: 45, height: 20 },
+        { x: 480, y: 400, width: 45, height: 20 },
+        { x: 525, y: 400, width: 45, height: 20 },
+        // Top level
+        { x: 435, y: 300, width: 45, height: 20 },
+        { x: 480, y: 300, width: 45, height: 20 }
+    ],
+    sand_r: [
+        { x: 660, y: 600, width: 45, height: 20 },
+        { x: 615, y: 500, width: 45, height: 20 },
+        { x: 570, y: 400, width: 45, height: 20 },
+        { x: 525, y: 300, width: 45, height: 20 }
+    ],
+    sand_l: [
+        { x: 255, y: 600, width: 45, height: 20 },
+        { x: 300, y: 500, width: 45, height: 20 },
+        { x: 345, y: 400, width: 45, height: 20 },
+        { x: 390, y: 300, width: 45, height: 20 }
+    ],
+    crates: [
+        { x: 300, y: 555, width: 45, height: 45 },
+        { x: 615, y: 555, width: 45, height: 45 },
+        { x: 390, y: 455, width: 45, height: 45 },
+        { x: 525, y: 455, width: 45, height: 45 }
+    ],
+    chests: [
+        { x: 457, y: 418, width: 32, height: 32 },
+        { x: 345, y: 518, width: 32, height: 32 },
+        { x: 570, y: 518, width: 32, height: 32 }
+    ],
+    grass_m_p: [],
+    grass_l_p: [],
+    grass_r_p: [],
+    artifacts: [{ x: 457, y: 400 }],
+    coins: [
+        { x: 390, y: 570 },
+        { x: 480, y: 570 },
+        { x: 570, y: 570 },
+        { x: 435, y: 520 },
+        { x: 525, y: 520 },
+        { x: 457, y: 470 }
+    ],
+    potions: [
+        { x: 345, y: 570 },
+        { x: 615, y: 570 },
+        { x: 390, y: 520 },
+        { x: 570, y: 520 }
+    ]
+};
+
+// LEVEL 4 - SCENE 3
+var level4Scene3 = {
+    ghostpirate: [],
+    pirate: [],
+    boss: [],
+    grass_m: [],
+    grass_l: [],
+    grass_r: [],
+    native: [
+        { x: 150, y: 140 },
+        { x: 350, y: 130 },
+        { x: 550, y: 150 },
+        { x: 750, y: 130 },
+        { x: 850, y: 140 }
+    ],
+    cactus: [
+        { x: 200, y: 120 },
+        { x: 400, y: 110 },
+        { x: 600, y: 130 },
+        { x: 800, y: 110 },
+        { x: 900, y: 120 }
+    ],
+    outlaw: [
+        { x: 250, y: 90, type: "gun" },
+        { x: 450, y: 80, type: "sword" },
+        { x: 650, y: 100, type: "gun" },
+        { x: 850, y: 80, type: "sword" }
+    ],
+    sand_floor: [
+        { x: 0, y: 700, width: 40, height: 40 },
+        { x: 40, y: 700, width: 40, height: 40 },
+        { x: 80, y: 700, width: 40, height: 40 },
+        { x: 120, y: 700, width: 40, height: 40 },
+        { x: 160, y: 700, width: 40, height: 40 },
+        { x: 200, y: 700, width: 40, height: 40 },
+        { x: 240, y: 700, width: 40, height: 40 },
+        { x: 280, y: 700, width: 40, height: 40 },
+        { x: 320, y: 700, width: 40, height: 40 },
+        { x: 360, y: 700, width: 40, height: 40 },
+        { x: 400, y: 700, width: 40, height: 40 },
+        { x: 440, y: 700, width: 40, height: 40 },
+        { x: 480, y: 700, width: 40, height: 40 },
+        { x: 520, y: 700, width: 40, height: 40 },
+        { x: 560, y: 700, width: 40, height: 40 },
+        { x: 600, y: 700, width: 40, height: 40 },
+        { x: 640, y: 700, width: 40, height: 40 },
+        { x: 680, y: 700, width: 40, height: 40 },
+        { x: 720, y: 700, width: 40, height: 40 },
+        { x: 760, y: 700, width: 40, height: 40 },
+        { x: 800, y: 700, width: 40, height: 40 },
+        { x: 840, y: 700, width: 40, height: 40 },
+        { x: 880, y: 700, width: 40, height: 40 },
+        { x: 920, y: 700, width: 40, height: 40 },
+        { x: 960, y: 700, width: 40, height: 40 },
+        { x: 1000, y: 700, width: 40, height: 40 }
+    ],
+    // Z-pattern platforms
+    sand_m: [
+        // Top horizontal section
+        { x: 100, y: 450, width: 45, height: 20 },
+        { x: 145, y: 450, width: 45, height: 20 },
+        { x: 190, y: 450, width: 45, height: 20 },
+        { x: 235, y: 450, width: 45, height: 20 },
+        { x: 280, y: 450, width: 45, height: 20 },
+        // Diagonal section (represented as step pattern)
+        { x: 280, y: 500, width: 45, height: 20 },
+        { x: 325, y: 500, width: 45, height: 20 },
+        { x: 370, y: 500, width: 45, height: 20 },
+        { x: 370, y: 550, width: 45, height: 20 },
+        { x: 415, y: 550, width: 45, height: 20 },
+        { x: 460, y: 550, width: 45, height: 20 },
+        { x: 460, y: 600, width: 45, height: 20 },
+        { x: 505, y: 600, width: 45, height: 20 },
+        { x: 550, y: 600, width: 45, height: 20 },
+        // Bottom horizontal section
+        { x: 595, y: 600, width: 45, height: 20 },
+        { x: 640, y: 600, width: 45, height: 20 },
+        { x: 685, y: 600, width: 45, height: 20 },
+        { x: 730, y: 600, width: 45, height: 20 },
+        { x: 775, y: 600, width: 45, height: 20 }
+    ],
+    sand_r: [
+        { x: 325, y: 450, width: 45, height: 20 },
+        { x: 415, y: 500, width: 45, height: 20 },
+        { x: 505, y: 550, width: 45, height: 20 },
+        { x: 595, y: 600, width: 45, height: 20 },
+        { x: 820, y: 600, width: 45, height: 20 }
+    ],
+    sand_l: [
+        { x: 55, y: 450, width: 45, height: 20 },
+        { x: 235, y: 500, width: 45, height: 20 },
+        { x: 325, y: 550, width: 45, height: 20 },
+        { x: 415, y: 600, width: 45, height: 20 },
+        { x: 550, y: 600, width: 45, height: 20 }
+    ],
+    crates: [],
+    chests: [
+        { x: 190, y: 418, width: 32, height: 32 },
+        { x: 370, y: 468, width: 32, height: 32 },
+        { x: 550, y: 568, width: 32, height: 32 },
+        { x: 730, y: 568, width: 32, height: 32 }
+    ],
+    grass_m_p: [],
+    grass_l_p: [],
+    grass_r_p: [],
+    artifacts: [{ x: 730, y: 530 }],
+    coins: [
+        { x: 145, y: 420 },
+        { x: 280, y: 420 },
+        { x: 370, y: 470 },
+        { x: 460, y: 520 },
+        { x: 550, y: 570 },
+        { x: 685, y: 570 },
+        { x: 775, y: 570 }
+    ],
+    potions: [
+        { x: 235, y: 420 },
+        { x: 325, y: 470 },
+        { x: 415, y: 520 },
+        { x: 505, y: 570 },
+        { x: 640, y: 570 }
+    ]
+};
+var level4Scene4 = {
+    ghostpirate: [],
+    pirate: [],
+    boss: [], 
+    grass_m: [],
+    grass_l: [],
+    grass_r: [],
+    shop: [{x: 920, y: 650}],
+    
+ 
+    native: [
+        { x: 150, y: 350 },
+        { x: 250, y: 330 },
+        { x: 750, y: 350 },
+        { x: 850, y: 330 }
+    ],
+    
+  
+    cactus: [
+        { x: 100, y: 550 },
+        { x: 300, y: 400 },
+        { x: 700, y: 400 },
+        { x: 900, y: 550 }
+    ],
+    
+  
+    outlaw: [
+        { x: 480, y: 320, type: "sword" },
+        { x: 520, y: 320, type: "sword" },
+        { x: 500, y: 280, type: "gun" },
+        { x: 500, y: 360, type: "gun" }
+    ],
+    
+    // Base ground
+    sand_floor: [
+        { x: 0, y: 700, width: 40, height: 40 },
+        { x: 40, y: 700, width: 40, height: 40 },
+        { x: 80, y: 700, width: 40, height: 40 },
+        { x: 120, y: 700, width: 40, height: 40 },
+        { x: 160, y: 700, width: 40, height: 40 },
+        { x: 200, y: 700, width: 40, height: 40 },
+        { x: 240, y: 700, width: 40, height: 40 },
+        { x: 280, y: 700, width: 40, height: 40 },
+        { x: 320, y: 700, width: 40, height: 40 },
+        { x: 360, y: 700, width: 40, height: 40 },
+        { x: 400, y: 700, width: 40, height: 40 },
+        { x: 440, y: 700, width: 40, height: 40 },
+        { x: 480, y: 700, width: 40, height: 40 },
+        { x: 520, y: 700, width: 40, height: 40 },
+        { x: 560, y: 700, width: 40, height: 40 },
+        { x: 600, y: 700, width: 40, height: 40 },
+        { x: 640, y: 700, width: 40, height: 40 },
+        { x: 680, y: 700, width: 40, height: 40 },
+        { x: 720, y: 700, width: 40, height: 40 },
+        { x: 760, y: 700, width: 40, height: 40 },
+        { x: 800, y: 700, width: 40, height: 40 },
+        { x: 840, y: 700, width: 40, height: 40 },
+        { x: 880, y: 700, width: 40, height: 40 },
+        { x: 920, y: 700, width: 40, height: 40 },
+        { x: 960, y: 700, width: 40, height: 40 },
+        { x: 1000, y: 700, width: 40, height: 40 }
+    ],
+    
+    // Main platforms - terraced design with clear pathways
+    sand_m: [
+        // Left side platform
+        { x: 100, y: 600, width: 45, height: 20 },
+        { x: 145, y: 600, width: 45, height: 20 },
+        { x: 190, y: 600, width: 45, height: 20 },
+        { x: 235, y: 600, width: 45, height: 20 },
+        
+        // Middle lower platform
+        { x: 350, y: 650, width: 45, height: 20 },
+        { x: 395, y: 650, width: 45, height: 20 },
+        { x: 440, y: 650, width: 45, height: 20 },
+        { x: 485, y: 650, width: 45, height: 20 },
+        { x: 530, y: 650, width: 45, height: 20 },
+        { x: 575, y: 650, width: 45, height: 20 },
+        { x: 620, y: 650, width: 45, height: 20 },
+        
+        // Middle upper platform
+        { x: 395, y: 550, width: 45, height: 20 },
+        { x: 440, y: 550, width: 45, height: 20 },
+        { x: 485, y: 550, width: 45, height: 20 },
+        { x: 530, y: 550, width: 45, height: 20 },
+        { x: 575, y: 550, width: 45, height: 20 },
+        
+        // High central platform
+        { x: 440, y: 450, width: 45, height: 20 },
+        { x: 485, y: 450, width: 45, height: 20 },
+        { x: 530, y: 450, width: 45, height: 20 },
+        
+        // Right side platform
+        { x: 750, y: 600, width: 45, height: 20 },
+        { x: 795, y: 600, width: 45, height: 20 },
+        { x: 840, y: 600, width: 45, height: 20 },
+        { x: 885, y: 600, width: 45, height: 20 }
+    ],
+    
+
+    sand_r: [
+
+        { x: 305, y: 630, width: 45, height: 20 },
+        { x: 350, y: 600, width: 45, height: 20 },
+        
+ 
+        { x: 620, y: 600, width: 45, height: 20 },
+        { x: 665, y: 630, width: 45, height: 20 },
+        
+
+        { x: 575, y: 500, width: 45, height: 20 },
+        { x: 530, y: 400, width: 45, height: 20 }
+    ],
+    
+
+    sand_l: [
+
+        { x: 305, y: 570, width: 45, height: 20 },
+        { x: 350, y: 500, width: 45, height: 20 },
+        
+
+        { x: 665, y: 570, width: 45, height: 20 },
+        { x: 710, y: 630, width: 45, height: 20 },
+        
+
+        { x: 395, y: 500, width: 45, height: 20 },
+        { x: 440, y: 400, width: 45, height: 20 }
+    ],
+
+    crates: [
+        { x: 190, y: 560, width: 40, height: 40 },
+        { x: 440, y: 610, width: 40, height: 40 },
+        { x: 530, y: 510, width: 40, height: 40 },
+        { x: 795, y: 560, width: 40, height: 40 }
+    ],
+    chests: [
+        { x: 235, y: 568, width: 32, height: 32 },
+        { x: 485, y: 428, width: 32, height: 32 },
+        { x: 620, y: 628, width: 32, height: 32 },
+        { x: 840, y: 568, width: 32, height: 32 }
+    ],
+    grass_m_p: [],
+    grass_l_p: [],
+    grass_r_p: [],
+    artifacts: [{ x: 485, y: 430 }],
+    coins: [
+        { x: 145, y: 580 },
+        { x: 305, y: 550 },
+        { x: 395, y: 530 },
+        { x: 440, y: 430 },
+        { x: 530, y: 430 },
+        { x: 575, y: 530 },
+        { x: 665, y: 550 },
+        { x: 840, y: 580 },
+        { x: 395, y: 630 },
+        { x: 575, y: 630 }
+    ],
+
+    potions: [
+        { x: 190, y: 580 },
+        { x: 350, y: 630 },
+        { x: 485, y: 530 },
+        { x: 485, y: 630 },
+        { x: 620, y: 630 },
+        { x: 795, y: 580 },
+        { x: 485, y: 380 }
+    ]
+};
+
+//LEVEL OBEJECTIVES
+//LEVEL 1
+level1Scene1.objectives = [
+    { enemies: level1Scene1.pirate.length + level1Scene1.ghostpirate.length, artifact: level1Scene1.artifacts.length, chests: level1Scene1.chests.length }
+];
+level1Scene2.objectives = [
+    { enemies: level1Scene2.pirate.length + level1Scene2.ghostpirate.length, artifact: level1Scene2.artifacts.length, chests: level1Scene2.chests.length }
+];
+level1Scene3.objectives = [
+    { enemies: level1Scene3.pirate.length + level1Scene3.ghostpirate.length, artifact: level1Scene3.artifacts.length, chests: level1Scene3.chests.length }
+];
+level1Scene4.objectives = [
+    { enemies: level1Scene4.pirate.length + level1Scene4.ghostpirate.length, artifact: level1Scene4.artifacts.length, chests: level1Scene4.chests.length }
+];
+//LEVEL 2
+level2Scene1.objectives = [
+    { enemies: level2Scene1.pirate.length + level2Scene1.ghostpirate.length, artifact: level2Scene1.artifacts.length, chests: level2Scene1.chests.length }
+];
+level2Scene2.objectives = [
+    { enemies: level2Scene2.pirate.length + level2Scene2.ghostpirate.length, artifact: level2Scene2.artifacts.length, chests: level2Scene2.chests.length }
+];
+level2Scene3.objectives = [
+    { enemies: level2Scene3.pirate.length + level2Scene3.ghostpirate.length, artifact: level2Scene3.artifacts.length, chests: level2Scene3.chests.length }
+];
+level2Scene4.objectives = [
+    { enemies: level2Scene4.pirate.length + level2Scene4.ghostpirate.length, artifact: level2Scene4.artifacts.length, chests: level2Scene4.chests.length }
+];
+//BOSS
+bosslevel2.objectives = [
+    {boss: 1, artifact: 1, bosslevel: true}
+];
+
+
+//LEVEL 3
+level3Scene1.objectives = [
+    { enemies: level3Scene1.native.length + level3Scene1.outlaw.length + level3Scene1.cactus.length, artifact: level3Scene1.artifacts.length, chests: level3Scene1.chests.length }
+];
 level3Scene2.objectives = [
     { enemies: level3Scene2.native.length + level3Scene2.outlaw.length + level3Scene2.cactus.length, artifact: level3Scene2.artifacts.length, chests: level3Scene2.chests.length }
 ];
@@ -1261,4 +1789,22 @@ level3Scene3.objectives = [
 
 level3Scene4.objectives = [
     { enemies: level3Scene4.native.length + level3Scene4.outlaw.length + level3Scene4.cactus.length, artifact: level3Scene4.artifacts.length, chests: level3Scene4.chests.length }
+];
+
+
+//LEVEL 4
+level4Scene1.objectives = [
+    { enemies: level4Scene1.native.length + level4Scene1.outlaw.length + level4Scene1.cactus.length, artifact: level4Scene1.artifacts.length, chests: level4Scene1.chests.length }
+];
+
+level4Scene2.objectives = [
+    { enemies: level4Scene2.native.length + level4Scene2.outlaw.length + level4Scene2.cactus.length, artifact: level4Scene2.artifacts.length, chests: level4Scene2.chests.length }
+];
+
+level4Scene3.objectives = [
+    { enemies: level4Scene3.native.length + level4Scene3.outlaw.length + level4Scene3.cactus.length, artifact: level4Scene3.artifacts.length, chests: level4Scene3.chests.length }
+];
+
+level4Scene4.objectives = [
+    { enemies: level4Scene4.native.length + level4Scene4.outlaw.length + level4Scene4.cactus.length, artifact: level4Scene4.artifacts.length, chests: level4Scene4.chests.length }
 ];
