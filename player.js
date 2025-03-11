@@ -23,6 +23,7 @@ class Player {
         this.damage = 400;
         this.isDashing = false;
         this.currentScene = 1;
+        this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");;
         this.dashCooldown = 0;
         this.dashDuration = 10;
         this.dashSpeed = 15;
@@ -57,11 +58,11 @@ class Player {
             
         };
         this.highestArtifactPerScene = {
-            1: false,
             2: false,
-            3: false,
             4: false,
-            5: false
+            6: false,
+            8: false,
+            9: false
         };
         this.sprite = this.assets[this.characterType];
 
@@ -145,7 +146,7 @@ class Player {
         if(this.testThisCooldown > 0) {
             this.testThisCooldown--;
         }
-        if(this.getCurrentScene() > 5) {
+        if(this.getCurrentScene() > 9) {
             if(this.testThis === 1) {
                 this.updateBackground("./sprites/background/westernbackground01.png");
                 this.testThisCooldown = 250;
@@ -315,22 +316,31 @@ class Player {
             this.level = level1Scene4;
             this.checkObjectives(this.level);
         } else if (this.currentScene === 5) {
-            this.level = bosslevel1;
-            this.checkObjectives(this.level);
-        } else if (this.currentScene === 6) {
             this.level = level2Scene1;
             this.checkObjectives(this.level);
-        } else if (this.currentScene === 7) {
+        } else if (this.currentScene === 6) {
             this.level = level2Scene2;
             this.checkObjectives(this.level);
-        } else if (this.currentScene === 8) {
+        } else if (this.currentScene === 7) {
             this.level = level2Scene3;
             this.checkObjectives(this.level);
-        } else if (this.currentScene === 9) {
+        } else if (this.currentScene === 8) {
             this.level = level2Scene4;
             this.checkObjectives(this.level);
-        } else if (this.currentScene === 10) {
+        } else if (this.currentScene === 9) {
             this.level = bosslevel2;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 10) {
+            this.level = level3Scene1;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 11) {
+            this.level = level3Scene2;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 12) {
+            this.level = level3Scene3;
+            this.checkObjectives(this.level);
+        } else if (this.currentScene === 13) {
+            this.level = level3Scene4;
             this.checkObjectives(this.level);
         }
     }
@@ -344,7 +354,7 @@ class Player {
                 this.removechest();
                 this.resetValues();
                 console.log("Moving to next scene!");
-                if(this.getCurrentScene() === 9) {
+                if(this.getCurrentScene() === 13) {
                     this.checkGameWon();
                 }
                 this.moveToNextScene();
@@ -397,18 +407,24 @@ class Player {
 
     getNextLevel() {
         switch (this.currentScene) {
+            case 13:
+                return level3Scene4;
+            case 12:
+                return level3Scene3;
+            case 11:
+                return level3Scene2;
             case 10:
-                return bosslevel2;
+                return level3Scene1;
             case 9:
-                return level2Scene4;
+                return bosslevel2;
             case 8:
-                return level2Scene3;
+                return level2Scene4;
             case 7:
-                return level2Scene2;
+                return level2Scene3;
             case 6:
-                return level2Scene1;
+                return level2Scene2;
             case 5:
-                return bosslevel1;
+                return level2Scene1;
             case 4:
                 return level1Scene4;
             case 3:
@@ -421,18 +437,24 @@ class Player {
     }
     getLevelName() {
         switch (this.currentScene) {
+            case 13:
+                return "3 Scene 4";
+            case 12:
+                return "3 Scene 3";
+            case 11:
+                return "3 Scene 2";
             case 10:
-                return "2 BOSS";
+                return "3 Scene 1";
             case 9:
-                return "2 Scene 4";
+                return "2 BOSS";
             case 8:
-                return "2 Scene 3";
+                return "2 Scene 4";
             case 7:
-                return "2 Scene 2";
+                return "2 Scene 3";
             case 6:
-                return "2 Scene 1";
+                return "2 Scene 2";
             case 5:
-                return "1 BOSS";
+                return "2 Scene 1";
             case 4:
                 return "1 Scene 4";
             case 3:
@@ -496,70 +518,38 @@ class Player {
         ctx.fillText(this.messageText, this.messageX + 15, this.messageY - 10);
     }
     drawArtifact(ctx) {
-        let image;
-        if (this.currentScene === 1) {
-            if(!this.highestArtifactPerScene[1]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
-            } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
-            }
-        } else if (this.currentScene === 2) {
+        if (this.currentScene === 2) {
             if(!this.highestArtifactPerScene[2]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
             } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
-            }
-        } else if (this.currentScene === 3 ) {
-            if(!this.highestArtifactPerScene[3]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
-            }else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
             }
         } else if (this.currentScene === 4) {
             if(!this.highestArtifactPerScene[4]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
             } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
             }
-        } else if (this.currentScene === 5) {
-            if(!this.highestArtifactPerScene[5]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
-            } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
-            }
-        } else if (this.currentScene === 6) {
+        } else if (this.currentScene === 6 ) {
             if(!this.highestArtifactPerScene[6]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_empty.png");
-            } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
-            }
-            
-        } else if (this.currentScene === 7) {
-            if(!this.highestArtifactPerScene[7]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_20.png");
-            } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+            }else {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
             }
         } else if (this.currentScene === 8) {
             if(!this.highestArtifactPerScene[8]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_40.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
             } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
             }
         } else if (this.currentScene === 9) {
             if(!this.highestArtifactPerScene[9]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_60.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
             } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
-            }
-        } else if (this.currentScene === 10) {
-            if(!this.highestArtifactPerScene[10]) {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_80.png");
-            } else {
-                image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
             }
         }
-        ctx.drawImage(image, 30, 100, 65, 65);
+        ctx.drawImage(this.image, 30, 100, 65, 65);
     }
     drawCooldownBar(ctx) {
         if (this.attackCooldown > 0) {  

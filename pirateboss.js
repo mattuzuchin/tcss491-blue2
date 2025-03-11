@@ -78,23 +78,20 @@ class PirateBoss {
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.currentShootCooldown > 0) this.currentShootCooldown--;
         if (this.currentBigAttackCooldown > 0) this.currentBigAttackCooldown--;
+        if (this.currentCannonAttackCooldown > 0) this.currentCannonAttackCooldown--;
 
         if (!this.isDead && !this.isStart) {
             this.handleMovement();
             if (this.type === "gun") {
                 this.handleShooting();
             }
-
-            // Only allow big attacks when not in intro
             if (Math.random() < 0.01 && this.currentBigAttackCooldown <= 0) { 
                 this.handleBigAttack();
             }
-            
-            // Only handle pirate spawning when not in intro
+
             this.handlePirateSpawning();
             
-            // Only handle cannon attacks when not in intro
-            if (Math.random() < 0.008 && this.currentCannonAttackCooldown <= 0) {
+            if (Math.random() < 0.008 && this.currentCannonAttackCooldown <= 0 && !this.isCannonAttacking) {
                 this.handleCannonAttack();
             }
         }
