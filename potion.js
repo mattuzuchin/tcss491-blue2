@@ -1,9 +1,9 @@
 class Potion {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/player entities/heart.png");
-        this.width = 20;
-        this.height = 20;
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/player entities/potion.png");
+        this.width = 40;
+        this.height = 40;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.1);
 
         this.gravity = 0.5;

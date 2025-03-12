@@ -17,6 +17,7 @@ class Player {
         this.isOnGround = false;
         this.facingLeft = false;
         this.isAttacking = false;
+        this.isSpecial = false;
         this.attackCooldown = 0;
         this.attackDuration = 60;
         this.attackDirection = "right";
@@ -33,9 +34,11 @@ class Player {
         this.coinCount = 0;
         this.hearts = 5;
         this.bosslevel1Defeat = 0;
+        this.bosslevel4Defeat = 0;
         this.totalKills = 0;
         this.power = false;
         this.isDouble = false;
+        this.specialAttackCount = 0;
         this.doubleDuration = 5;
         this.durationMessage = 0;
         this.messageText = "";
@@ -62,7 +65,12 @@ class Player {
             4: false,
             6: false,
             8: false,
-            9: false
+            9: false,
+            11: false,
+            13: false,
+            15: false,
+            17: false,
+            18: false
         };
         this.sprite = this.assets[this.characterType];
 
@@ -143,6 +151,7 @@ class Player {
         this.handleDash();
         this.updateBoundingBox();
         this.checkComplete();
+        this.checkSpecialAttack();
         if(this.testThisCooldown > 0) {
             this.testThisCooldown--;
         }
@@ -184,6 +193,11 @@ class Player {
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.dashCooldown > 0) this.dashCooldown--;
     }
+    checkSpecialAttack() {
+        if(this.specialAttackCount === 5) {
+            this.isSpecial = true;
+        } 
+    }
     reset() {
         this.stopMusic();
         const currentCoins = this.game.camera.player.coinCount;
@@ -209,6 +223,7 @@ class Player {
         this.game.camera.player.coinCount = currentCoins;
          
         this.game.camera.player.hearts = 5;
+        this.totalChests = 0;
         this.game.camera.isDead = false;
         this.game.camera.player.currentScene = currentscene;
     }
@@ -363,16 +378,17 @@ class Player {
     checkObjectives(level) {
         this.levelO = level;
         if(this.levelO.objectives[0].bosslevel) {
-            if (this.bosslevel1Defeat >= 1 &&
+            if ((this.bosslevel1Defeat >= 1  || this.bosslevel4Defeat >= 1)&&
                 this.artifactCounts >= 1) {
-                this.playSound("levelcomplete");
                 this.removechest();
                 this.resetValues();
                 console.log("Moving to next scene!");
                 if(this.getCurrentScene() === 18) {
                     this.checkGameWon();
+                } else {
+                    this.playSound("levelcomplete");
+                    this.moveToNextScene();
                 }
-                this.moveToNextScene();
             }
         } else  {
             if (this.totalKills >= this.levelO.objectives[0].enemies &&
@@ -392,6 +408,7 @@ class Player {
     checkGameWon() {
         console.log("Player won");
         this.totalKills = 0;
+        this.specialAttackCount = 0;
         this.removeFromWorld = true;
         this.game.entities = [];
         this.stopMusic();
@@ -583,8 +600,38 @@ class Player {
             } else {
                 this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_complete.png");
             }
+        } else if (this.currentScene === 11) { 
+            if(!this.highestArtifactPerScene[11]) {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_empty.png");
+            } else {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_20.png");
+            }
+        } else if (this.currentScene === 13) {
+            if(!this.highestArtifactPerScene[13]) {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_20.png");
+            } else {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_40.png");
+            }
+        } else if (this.currentScene === 15) {
+            if(!this.highestArtifactPerScene[15]) {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_40.png");
+            } else {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_60.png");
+            }
+        } else if (this.currentScene === 17) {
+            if(!this.highestArtifactPerScene[17]) {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_60.png");
+            } else {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_80.png");
+            }
+        } else if (this.currentScene === 18) {
+            if(!this.highestArtifactPerScene[18]) {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_80.png");
+            } else {
+                this.image = ASSET_MANAGER.getAsset("./sprites/artifacts/necklace_complete.png");
+            }
         }
-        ctx.drawImage(this.image, 30, 100, 65, 65);
+        ctx.drawImage(this.image, 10, 100, 65, 65);
     }
     drawCooldownBar(ctx) {
         if (this.attackCooldown > 0) {  
@@ -596,11 +643,28 @@ class Player {
             ctx.fillRect(barX, barY, barWidth, barHeight);
         }
     }
-    
+    drawSpecial(ctx) {
+        let image;
+        if(this.specialAttackCount === 0) {
+            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack1.png");
+        } else if (this.specialAttackCount === 1) {
+            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack2.png");
+        } else if (this.specialAttackCount === 2) {
+            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack3.png");
+        } else if (this.specialAttackCount === 3) {
+            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack4.png");
+        } else if (this.specialAttackCount === 4 ) {
+            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack5.png");
+        } else {
+            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackFinal.png");
+        }
+        ctx.drawImage(image, 500, 15, 200, 30);
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         this.drawArtifact(ctx);
-        this.drawCooldownBar(ctx)
+        this.drawCooldownBar(ctx);
+        this.drawSpecial(ctx);
         if(this.isMessage && this.durationMessage != 0) {
             this.drawMessage(ctx, this.messageX, this.messageY);
             this.durationMessage--;
@@ -673,13 +737,16 @@ class Warrior extends Player {
                         if(entity.isDead) {
                             if(entity instanceof PirateBoss) {
                                 this.bosslevel1Defeat++;
+                                this.bosslevel4Defeat++;
+                                this.specialAttackCount++;
                             } else {
                                 this.totalKills++;
+                                this.specialAttackCount++;
                             }
                         }
                     }
                 }
-                if (entity instanceof Chest && this.BB.collide(entity.boundingBox)) {
+                if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && !entity.stayOpen) {
                     this.totalChests += 1;
                     this.power = entity.openChest();
                     entity.keepOpen();
@@ -742,6 +809,7 @@ class Warrior extends Player {
                         if(entity.isDead) {
                             if(entity instanceof PirateBoss) {
                                 this.bosslevel1Defeat++;
+                                this.bosslevel4Defeat++;
                             } else {
                                 this.totalKills++;
                             }
@@ -775,8 +843,7 @@ class Marksman extends Player {
         super(game, x, y, 0, emanage);
         this.damage = 30;
         this.attackDuration = 10;
-        this.specialAttackCooldown = 0;
-        
+
         // Special attack 
         this.specialArrowsRemaining = 0;
         this.specialAttackFrameCounter = 0;
@@ -784,12 +851,13 @@ class Marksman extends Player {
     }
 
     handleSpecialAttack() {
-        if (this.game.specialAttack && this.specialAttackCooldown <= 0 && !this.isSpecialAttacking) {
-  
+        if (this.game.specialAttack && this.isSpecial) {
+            
             this.isSpecialAttacking = true;
             this.specialArrowsRemaining = 3;
-            this.specialAttackCooldown = 180; 
             this.game.specialAttack = false;
+            this.isSpecial = false;
+            this.specialAttackCount = 0;
         }
 
         if (this.isSpecialAttacking) {
@@ -835,7 +903,6 @@ class Marksman extends Player {
     }
     update() {
         super.update();
-        if (this.specialAttackCooldown > 0) this.specialAttackCooldown--;
     }
     draw(ctx) {
         super.draw(ctx);
@@ -845,7 +912,7 @@ class Mage extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 2, emanage); 
         this.damage = 20;
-        this.specialAttackCooldown = 0;
+
     }
 
     handleAttack() {
@@ -869,8 +936,10 @@ class Mage extends Player {
     }
 
     handleSpecialAttack() {
-        if (this.game.specialAttack && this.specialAttackCooldown <= 0) {
+        if (this.game.specialAttack && this.isSpecial) {
             this.playSound("laser");
+            this.isSpecial = false;
+            this.specialAttackCount = 0;
             let laser = new LaserBeam(
                 this.game, 
                 this.x + 20, 
@@ -879,13 +948,11 @@ class Mage extends Player {
                 this
             );
             this.game.addEntity(laser);
-            this.specialAttackCooldown = 300; 
             this.game.specialAttack = false;
         }
     }
 
     update() {
         super.update();
-        if (this.specialAttackCooldown > 0) this.specialAttackCooldown--;
     }
 }

@@ -20,46 +20,47 @@ class Projectile {
         } else {
             this.x -= this.speed;
         }
-
-        this.BB.x = this.x;
-
-        for (let entity of this.game.entities) {
     
-            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
+        this.BB.x = this.x;
+    
+        for (let entity of this.game.entities) {
+            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss || entity instanceof WesternBoss
                 || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && 
                 this.BB.collide(entity.BB) && this.player) {
-                
-         
-                if (!entity.isDead) {
-                    if(this.player.power && this.player.powerUpDuration > 0) {
-                        this.player.powerUpDuration -= 1;
-                        entity.takeDamage(this.damage * 3);
-                    } else {
-                        this.player.power = false;
-                        this.player.powerUpDuration = 5;
-                        entity.takeDamage(this.damage);
-                    }
-          
-                    this.player.activateMessage("-1", entity.x, entity.y);
     
-                    if(entity.isDead) {
-                        if(entity instanceof PirateBoss) {
-                            this.player.bosslevel1Defeat++;
-                        } else {
-                            this.player.totalKills++;
-                        }
+                if (entity.isDead) {
+                    continue; 
+                }
+    
+                if(this.player.power && this.player.powerUpDuration > 0) {
+                    this.player.powerUpDuration -= 1;
+                    entity.takeDamage(this.damage * 3);
+                } else {
+                    this.player.power = false;
+                    this.player.powerUpDuration = 5;
+                    entity.takeDamage(this.damage);
+                }
+                this.player.activateMessage("-1", entity.x, entity.y);
+    
+        
+                if(entity.isDead) {
+                    if(entity instanceof PirateBoss || entity instanceof WesternBoss) {
+                        this.player.bosslevel1Defeat++;
+                        this.player.specialAttackCount++;
+                    } else {
+                        this.player.totalKills++;
+                        this.player.specialAttackCount++;
                     }
                 }
                 this.removeFromWorld = true;
+                break; 
             }
             
-    
             if ((entity instanceof Platform) && this.BB.collide(entity.boundingBox)) {
-                this.removeFromWorld = true; // Ensure arrow doesn't go through chest or platform
+                this.removeFromWorld = true;
             }
             
-    
-            if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player) {
+            if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player && !entity.stayOpen) {
                 if (!entity.stayOpen) { 
                     this.removeFromWorld = true;
                 }
@@ -68,12 +69,12 @@ class Projectile {
                 entity.keepOpen();
             }
             
-    
             if((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
                 entity.takeDamage(0.5);
                 this.removeFromWorld = true;
             }
         }
+        
         if (this.x < 0 || this.x > this.game.ctx.canvas.width || this.y < 0 || this.y > this.game.ctx.canvas.height) {
             this.removeFromWorld = true;
         }

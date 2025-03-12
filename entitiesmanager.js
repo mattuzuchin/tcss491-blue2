@@ -151,7 +151,7 @@ class entitiesmanager {
         if (level.artifacts) {
             for (let i = 0; i < level.artifacts.length; i++) {
                 let artifact = level.artifacts[i];
-                this.game.addEntity(new Artifact(this.game, artifact.x, artifact.y));
+                this.game.addEntity(new Artifact(this.game, artifact.x, artifact.y, artifact.type));
 
             }
         }
@@ -178,6 +178,13 @@ class entitiesmanager {
 
             }
         }
+        if(level.wboss) {
+            for (let i = 0; i < level.wboss.length; i++) {
+                let bossw = level.wboss[i];
+                this.game.addEntity(new WesternBoss(this.game, bossw.x, bossw.y));
+
+            }
+        }
         if(level.shop) {
             for (let i = 0; i < level.shop.length; i++) {
                 let shops = level.shop[i];
@@ -200,10 +207,26 @@ class entitiesmanager {
     draw(ctx) {
         if(!this.isDead) {
             ctx.fillStyle = "#EE4B2B";
-            ctx.font = "30px 'Press Start 2P', sans-serif"; 
-            ctx.fillText("Hearts: ", 125, 50);
+            ctx.font = "25px 'Press Start 2P', sans-serif"; 
             ctx.fillStyle = "Gold";
-            ctx.fillText("Coins: " + this.player.coinCount, 600, 50);
+            ctx.fillText("Coins: " + this.player.coinCount, 350, 40);
+            if(!this.player.getNextLevel().objectives[0].bosslevel) {
+                this.enemyIcon = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpiratestand.png"); 
+                this.chestIcon = ASSET_MANAGER.getAsset("./sprites/interactive entities/treasureChestOpen.png");
+                ctx.fillStyle = "#c83737";
+                ctx.font = "15px 'Press Start 2P', sans-serif";
+                ctx.textAlign = "left";
+                if (this.enemyIcon) {
+                    ctx.drawImage(this.enemyIcon, 100, 100, 25,25); 
+                    ctx.fillText(this.player.totalKills + "/" + this.player.getNextLevel().objectives[0].enemies, 130, 120);
+                } 
+
+                ctx.fillStyle = "purple";
+                if (this.chestIcon) {
+                    ctx.drawImage(this.chestIcon, 100, 130, 25, 25); 
+                    ctx.fillText(this.player.totalChests + "/" + this.player.getNextLevel().objectives[0].chests, 130, 150);
+                }
+            }
             ctx.fillStyle = "#EE4B2B";
             ctx.font = "bold 12px 'Press Start 2P', sans-serif";
             ctx.textAlign = "center";
@@ -216,12 +239,12 @@ class entitiesmanager {
             let hasHalfHeart = this.player.hearts % 1 !== 0; 
         
             for (let i = 0; i < fullHearts; i++) {
-                ctx.drawImage(this.heartanimation, 225 + i * 40, 20, 30, 30);
+                ctx.drawImage(this.heartanimation, 10 + i * 40, 10, 30, 30);
             }
         
     
             if (hasHalfHeart) {
-                ctx.drawImage(this.halfheart, 225 + fullHearts * 40, 20, 30, 30);
+                ctx.drawImage(this.halfheart, 10 + fullHearts * 40, 10, 30, 30);
             }
         }
     }

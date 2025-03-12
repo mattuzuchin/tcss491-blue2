@@ -146,7 +146,7 @@ var level1Scene2 = {
         { x: 790, y: 250, width: 45, height: 20 }, 
         { x: 965, y: 350, width: 45, height: 20 },
     ],
-    artifacts: [{x: 795, y: 700}], 
+    artifacts: [{x: 795, y: 700, type: 1}], 
     coins: [
         {x: 200, y: 25},
         {x: 945, y: 620},
@@ -325,7 +325,7 @@ var level1Scene4 = {
         { x: 140, y: 400, width: 45, height: 20 },
         { x: 565, y: 200, width: 45, height: 20 }
     ],
-    artifacts: [{ x: 990, y: 500}], 
+    artifacts: [{ x: 990, y: 500, type: 1}], 
     coins: [
         {x: 450, y: 25},
         {x: 350, y: 400},
@@ -476,7 +476,7 @@ var level2Scene2 = {
     grass_r_p: [
   
     ],
-    artifacts: [{x: 795, y: 500}], 
+    artifacts: [{x: 795, y: 500, type: 1}], 
     coins: [
     ], 
 };
@@ -749,7 +749,7 @@ var level2Scene4 = {
         { x: 565, y: 200, width: 45, height: 20 },
         { x: 790, y: 300, width: 45, height: 20 }
     ],
-    artifacts: [{ x: 810, y: 430, width: 45, height: 20 }],
+    artifacts: [{ x: 810, y: 430, type: 1 }],
     coins: [
         {x: 450, y: 300},
         {x: 350, y: 500},
@@ -895,7 +895,7 @@ var level3Scene1  = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{x: 400, y: 100}], //new artifcact?
+    artifacts: [], 
     coins: [{x: 635, y: 315}],
     potions:[{x: 650, y: 315}],
 };
@@ -982,7 +982,7 @@ var level3Scene2 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 590, y: 380 }],
+    artifacts: [{ x: 590, y: 380, type: 2 }],
     coins: [
         { x: 245, y: 520 },
         { x: 500, y: 420 },
@@ -1086,7 +1086,7 @@ var level3Scene3 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 700, y: 350 }],
+    artifacts: [],
     coins: [
         { x: 100, y: 570 },
         { x: 250, y: 520 },
@@ -1185,7 +1185,7 @@ var level3Scene4 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 500, y: 400 }], 
+    artifacts: [{ x: 500, y: 400, type: 2 }], 
     coins: [
         { x: 425, y: 520 },
         { x: 515, y: 520 },
@@ -1307,7 +1307,7 @@ var level4Scene1 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 235, y: 400 }],
+    artifacts: [],
     coins: [
         { x: 100, y: 570 },
         { x: 100, y: 520 },
@@ -1433,7 +1433,7 @@ var level4Scene2 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 457, y: 400 }],
+    artifacts: [{ x: 457, y: 400 , type: 2}],
     coins: [
         { x: 390, y: 570 },
         { x: 480, y: 570 },
@@ -1555,7 +1555,7 @@ var level4Scene3 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 730, y: 530 }],
+    artifacts: [],
     coins: [
         { x: 145, y: 420 },
         { x: 280, y: 420 },
@@ -1717,7 +1717,7 @@ var level4Scene4 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 485, y: 430 }],
+    artifacts: [{ x: 485, y: 430, type: 2 }],
     coins: [
         { x: 145, y: 580 },
         { x: 305, y: 550 },
@@ -1740,6 +1740,70 @@ var level4Scene4 = {
         { x: 795, y: 580 },
         { x: 485, y: 380 }
     ]
+};
+
+var bosslevel4= {
+    shop: [{x: 135, y: 500}],
+    ghostpirate: [],
+    pirate: [],
+    wboss: [{x: 500, y: 200}],
+    grass_m: [
+        //grassblockmiddle, left, and right are 45x45
+        { x: 0, y: 700, width: 45, height: 45 }, 
+        { x: 45, y: 700, width: 45, height: 45 }, 
+        { x: 90, y: 700, width: 45, height: 45 }, 
+        { x: 135, y: 700, width: 45, height: 45 }, 
+        { x: 180, y: 700, width: 45, height: 45 }, 
+        { x: 225, y: 700, width: 45, height: 45 }, 
+        { x: 270, y: 700, width: 45, height: 45 }, 
+        { x: 315, y: 700, width: 45, height: 45 }, 
+        { x: 360, y: 700, width: 45, height: 45 }, 
+        { x: 405, y: 700, width: 45, height: 45 }, 
+        { x: 450, y: 700, width: 45, height: 45 }, 
+        { x: 495, y: 700, width: 45, height: 45 }, 
+        { x: 540, y: 700, width: 45, height: 45 }, 
+        { x: 585, y: 700, width: 45, height: 45 }, 
+        { x: 630, y: 700, width: 45, height: 45 }, 
+        { x: 675, y: 700, width: 45, height: 45 }, 
+        { x: 720, y: 700, width: 45, height: 45 }, 
+        { x: 765, y: 700, width: 45, height: 45 }, 
+        { x: 810, y: 700, width: 45, height: 45 }, 
+        { x: 855, y: 700, width: 45, height: 45 }, 
+        { x: 900, y: 700, width: 45, height: 45 }, 
+        { x: 945, y: 700, width: 45, height: 45 }, 
+        { x: 990, y: 700, width: 45, height: 45 }, 
+    ],
+    grass_l: [
+        { x: 0, y: 700, width: 45, height: 45 }, 
+        
+    ],
+    grass_r: [
+        { x: 180, y: 700, width: 45, height: 45 }, 
+    ],
+    crates: [
+    ],
+    chests: [
+    ],
+    grass_m_p: [
+        { x: 90, y: 550, width: 45, height: 20 }, 
+        { x: 135, y: 550, width: 45, height: 20 }, 
+        { x: 180, y: 550, width: 45, height: 20 }, 
+        { x: 745, y: 550, width: 45, height: 20 }, 
+        { x: 790, y: 550, width: 45, height: 20 }, 
+        { x: 835, y: 550, width: 45, height: 20 }, 
+         
+    ],
+    grass_l_p: [
+        { x: 45, y: 550, width: 45, height: 20 }, 
+        { x: 700, y: 550, width: 45, height: 20 }, 
+
+    ],
+    grass_r_p: [
+        { x: 225, y: 550, width: 45, height: 20 }, 
+        { x: 880, y: 550, width: 45, height: 20 }, 
+    ],
+    artifacts: [], 
+    coins: [], 
 };
 
 //LEVEL OBEJECTIVES
@@ -1807,4 +1871,9 @@ level4Scene3.objectives = [
 
 level4Scene4.objectives = [
     { enemies: level4Scene4.native.length + level4Scene4.outlaw.length + level4Scene4.cactus.length, artifact: level4Scene4.artifacts.length, chests: level4Scene4.chests.length }
+];
+
+//boss level 4
+bosslevel4.objectives = [
+    {boss: 1, artifact: 1, bosslevel: true}
 ];

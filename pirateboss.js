@@ -60,7 +60,7 @@ class PirateBoss {
 
     die() {
         this.isDead = true;
-        let artifact = new Artifact(this.game, this.x , this.y );
+        let artifact = new Artifact(this.game, this.x , this.y, 1 );
         this.game.addEntity(artifact);
         this.removeFromWorld = true;
         

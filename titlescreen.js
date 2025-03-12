@@ -100,18 +100,28 @@ class TitleScreen {
     }
 
     drawHowScreen(ctx) {
-
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
         ctx.strokeStyle = "#FFFFFF";
         ctx.lineWidth = 2;
         ctx.strokeRect(20, 20, 100, 40);
         ctx.fillStyle = "#FFFFFF";
-
         let backButtonImage = ASSET_MANAGER.getAsset("./sprites/background/back.png");
         ctx.drawImage(backButtonImage, 20,20, this.howButton.width, this.howButton.height);
-
+        let enemy = ASSET_MANAGER.getAsset("./sprites/enemy entities/ghostpiratestand.png");
+        let enemy2 = ASSET_MANAGER.getAsset("./sprites/enemy entities/piratestand.png");
+        let title = ASSET_MANAGER.getAsset("./sprites/background/title.png");
+        let controls = ASSET_MANAGER.getAsset("./sprites/background/gamecontrol.png");
+        let sword =  ASSET_MANAGER.getAsset("./sprites/background/swordback.png");
+        ctx.save();
+        ctx.drawImage(enemy, 305,0, 40*1.5, 40*1.5);
+        ctx.drawImage(title, 355, 500, 80*4, 50*4);
+        ctx.drawImage(controls, 575, 413, 39, 17);
+        ctx.drawImage(sword, 600, 150, 40, 40);
+        ctx.translate(650 + 60, 0); 
+        ctx.scale(-1, 1);
+        ctx.drawImage(enemy2, 0,0, 40*1.5, 40*1.5);
+        ctx.restore();
         ctx.strokeStyle = "#FFFFFF";
         ctx.lineWidth = 2;
         ctx.font = "36px 'Press Start 2P', sans-serif";
@@ -120,19 +130,19 @@ class TitleScreen {
         ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Objectives", ctx.canvas.width / 2, 180);
         ctx.font = "11px Arial";
-        ctx.fillText("There are multiple scenes per level. With a total of 4 levels to complete. Each level will have a boss at the end. In each scene, there is an artifact you must collect.", ctx.canvas.width / 2, 220);
-        ctx.fillText("The final artifact for that level will be when you beat the boss. You must kill all entities, collect all chests, and get the artifact in order to advance to the next scene.", ctx.canvas.width / 2, 250);
-        ctx.fillText("Chests can spawn a powerup, allowing you to KILL 5 ENEMIES. Regular damage resumes after. There are extra potions around the map [tbd]", ctx.canvas.width / 2, 280);
-        ctx.fillText("It takes 3 hits to kill special enemies (ghost pirate), and 2 for regular enemies (pirate)", ctx.canvas.width / 2, 310);
+        ctx.fillText("There are multiple scenes per level. With a total of 4 levels to complete. Level 2/4 will have a boss at the end. In different scenes, there is an artifact you must collect.", ctx.canvas.width / 2, 220);
+        ctx.fillText("The final artifact will always be with the boss. You must kill all entities, collect all chests, and get the artifact (in any) in order to advance to the next scene.", ctx.canvas.width / 2, 250);
+        ctx.fillText("Chests can spawn a powerup, allowing you to KILL 5 ENEMIES. Regular damage resumes after. There are extra potions around the map such as extra hearts.", ctx.canvas.width / 2, 280);
+        ctx.fillText("It takes 3 hits to kill special enemies, and 2 for regular enemies. Every 5 enemies you kill will activate your special attack.", ctx.canvas.width / 2, 310);
         ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Extras", ctx.canvas.width / 2, 350);
         ctx.font = "11px Arial";
-        ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, and double coins). The shop will spawn every other level and boss levels.", ctx.canvas.width / 2, 380);
+        ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, and x2 coins). The shop will spawn every other level and boss levels.", ctx.canvas.width / 2, 380);
         
         ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Controls", ctx.canvas.width / 2, 430);
         ctx.font = "11px Arial";
-        ctx.fillText("Movement is with arrow keys (L-R-U-D). S = dash, D = attack, SpaceBar = Jump, and Shift = sprint", ctx.canvas.width / 2, 460);
+        ctx.fillText("Movement is with arrow keys (L-R-U-D). S = dash, D = attack, SpaceBar = Jump, and Shift = sprint, F = special attack", ctx.canvas.width / 2, 460);
     }
     drawCreditsScreen(ctx) {
 
