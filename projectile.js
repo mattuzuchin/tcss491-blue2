@@ -107,7 +107,16 @@ class MagicBall extends Projectile {
         this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Fireball.png"); 
     }
 }
-
+class SwordSlash extends Projectile {
+    constructor(game, x, y, direction, player) {
+        super(game, x, y, direction, player);
+        this.speed = 8;
+        this.damage = 1000;
+        this.width = 50;
+        this.height = 50;
+        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Swordslash.png"); 
+    }
+}
 class LaserBeam {
     constructor(game, x, y, direction, player) {
         this.game = game;

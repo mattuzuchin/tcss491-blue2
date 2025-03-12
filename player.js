@@ -689,6 +689,7 @@ class Warrior extends Player {
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
+        this.specialAttackCooldown = 0;
     }
 
     update() {
@@ -696,7 +697,17 @@ class Warrior extends Player {
         super.update(); 
     }
     handleSpecialAttack() {
-        
+        if (this.game.specialAttack && this.specialAttackCooldown <= 0) {
+
+            this.playSound("sword");
+            let swordslash = new SwordSlash(this.game, this.x, this.y-10, this.attackDirection, this);
+            this.game.addEntity(swordslash);
+            console.log(this.totalKills);
+            this.specialAttackCooldown = 500;
+            this.currentAnimator = this.animators[this.characterType].attacking;
+        } else {
+            this.specialAttackCooldown--;
+        }
     }
     handleAttack() {
         if (this.game.attack && !this.attackPressed && this.attackCooldown <= 0) {
