@@ -112,7 +112,8 @@ class SwordSlash extends Projectile {
     constructor(game, x, y, direction, player) {
         super(game, x, y, direction, player);
         this.speed = 8;
-        this.damage = 1000;
+        this.damage = 300 * (this.player.specialAttackCount - 1);
+        console.log(this.damage);
         this.width = 50;
         this.height = 50;
         this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Swordslash.png"); 
@@ -125,11 +126,12 @@ class SwordSlash extends Projectile {
             this.x -= this.speed;
         }
         this.BB.x = this.x;
+        this.BB.y = this.y;
         for (let entity of this.game.entities) {
             if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss || 
                 entity instanceof WesternBoss || entity instanceof Native || entity instanceof Cactus || 
                 entity instanceof Outlaw) && this.BB.collide(entity.BB) && this.player) {
-
+                console.log("touch")
                 if (!entity.isDead) {
                     if (this.player.power && this.player.powerUpDuration > 0) {
                         this.player.powerUpDuration -= 1;

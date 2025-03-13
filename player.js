@@ -166,11 +166,12 @@ class Player {
         this.handleGravity();
         this.handleCollisions();
         this.handleAttack();
+        this.checkSpecialAttack();
         this.handleSpecialAttack();
         this.handleDash();
         this.updateBoundingBox();
         this.checkComplete();
-        this.checkSpecialAttack();
+        
         if(this.testThisCooldown > 0) {
             this.testThisCooldown--;
         }
@@ -674,7 +675,8 @@ class Player {
             image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack4.png");
         } else if (this.specialAttackCount === 4 ) {
             image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack5.png");
-        } else {
+        } else if (this.specialAttackCount >= 5 ){
+            this.specialAttackCount = 5;
             image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackFinal.png");
         }
         ctx.drawImage(image, 500, 15, 200, 30);
@@ -718,22 +720,39 @@ class Warrior extends Player {
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
+        this.specialAttackCooldown = 0;
     }
 
     update() {
         this.handleDownwardStrike();
         super.update(); 
     }
+    takeDamage(amount) {
+        if(!this.isInvincible) {
+            console.log("Damage left: " + this.hearts);
+            if (Math.random() < 0.5) {
+                this.hearts = this.hearts - amount;
+              }
+            if (this.hearts < 0) this.hearts = 0;
+            if (this.hearts === 0) this.die();
+        } else {
+            console.log("Invincible, damage blocked!");
+        }
+    }
     handleSpecialAttack() {
-        if (this.game.specialAttack && this.isSpecial) {
+        if (this.game.specialAttack && this.checkSpecialAttack() && this.specialAttackCooldown <= 0) {
 
             this.playSound("sword");
-            let swordslash = new SwordSlash(this.game, this.x, this.y-10, this.attackDirection, this);
+            
+            let swordslash = new SwordSlash(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(swordslash);
-            console.log(this.totalKills);
-            this.isSpecial = false;
-            this.specialAttackCount = 0;
+            this.specialAttackCooldown = 300;
+            this.isSpecial = false; 
+            this.specialAttackCount -= 2;
             this.currentAnimator = this.animators[this.characterType].attacking;
+        }
+        else {
+            this.specialAttackCooldown--;
         }
     }
     handleAttack() {
@@ -741,15 +760,15 @@ class Warrior extends Player {
             this.isAttacking = true;
             this.attackPressed = true; 
             this.attackDuration = 50;
-            this.attackCooldown = 180;
+            this.attackCooldown = 0;
             
             let attackBB;
             if (this.attackDirection === "right") {
-                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 30, 30); 
+                attackBB = new BoundingBox(this.x + this.width, this.y + 10, 60, 60); 
             } else if (this.attackDirection === "left") {
-                attackBB = new BoundingBox(this.x - 30, this.y + 10, 30, 30);
+                attackBB = new BoundingBox(this.x - 60, this.y + 10, 60, 60);
             } else if (this.attackDirection === "up") {
-                attackBB = new BoundingBox(this.x + 10, this.y - 30, 30, 30);
+                attackBB = new BoundingBox(this.x + 10, this.y - 60, 60, 60);
             }
     
             this.playSound("sword");
@@ -804,7 +823,13 @@ class Warrior extends Player {
             this.attackDuration = 50;
         }
     }
-    
+    checkSpecialAttack() {
+        if(this.specialAttackCount >= 2) {
+            return true;
+        }
+            return false;
+        
+    }
     handleDownwardStrike() {
         // attack + fall keys
         if (this.game.attack && this.game.down && this.downwardStrikeCooldown <= 0 && !this.isOnGround) {
@@ -812,11 +837,12 @@ class Warrior extends Player {
             this.downwardStrikeCooldown = 120; 
             this.downwardStrikeDuration = 30; 
             this.velocity = 50;
+            this.playSound("sword");
         }
 
   
         if (this.isDownwardStriking && this.downwardStrikeDuration > 0) {
-            this.playSound("sword");
+            
             this.downwardStrikeDuration--;
 
             const downwardStrikeBB = new BoundingBox(
