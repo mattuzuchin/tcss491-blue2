@@ -247,7 +247,7 @@ class PirateBoss {
                 this.animator = new Animator(this.spritesheet, 0, 0, 80, 72, 4, 0.1); 
                 
                 if (player) {
-                    player.takeDamage(2);
+                    player.takeDamage(1);
                 }
             }
             this.attackCooldown = this.attackDuration; 

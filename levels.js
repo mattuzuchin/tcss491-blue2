@@ -1,6 +1,6 @@
 //LEVELS 1-2 | JUNGLE AND BOSS IN LEVEL 2
 var level1Scene1  = {
-    shop: [],
+    shop: [{x: 200, y: 650}],
     ghostpirate: [
         { x: 100, y: 100, type: "gun" }, 
     ],

@@ -31,7 +31,7 @@ class Player {
         this.artifactCounts = 0;
         this.powerUpDuration = 5;
         this.totalChests = 0;
-        this.coinCount = 0;
+        this.coinCount = 2220;
         this.hearts = 5;
         this.bosslevel1Defeat = 0;
         this.bosslevel4Defeat = 0;
@@ -45,6 +45,8 @@ class Player {
         this.deathTimer = 0;
         this.messageX = 0;
         this.messageY = 0;
+        this.isInvincible = false;
+        this.invincibilityDuration = 0;
         this.testThisCooldown = 0;
         this.testThis = 1;
         this.isMessage = false;
@@ -95,12 +97,25 @@ class Player {
         this.currentAnimator = this.animators[this.characterType].idle;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }
-
+    checkInvincible() {
+        if(this.invincibilityDuration <= 0) {
+            this.isInvincible = false;
+            this.invincibilityDuration = 0;
+        }
+    }
+    setInvincible() {
+        this.isInvincible = true;
+        this.invincibilityDuration = 1500;
+    }
     takeDamage(amount) {
-        console.log("Damage left: " + this.hearts);
-        this.hearts = this.hearts - amount;
-        if (this.hearts < 0) this.hearts = 0;
-        if (this.hearts === 0) this.die();
+        if(!this.isInvincible) {
+            console.log("Damage left: " + this.hearts);
+            this.hearts = this.hearts - amount;
+            if (this.hearts < 0) this.hearts = 0;
+            if (this.hearts === 0) this.die();
+        } else {
+            console.log("Invincible, damage blocked!");
+        }
     }
     activateMessage(message, x,y) {
         this.isMessage = true;
@@ -143,6 +158,10 @@ class Player {
     }
     update() {
         if (this.isDead) return;
+        if(this.isInvincible) {
+            this.invincibilityDuration--;
+        }
+        this.checkInvincible();
         this.handleMovement();
         this.handleGravity();
         this.handleCollisions();
@@ -660,9 +679,19 @@ class Player {
         }
         ctx.drawImage(image, 500, 15, 200, 30);
     }
+    drawShield(ctx) {
+        let shield = null;
+        if(this.isInvincible) {
+            shield = ASSET_MANAGER.getAsset("./sprites/player entities/shield.png");
+        } else {
+            shield = ASSET_MANAGER.getAsset("./sprites/player entities/shieldempty.png");
+        }
+        ctx.drawImage(shield, 10, 175, 65,65);
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         this.drawArtifact(ctx);
+        this.drawShield(ctx);
         this.drawCooldownBar(ctx);
         this.drawSpecial(ctx);
         if(this.isMessage && this.durationMessage != 0) {
@@ -685,11 +714,10 @@ class Player {
 class Warrior extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 1, emanage); // 1 "Warrior"
-        this.damage = 1000; 
+        this.damage = 1200; 
         this.downwardStrikeCooldown = 120; 
         this.downwardStrikeDuration = 30; 
         this.isDownwardStriking = false; 
-        this.specialAttackCooldown = 0;
     }
 
     update() {
@@ -697,16 +725,15 @@ class Warrior extends Player {
         super.update(); 
     }
     handleSpecialAttack() {
-        if (this.game.specialAttack && this.specialAttackCooldown <= 0) {
+        if (this.game.specialAttack && this.isSpecial) {
 
             this.playSound("sword");
             let swordslash = new SwordSlash(this.game, this.x, this.y-10, this.attackDirection, this);
             this.game.addEntity(swordslash);
             console.log(this.totalKills);
-            this.specialAttackCooldown = 500;
+            this.isSpecial = false;
+            this.specialAttackCount = 0;
             this.currentAnimator = this.animators[this.characterType].attacking;
-        } else {
-            this.specialAttackCooldown--;
         }
     }
     handleAttack() {
@@ -746,7 +773,7 @@ class Warrior extends Player {
                         this.activateMessage("-1", entity.x, entity.y);
                     
                         if(entity.isDead) {
-                            if(entity instanceof PirateBoss) {
+                            if(entity instanceof PirateBoss || entity instanceof WesternBoss) {
                                 this.bosslevel1Defeat++;
                                 this.bosslevel4Defeat++;
                                 this.specialAttackCount++;

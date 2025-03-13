@@ -71,6 +71,8 @@ ASSET_MANAGER.queueDownload("./sprites/projectiles/cannonball.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/dyna.png");
 ASSET_MANAGER.queueDownload("./sprites/background/title.png"); 
 ASSET_MANAGER.queueDownload("./sprites/player entities/marksmenattack.png"); 
+ASSET_MANAGER.queueDownload("./sprites/player entities/shield.png"); 
+ASSET_MANAGER.queueDownload("./sprites/player entities/shieldempty.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/creditsbutton.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/howtoplay.png"); 
 ASSET_MANAGER.queueDownload("./sprites/background/gamecontrol.png"); 
