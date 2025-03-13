@@ -760,7 +760,7 @@ class Warrior extends Player {
             this.isAttacking = true;
             this.attackPressed = true; 
             this.attackDuration = 50;
-            this.attackCooldown = 0;
+            this.attackCooldown = 180;
             
             let attackBB;
             if (this.attackDirection === "right") {
