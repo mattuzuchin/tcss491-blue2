@@ -31,7 +31,7 @@ class Player {
         this.artifactCounts = 0;
         this.powerUpDuration = 5;
         this.totalChests = 0;
-        this.coinCount = 2220;
+        this.coinCount = 0;
         this.hearts = 5;
         this.bosslevel1Defeat = 0;
         this.bosslevel4Defeat = 0;
