@@ -214,7 +214,6 @@ class LaserBeam {
                         this.player.totalKills++;
                     }
                 }
-                //this.removeFromWorld = true;
             }
         }
     }
