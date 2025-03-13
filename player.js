@@ -665,19 +665,36 @@ class Player {
     }
     drawSpecial(ctx) {
         let image;
-        if(this.specialAttackCount === 0) {
-            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack1.png");
-        } else if (this.specialAttackCount === 1) {
-            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack2.png");
-        } else if (this.specialAttackCount === 2) {
-            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack3.png");
-        } else if (this.specialAttackCount === 3) {
-            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack4.png");
-        } else if (this.specialAttackCount === 4 ) {
-            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack5.png");
-        } else if (this.specialAttackCount >= 5 ){
-            this.specialAttackCount = 5;
-            image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackFinal.png");
+        if(this.characterType === "Warrior") {
+            if(this.specialAttackCount === 0) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack1.png");
+            } else if (this.specialAttackCount === 1) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack2.png");
+            } else if (this.specialAttackCount === 2) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack3.png");
+            } else if (this.specialAttackCount === 3) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack4.png");
+            } else if (this.specialAttackCount === 4 ) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttack5.png");
+            } else if (this.specialAttackCount >= 5 ){
+                this.specialAttackCount = 5;
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackFinal.png");
+            }
+        } else {
+            if(this.specialAttackCount === 0) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackProj1.png");
+            } else if (this.specialAttackCount === 1) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackProj2.png");
+            } else if (this.specialAttackCount === 2) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackProj3.png");
+            } else if (this.specialAttackCount === 3) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackProj4.png");
+            } else if (this.specialAttackCount === 4 ) {
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackProj5.png");
+            } else if (this.specialAttackCount >= 5 ){
+                this.specialAttackCount = 5;
+                image = ASSET_MANAGER.getAsset("./sprites/interactive entities/specialAttackProjFinal.png");
+            }
         }
         ctx.drawImage(image, 500, 15, 200, 30);
     }

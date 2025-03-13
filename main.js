@@ -57,6 +57,12 @@ ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttack3.png")
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttack4.png");
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttack5.png");
 ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackFinal.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackProj1.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackProj2.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackProj3.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackProj4.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackProj5.png");
+ASSET_MANAGER.queueDownload("./sprites/interactive entities/specialAttackProjFinal.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/ghostpirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/bullet.png");

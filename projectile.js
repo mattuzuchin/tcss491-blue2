@@ -116,69 +116,7 @@ class SwordSlash extends Projectile {
         console.log(this.damage);
         this.width = 50;
         this.height = 50;
-        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Swordslash.png"); 
-    }
-
-    update() {
-        if (this.direction === "right") {
-            this.x += this.speed;
-        } else {
-            this.x -= this.speed;
-        }
-        this.BB.x = this.x;
-        this.BB.y = this.y;
-        for (let entity of this.game.entities) {
-            if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss || 
-                entity instanceof WesternBoss || entity instanceof Native || entity instanceof Cactus || 
-                entity instanceof Outlaw) && this.BB.collide(entity.BB) && this.player) {
-                console.log("touch")
-                if (!entity.isDead) {
-                    if (this.player.power && this.player.powerUpDuration > 0) {
-                        this.player.powerUpDuration -= 1;
-                        entity.takeDamage(this.damage * 3);
-                    } else {
-                        this.player.power = false;
-                        this.player.powerUpDuration = 5;
-                        entity.takeDamage(this.damage);
-                    }
-                    this.player.activateMessage("-1", entity.x, entity.y);
-
-                    if (entity.isDead) {
-                        if (entity instanceof PirateBoss || entity instanceof WesternBoss) {
-                            this.player.bosslevel1Defeat++;
-                            this.player.bosslevel4Defeat++;
-                            this.player.specialAttackCount++;
-                        } else {
-                            this.player.totalKills++;
-                            this.player.specialAttackCount++;
-                        }
-                    }
-                }
-            }
-
-            if ((entity instanceof Platform) && this.BB.collide(entity.boundingBox)) {
-                this.removeFromWorld = true;
-            }
-
-            if (entity instanceof Chest && this.BB.collide(entity.boundingBox) && this.player && !entity.stayOpen) {
-                if (!entity.stayOpen) {
-                    this.removeFromWorld = true;
-                }
-                this.player.totalChests += 1;
-                this.player.power = entity.openChest();
-                entity.keepOpen();
-            }
-
-            if ((entity instanceof Player) && this.BB.collide(entity.BB) && this.player === null) {
-                entity.takeDamage(0.5);
-                this.removeFromWorld = true;
-            }
-        }
-
-        if (this.x < 0 || this.x > this.game.ctx.canvas.width || 
-            this.y < 0 || this.y > this.game.ctx.canvas.height) {
-            this.removeFromWorld = true;
-        }
+        this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Swordslash.png");
     }
 }
 
