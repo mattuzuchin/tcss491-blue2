@@ -142,7 +142,7 @@ class TitleScreen {
         ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Controls", ctx.canvas.width / 2, 430);
         ctx.font = "11px Arial";
-        ctx.fillText("Movement is with arrow keys (L-R-U-D). S = dash, D = attack, SpaceBar = Jump, and Shift = sprint, F = special attack", ctx.canvas.width / 2, 460);
+        ctx.fillText("Movement is with arrow keys (L-R-U-D). S = dash, D = attack, SpaceBar = Jump, and Shift = sprint, F = special attack, P = pause", ctx.canvas.width / 2, 460);
     }
     drawCreditsScreen(ctx) {
 
@@ -158,22 +158,29 @@ class TitleScreen {
         ctx.drawImage(backButtonImage, 20,20, this.howButton.width, this.howButton.height);
         
         ctx.font = "36px 'Press Start 2P', sans-serif";
+        ctx.fillStyle = "gold";
         ctx.fillText("Credits", ctx.canvas.width / 2, 100);
-        
+        ctx.fillStyle = "#FFFFFF";
         ctx.font = "24px 'Press Start 2P', sans-serif";
+        ctx.fillStyle = "gold";
         ctx.fillText("Game Development Team", ctx.canvas.width / 2, 180);
+        ctx.fillStyle = "red";
         ctx.font = "20px Arial";
         ctx.fillText("Matthew, Liam, Anthony, and Minh", ctx.canvas.width / 2, 220);
         
         ctx.font = "24px 'Press Start 2P', sans-serif";
+        ctx.fillStyle = "gold";
         ctx.fillText("Artwork", ctx.canvas.width / 2, 280);
+        ctx.fillStyle = "red";
         ctx.font = "20px Arial";
         ctx.fillText("Matthew, Liam, Anthony, and Minh.", ctx.canvas.width / 2, 320);
-        ctx.fillText("Also courtesy of Jemastock for the Death Image and PixilArt (Robonkey, CodeMaster111) for the Menu Buttons", ctx.canvas.width / 2, 350);
+        ctx.fillText("Also courtesy of Jemastock for the Death Image and PixilArt for the Menu, and tracker sprites.", ctx.canvas.width / 2, 350);
         ctx.font = "24px 'Press Start 2P', sans-serif";
-        ctx.fillText("Music", ctx.canvas.width / 2, 390);
+        ctx.fillStyle = "gold";
+        ctx.fillText("Music", ctx.canvas.width / 2, 400);
+        ctx.fillStyle = "red";
         ctx.font = "20px Arial";
-        ctx.fillText("BOSSFIGHT", ctx.canvas.width / 2, 420);
+        ctx.fillText("BOSSFIGHT and SoundSnap for all other sounds", ctx.canvas.width / 2, 430);
     }
 
     draw(ctx) {

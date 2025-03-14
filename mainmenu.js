@@ -21,7 +21,14 @@ class MainMenu {
             width: 100,
             height: 18,
             text: "Reset"
-        }
+        };
+        this.pauseButton = {
+            x: 850,
+            y: 90,
+            width: 100,
+            height: 18,
+            text: "Pause"
+        };
         this.quitButton = {
             x: 850,
             y: 110,
@@ -52,7 +59,14 @@ class MainMenu {
             this.showReset = true;
             return;
         }
-        //user hits quit
+        if (this.showMenu &&
+            click.x >= this.pauseButton.x && 
+            click.x <= this.pauseButton.x + this.pauseButton.width &&
+            click.y >= this.pauseButton.y && 
+            click.y <= this.pauseButton.y + this.pauseButton.height) {
+            this.gameEngine.togglePause();
+            return;
+        }
         if (this.showMenu &&
             click.x >= this.quitButton.x && 
             click.x <= this.quitButton.x + this.quitButton.width &&
@@ -72,8 +86,6 @@ class MainMenu {
 
 
     drawMainMenu(ctx) {
-        //this.gameEngine.togglePause();
-        //actual man menu
         ctx.strokeStyle = "#f54242";
         ctx.lineWidth = 0;
         //back button for user     
@@ -96,12 +108,12 @@ class MainMenu {
         // reset
         ctx.fillText(this.resetButton.text, this.resetButton.x + this.resetButton.width / 2, this.resetButton.y + this.resetButton.height/2 + 4);
         ctx.strokeRect(this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height); 
-        
-        
+        // pause
+        ctx.fillText(this.pauseButton.text, this.pauseButton.x + this.pauseButton.width / 2, this.pauseButton.y + this.pauseButton.height/2 + 4);
+        ctx.strokeRect(this.pauseButton.x, this.pauseButton.y, this.pauseButton.width, this.pauseButton.height); 
         //quit
         ctx.fillText(this.quitButton.text, this.quitButton.x + this.quitButton.width / 2, this.quitButton.y + this.quitButton.height/2 + 4);
         ctx.strokeRect(this.quitButton.x, this.quitButton.y, this.quitButton.width, this.quitButton.height); 
-
         if (this.showReset) {
             this.player.reset();
             

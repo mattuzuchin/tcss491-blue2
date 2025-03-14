@@ -143,10 +143,12 @@ class LaserBeam {
         if (--this.duration <= 0) this.removeFromWorld = true;
         for (let entity of this.game.entities) {
             if ((entity instanceof GhostPirate || entity instanceof Pirate || entity instanceof PirateBoss
-                || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) && this.BB.collide(entity.BB) && this.player) {
+                || entity instanceof Native || entity instanceof Cactus || entity instanceof Outlaw) 
+                && this.BB.collide(entity.BB) && this.player && !entity.counted) {
                 entity.takeDamage(this.damage);
                 this.player.activateMessage("-1", entity.x, entity.y);
                 if(entity.isDead) {
+                    entity.counted = true;
                     if(entity instanceof PirateBoss || entity instanceof WesternBoss) {
                         this.player.bosslevel1Defeat++;
                         this.player.bosslevel4Defeat++;

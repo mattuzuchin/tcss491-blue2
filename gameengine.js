@@ -85,6 +85,9 @@ class GameEngine {
                 case "KeyS":
                     that.dash = true;
                     break;
+                    case "KeyP": 
+                    that.togglePause();
+                    break;
             }
 
         }, false);
@@ -176,15 +179,25 @@ class GameEngine {
     }
 
     draw() {
-        
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-
-
+    
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+
+        if (this.paused) {
+            this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+            this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.fillStyle = "white";
+            this.ctx.font = "30px 'Press Start 2P', sans-serif";
+            this.ctx.textAlign = "center";
+            this.ctx.fillText("PAUSED", this.ctx.canvas.width / 2, this.ctx.canvas.height / 2);
+            this.ctx.font = "16px 'Press Start 2P', sans-serif";
+            this.ctx.fillText("Press P to resume", this.ctx.canvas.width / 2, this.ctx.canvas.height / 2 + 40);
+        }
+        
         this.camera.draw(this.ctx);
-    };
+    }
 
     update() {
         let entitiesCount = this.entities.length;
@@ -206,12 +219,10 @@ class GameEngine {
 
     loop() {
         this.clockTick = this.timer.tick();
-        this.update();
+        if (!this.paused) {
+            this.update();
+        }
         this.draw();
-        // if (!this.paused) {
-        //     this.update();
-        //     this.draw();
-        // }
-    };
+    }
 
 };
