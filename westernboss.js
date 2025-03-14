@@ -277,6 +277,22 @@ class WesternBoss {
         this.Sound.volume = 0.7;
         this.Sound.loop = false;
     }
+    drawHealth(ctx) {
+        const barWidth = 300 - 10;
+        const healthPercentage = this.health / 10000;
+        ctx.fillStyle = "purple";
+        ctx.font = "12px 'Press Start 2P', sans-serif";
+        ctx.fillText("BOSS", ctx.canvas.width / 2, 72);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        ctx.fillStyle = "red";
+        ctx.strokeRect(379, 74, 292, 12);
+        ctx.fillRect(380, 75, barWidth, 10);
+        
+        ctx.fillStyle = "green";
+        ctx.fillRect(380, 75, barWidth * healthPercentage, 10);
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         if (this.facingLeft) {
@@ -286,6 +302,7 @@ class WesternBoss {
         }
 
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.drawHealth(ctx);
         if (this.facingLeft) {
             ctx.restore();
         }

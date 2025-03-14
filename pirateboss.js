@@ -137,6 +137,7 @@ class PirateBoss {
     
     performCannonAttack() {
         let cannonCount = 0;
+        this.playSound("cannonshot");
         while(cannonCount < this.maxCannon) {
             let cannonball = new CannonBall(
                 this.game, 
@@ -173,7 +174,12 @@ class PirateBoss {
             this.isBigAttacking = false;
         }, this.bigAttackDuration * 100 / 60); 
     }
-
+    playSound(sound) {
+        this.Sound = new Audio(`./audio/${sound}.mp3`);
+        this.Sound.play();
+        this.Sound.volume = 0.7;
+        this.Sound.loop = false;
+    }
     handleMovement() {
         this.randomMoveCounter++;
         if (this.randomMoveCounter >= this.randomMoveInterval) {
@@ -257,7 +263,22 @@ class PirateBoss {
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 0.1);
         
     }
-    
+    drawHealth(ctx) {
+        const barWidth = 300 - 10;
+        const healthPercentage = this.health / 10000;
+        ctx.fillStyle = "purple";
+        ctx.font = "12px 'Press Start 2P', sans-serif";
+        ctx.fillText("BOSS", ctx.canvas.width / 2, 72);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        ctx.fillStyle = "red";
+        ctx.strokeRect(379, 74, 292, 12);
+        ctx.fillRect(380, 75, barWidth, 10);
+        
+        ctx.fillStyle = "green";
+        ctx.fillRect(380, 75, barWidth * healthPercentage, 10);
+    }
     draw(ctx) {
         ctx.imageSmoothingEnabled = false;
         if (this.facingLeft) {
@@ -270,7 +291,7 @@ class PirateBoss {
         if (this.facingLeft) {
             ctx.restore();
         }
-    
+        this.drawHealth(ctx);
         // Debug bounding box
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);

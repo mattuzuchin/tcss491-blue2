@@ -145,6 +145,7 @@ class Player {
         if(level.boss.length == 0) {
             this.backgroundMusic = new Audio("./audio/level1scene1-4.wav");
         } else {
+            this.stopMusic();
             this.backgroundMusic = new Audio("./audio/level1bosssound.mp3");
         }
         this.backgroundMusic.loop = true;
@@ -445,6 +446,8 @@ class Player {
 
     moveToNextScene() {
         this.currentScene++;
+        this.stopMusic();
+        this.startLevelMusic(this.getNextLevel());
         this.game.camera.loadLevel(this.getNextLevel());
     }
 
