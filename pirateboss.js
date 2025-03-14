@@ -69,7 +69,7 @@ class PirateBoss {
     update() {
         if(this.isStart && this.introCooldown > 0) {
             this.introCooldown--;
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateBossEnter.png");
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/enemy entities/pirateBossenter.png");
             this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 1);
         }
         if(this.introCooldown <= 0) {

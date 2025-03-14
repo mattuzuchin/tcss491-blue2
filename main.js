@@ -68,7 +68,7 @@ ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirategunattack.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/bullet.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/bull.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirateBossAttack.png");
-ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirateBossEnter.png");
+ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirateBossenter.png");
 ASSET_MANAGER.queueDownload("./sprites/enemy entities/pirateBossIdle.png");
 ASSET_MANAGER.queueDownload("./sprites/background/death.png"); //448 x 444
 ASSET_MANAGER.queueDownload("./sprites/background/swordback.png"); 
