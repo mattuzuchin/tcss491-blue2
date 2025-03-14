@@ -1,7 +1,12 @@
 class Potion {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/player entities/potion.png");
+    constructor(game, x, y, player) {
+        Object.assign(this, { game, x, y, player});
+        this.type = Math.floor(Math.random() * 2) + 1; 
+        if(this.type === 1){
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/player entities/potion.png");
+        } else {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/player entities/greenpotion.png");
+        }
         this.width = 40;
         this.height = 40;
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.1);
@@ -48,6 +53,18 @@ class Potion {
                     this.velocity = 0;
                     this.isOnGround = true;
                 }
+            }
+            if (entity instanceof Player && this.BB.collide(entity.BB)) {
+                
+                if(this.player.hearts < 5 && this.type === 1) {
+                    this.player.hearts = Math.min(this.player.hearts + 1, 5);
+                    this.player.activateMessage("+1 Heart", entity.x, entity.y);
+                } else {
+                    this.player.setInvincible();
+                    this.player.activateMessage("Invincibility Discovered!", entity.x, entity.y);
+                }
+                this.player.playSound("potion");
+                this.removeFromWorld = true;
             }
         }
     }

@@ -112,6 +112,7 @@ ASSET_MANAGER.queueDownload("./sprites/player entities/Mage.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/Magetemp.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/MageAttack.png");
 ASSET_MANAGER.queueDownload("./sprites/player entities/potion.png");
+ASSET_MANAGER.queueDownload("./sprites/player entities/greenpotion.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/Firebeam.png");
 ASSET_MANAGER.queueDownload("./sprites/projectiles/Swordslash.png");

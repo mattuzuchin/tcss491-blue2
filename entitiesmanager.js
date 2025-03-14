@@ -166,7 +166,7 @@ class entitiesmanager {
         if(level.potions) {
             for (let i = 0; i < level.potions.length; i++) {
                 let potion = level.potions[i];
-                this.game.addEntity(new Potion(this.game, potion.x, potion.y));
+                this.game.addEntity(new Potion(this.game, potion.x, potion.y, this.player));
 
             }
         }

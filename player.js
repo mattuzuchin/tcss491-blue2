@@ -325,15 +325,6 @@ class Player {
                 entity.removeFromWorld = true;
                 this.activateMessage("+1 Coin", this.x, this.y);
             }
-            if (entity instanceof Potion && this.BB.collide(entity.BB)) {
-                
-                if(this.hearts < 5) {
-                    this.hearts = Math.min(this.hearts + 1, 5);
-                    this.activateMessage("+1 Heart", entity.x, entity.y);
-                    this.playSound("heart");
-                }
-                entity.removeFromWorld = true;
-            }
         }
     }
     

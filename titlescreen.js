@@ -131,13 +131,13 @@ class TitleScreen {
         ctx.fillText("Objectives", ctx.canvas.width / 2, 180);
         ctx.font = "11px Arial";
         ctx.fillText("There are multiple scenes per level. With a total of 4 levels to complete. Level 2/4 will have a boss at the end. In different scenes, there is an artifact you must collect.", ctx.canvas.width / 2, 220);
-        ctx.fillText("The final artifact will always be with the boss. You must kill all entities, collect all chests, and get the artifact (in any) in order to advance to the next scene.", ctx.canvas.width / 2, 250);
+        ctx.fillText("The final artifact will always be with the boss. You must kill all entities, collect all chests, and get the artifact (if any) in order to advance to the next scene.", ctx.canvas.width / 2, 250);
         ctx.fillText("Chests can spawn a powerup, allowing you to KILL 5 ENEMIES. Regular damage resumes after. There are extra potions around the map such as extra hearts.", ctx.canvas.width / 2, 280);
-        ctx.fillText("It takes 3 hits to kill special enemies, and 2 for regular enemies. Every 5 enemies you kill will activate your special attack.", ctx.canvas.width / 2, 310);
+        ctx.fillText("Damage depends on the chosen character. Special attacks can be used after a # of killed enemies. Warrior is different, every 2 can spawn the attack but with different damages.", ctx.canvas.width / 2, 310);
         ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Extras", ctx.canvas.width / 2, 350);
         ctx.font = "11px Arial";
-        ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, and x2 coins). The shop will spawn every other level and boss levels.", ctx.canvas.width / 2, 380);
+        ctx.fillText("There is a shop where users can buy multiple items (hearts, damage, invincibility, and x2 coins). The shop will spawn every other level and boss levels.", ctx.canvas.width / 2, 380);
         
         ctx.font = "15px 'Press Start 2P', sans-serif";
         ctx.fillText("Controls", ctx.canvas.width / 2, 430);
