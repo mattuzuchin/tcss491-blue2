@@ -1112,9 +1112,11 @@ var level3Scene4 = {
         { x: 300, y: 100 }
     ],
     cactus: [
+        { x: 745, y: 300 },
+        { x: 500, y: 390},
     ],
     outlaw: [
-        { x: 150, y: 80, type: "gun" },
+        { x: 550, y: 700, type: "gun" },
         { x: 850, y: 80, type: "gun" }
     ],
     sand_floor: [
@@ -1205,12 +1207,12 @@ var level4Scene1 = {
     grass_l: [],
     grass_r: [],
     native: [
-        { x: 200, y: 150 },
+        { x: 300, y: 150 },
         { x: 450, y: 120 },
         { x: 700, y: 140 }
     ],
     cactus: [
-        { x: 100, y: 120 },
+        { x: 400, y: 120 },
         { x: 300, y: 140 },
         { x: 800, y: 130 }
     ],
@@ -1219,7 +1221,7 @@ var level4Scene1 = {
         { x: 350, y: 130, type: "sword" },
         { x: 550, y: 110, type: "gun" },
         { x: 750, y: 120, type: "sword" },
-        { x: 900, y: 140, type: "gun" }
+        { x: 100, y: 400, type: "gun" }
     ],
     sand_floor: [
         { x: 0, y: 700, width: 40, height: 40 },
@@ -1249,23 +1251,23 @@ var level4Scene1 = {
         { x: 960, y: 700, width: 40, height: 40 },
         { x: 1000, y: 700, width: 40, height: 40 }
     ],
-    // U-shaped layout with platforms
+
     sand_m: [
         // Left vertical section
         { x: 100, y: 600, width: 45, height: 20 },
-        { x: 100, y: 550, width: 45, height: 20 },
         { x: 100, y: 500, width: 45, height: 20 },
-        { x: 100, y: 450, width: 45, height: 20 },
+        { x: 100, y: 400, width: 45, height: 20 },
+        { x: 100, y: 300, width: 45, height: 20 },
         // Bottom horizontal section
-        { x: 145, y: 450, width: 45, height: 20 },
-        { x: 190, y: 450, width: 45, height: 20 },
-        { x: 235, y: 450, width: 45, height: 20 },
-        { x: 280, y: 450, width: 45, height: 20 },
-        { x: 325, y: 450, width: 45, height: 20 },
+        { x: 145, y: 150, width: 45, height: 20 },
+        { x: 190, y: 150, width: 45, height: 20 },
+        { x: 235, y: 150, width: 45, height: 20 },
+        { x: 280, y: 150, width: 45, height: 20 },
+        { x: 325, y: 150, width: 45, height: 20 },
         // Right vertical section
-        { x: 370, y: 450, width: 45, height: 20 },
+        { x: 370, y: 300, width: 45, height: 20 },
+        { x: 370, y: 400, width: 45, height: 20 },
         { x: 370, y: 500, width: 45, height: 20 },
-        { x: 370, y: 550, width: 45, height: 20 },
         { x: 370, y: 600, width: 45, height: 20 },
         // Separate floating platforms
         { x: 500, y: 520, width: 45, height: 20 },
@@ -1275,9 +1277,9 @@ var level4Scene1 = {
     ],
     sand_r: [
         { x: 415, y: 600, width: 45, height: 20 },
-        { x: 415, y: 550, width: 45, height: 20 },
         { x: 415, y: 500, width: 45, height: 20 },
-        { x: 415, y: 450, width: 45, height: 20 },
+        { x: 415, y: 400, width: 45, height: 20 },
+        { x: 415, y: 300, width: 45, height: 20 },
         { x: 545, y: 520, width: 45, height: 20 },
         { x: 645, y: 470, width: 45, height: 20 },
         { x: 745, y: 520, width: 45, height: 20 },
@@ -1285,9 +1287,9 @@ var level4Scene1 = {
     ],
     sand_l: [
         { x: 55, y: 600, width: 45, height: 20 },
-        { x: 55, y: 550, width: 45, height: 20 },
         { x: 55, y: 500, width: 45, height: 20 },
-        { x: 55, y: 450, width: 45, height: 20 },
+        { x: 55, y: 400, width: 45, height: 20 },
+        { x: 55, y: 300, width: 45, height: 20 },
         { x: 455, y: 520, width: 45, height: 20 },
         { x: 555, y: 470, width: 45, height: 20 },
         { x: 655, y: 520, width: 45, height: 20 },
@@ -1313,8 +1315,8 @@ var level4Scene1 = {
         { x: 800, y: 440 }
     ],
     potions: [
-        { x: 190, y: 420 },
-        { x: 280, y: 420 }
+        { x: 190, y: 120 },
+        { x: 680, y: 220 }
     ]
 };
 
@@ -1322,7 +1324,7 @@ var level4Scene1 = {
 var level4Scene2 = {
     ghostpirate: [],
     pirate: [],
-    shop: [{ x: 480, y: 400 }],
+    shop: [{ x: 700, y: 650 }],
     boss: [],
     grass_m: [],
     grass_l: [],
@@ -1414,10 +1416,6 @@ var level4Scene2 = {
         { x: 390, y: 300, width: 45, height: 20 }
     ],
     crates: [
-        { x: 300, y: 555, width: 45, height: 45 },
-        { x: 615, y: 555, width: 45, height: 45 },
-        { x: 390, y: 455, width: 45, height: 45 },
-        { x: 525, y: 455, width: 45, height: 45 }
     ],
     chests: [
         { x: 457, y: 418, width: 32, height: 32 },
@@ -1427,7 +1425,7 @@ var level4Scene2 = {
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 457, y: 400 , type: 2}],
+    artifacts: [{ x: 457, y: 300 , type: 2}],
     coins: [
         { x: 390, y: 570 },
         { x: 480, y: 570 },
@@ -1501,47 +1499,42 @@ var level4Scene3 = {
     // Z-pattern platforms
     sand_m: [
         // Top horizontal section
-        { x: 100, y: 450, width: 45, height: 20 },
-        { x: 145, y: 450, width: 45, height: 20 },
-        { x: 190, y: 450, width: 45, height: 20 },
-        { x: 235, y: 450, width: 45, height: 20 },
-        { x: 280, y: 450, width: 45, height: 20 },
+        { x: 100, y: 350, width: 45, height: 20 },
+        { x: 145, y: 350, width: 45, height: 20 },
+        { x: 190, y: 350, width: 45, height: 20 },
+        { x: 235, y: 350, width: 45, height: 20 },
+        { x: 280, y: 350, width: 45, height: 20 },
         // Diagonal section (represented as step pattern)
-        { x: 280, y: 500, width: 45, height: 20 },
-        { x: 325, y: 500, width: 45, height: 20 },
-        { x: 370, y: 500, width: 45, height: 20 },
+        { x: 280, y: 450, width: 45, height: 20 },
+        { x: 325, y: 450, width: 45, height: 20 },
+        { x: 370, y: 450, width: 45, height: 20 },
         { x: 370, y: 550, width: 45, height: 20 },
         { x: 415, y: 550, width: 45, height: 20 },
         { x: 460, y: 550, width: 45, height: 20 },
-        { x: 460, y: 600, width: 45, height: 20 },
-        { x: 505, y: 600, width: 45, height: 20 },
-        { x: 550, y: 600, width: 45, height: 20 },
         // Bottom horizontal section
-        { x: 595, y: 600, width: 45, height: 20 },
-        { x: 640, y: 600, width: 45, height: 20 },
-        { x: 685, y: 600, width: 45, height: 20 },
-        { x: 730, y: 600, width: 45, height: 20 },
-        { x: 775, y: 600, width: 45, height: 20 }
+        { x: 595, y: 625, width: 45, height: 20 },
+        { x: 640, y: 625, width: 45, height: 20 },
+        { x: 685, y: 625, width: 45, height: 20 },
+        { x: 730, y: 625, width: 45, height: 20 },
+        { x: 775, y: 625, width: 45, height: 20 }
     ],
     sand_r: [
-        { x: 325, y: 450, width: 45, height: 20 },
-        { x: 415, y: 500, width: 45, height: 20 },
+        {x: 325, y: 350, width: 45, height: 20 },
+        { x: 415, y: 450, width: 45, height: 20 },
         { x: 505, y: 550, width: 45, height: 20 },
-        { x: 595, y: 600, width: 45, height: 20 },
-        { x: 820, y: 600, width: 45, height: 20 }
+        { x: 820, y: 625, width: 45, height: 20 },
     ],
     sand_l: [
-        { x: 55, y: 450, width: 45, height: 20 },
-        { x: 235, y: 500, width: 45, height: 20 },
+        {x: 55, y: 350, width: 45, height: 20 },
+        { x: 235, y: 450, width: 45, height: 20 },
         { x: 325, y: 550, width: 45, height: 20 },
-        { x: 415, y: 600, width: 45, height: 20 },
-        { x: 550, y: 600, width: 45, height: 20 }
+        { x: 550, y: 625, width: 45, height: 20 },
     ],
     crates: [],
     chests: [
-        { x: 190, y: 418, width: 32, height: 32 },
+        { x: 150, y: 278, width: 32, height: 32 },
         { x: 370, y: 468, width: 32, height: 32 },
-        { x: 550, y: 568, width: 32, height: 32 },
+        { x: 250, y: 268, width: 32, height: 32 },
         { x: 730, y: 568, width: 32, height: 32 }
     ],
     grass_m_p: [],
@@ -1559,7 +1552,6 @@ var level4Scene3 = {
     ],
     potions: [
         { x: 235, y: 420 },
-        { x: 325, y: 470 },
         { x: 415, y: 520 }
     ]
 };
@@ -1571,29 +1563,29 @@ var level4Scene4 = {
     grass_l: [],
     grass_r: [],
     shop: [{x: 920, y: 650}],
-    
- 
+
     native: [
-        { x: 150, y: 350 },
-        { x: 250, y: 330 },
+        { x: 150, y: 650 },
+        { x: 250, y: 530 },
         { x: 750, y: 350 },
-        { x: 850, y: 330 }
+        { x: 850, y: 430 }
     ],
     
   
     cactus: [
-        { x: 100, y: 550 },
-        { x: 300, y: 400 },
-        { x: 700, y: 400 },
-        { x: 900, y: 550 }
+        { x: 100, y: 150 },
+        { x: 300, y: 300 },
+        { x: 700, y: 200 },
+        { x: 900, y: 650 }
     ],
     
   
     outlaw: [
         { x: 480, y: 320, type: "sword" },
-        { x: 520, y: 320, type: "sword" },
-        { x: 500, y: 280, type: "gun" },
-        { x: 500, y: 360, type: "gun" }
+        { x: 520, y: 420, type: "sword" },
+        { x: 600, y: 580, type: "gun" },
+        { x: 700, y: 360, type: "gun" },
+        { x: 780, y: 200, type: "gun" }
     ],
     
     // Base ground
@@ -1626,88 +1618,70 @@ var level4Scene4 = {
         { x: 1000, y: 700, width: 40, height: 40 }
     ],
     
-    // Main platforms - terraced design with clear pathways
     sand_m: [
-        // Left side platform
-        { x: 100, y: 600, width: 45, height: 20 },
-        { x: 145, y: 600, width: 45, height: 20 },
-        { x: 190, y: 600, width: 45, height: 20 },
-        { x: 235, y: 600, width: 45, height: 20 },
-        
-        // Middle lower platform
-        { x: 350, y: 650, width: 45, height: 20 },
-        { x: 395, y: 650, width: 45, height: 20 },
-        { x: 440, y: 650, width: 45, height: 20 },
-        { x: 485, y: 650, width: 45, height: 20 },
-        { x: 530, y: 650, width: 45, height: 20 },
-        { x: 575, y: 650, width: 45, height: 20 },
-        { x: 620, y: 650, width: 45, height: 20 },
-        
-        // Middle upper platform
-        { x: 395, y: 550, width: 45, height: 20 },
-        { x: 440, y: 550, width: 45, height: 20 },
-        { x: 485, y: 550, width: 45, height: 20 },
-        { x: 530, y: 550, width: 45, height: 20 },
-        { x: 575, y: 550, width: 45, height: 20 },
-        
-        // High central platform
-        { x: 440, y: 450, width: 45, height: 20 },
-        { x: 485, y: 450, width: 45, height: 20 },
-        { x: 530, y: 450, width: 45, height: 20 },
-        
-        // Right side platform
-        { x: 750, y: 600, width: 45, height: 20 },
-        { x: 795, y: 600, width: 45, height: 20 },
-        { x: 840, y: 600, width: 45, height: 20 },
-        { x: 885, y: 600, width: 45, height: 20 }
+        {x: 90, y: 600, width: 40, height: 20},
+        {x: 130, y: 600, width: 40, height: 20},
+        {x: 170, y: 600, width: 40, height: 20},
+        {x: 210, y: 600, width: 40, height: 20},
+        {x: 250, y: 600, width: 40, height: 20},
+        {x: 290, y: 600, width: 40, height: 20},
+        {x: 330, y: 600, width: 40, height: 20},
+        {x: 370, y: 600, width: 40, height: 20},
+        {x: 410, y: 600, width: 40, height: 20},
+        {x: 450, y: 600, width: 40, height: 20},
+        {x: 610, y: 500, width: 40, height: 20},
+        {x: 650, y: 500, width: 40, height: 20},
+        {x: 690, y: 500, width: 40, height: 20},
+        {x: 730, y: 500, width: 40, height: 20},
+        {x: 770, y: 500, width: 40, height: 20},
+        {x: 810, y: 500, width: 40, height: 20},
+        {x: 850, y: 500, width: 40, height: 20},
+        {x: 90, y: 300, width: 40, height: 20},
+        {x: 130, y: 300, width: 40, height: 20},
+        {x: 170, y: 300, width: 40, height: 20},
+        {x: 210, y: 300, width: 40, height: 20},
+        {x: 250, y: 300, width: 40, height: 20},
+        {x: 520, y: 200, width: 40, height: 20},
+        {x: 560, y: 200, width: 40, height: 20},
+        {x: 600, y: 200, width: 40, height: 20},
+        {x: 640, y: 200, width: 40, height: 20},
+        {x: 680, y: 200, width: 40, height: 20},
+        {x: 720, y: 200, width: 40, height: 20},
+        {x: 760, y: 200, width: 40, height: 20},
     ],
     
 
     sand_r: [
-
-        { x: 305, y: 630, width: 45, height: 20 },
-        { x: 350, y: 600, width: 45, height: 20 },
+        {x: 490, y: 600, width: 40, height: 20},
+        {x: 890, y: 500, width: 40, height: 20},
+        {x: 450, y: 400, width: 40, height: 20},
+        {x: 290, y: 300, width: 40, height: 20},
+        {x: 800, y: 200, width: 40, height: 20}
         
- 
-        { x: 620, y: 600, width: 45, height: 20 },
-        { x: 665, y: 630, width: 45, height: 20 },
-        
-
-        { x: 575, y: 500, width: 45, height: 20 },
-        { x: 530, y: 400, width: 45, height: 20 }
     ],
     
 
     sand_l: [
-
-        { x: 305, y: 570, width: 45, height: 20 },
-        { x: 350, y: 500, width: 45, height: 20 },
-        
-
-        { x: 665, y: 570, width: 45, height: 20 },
-        { x: 710, y: 630, width: 45, height: 20 },
-        
-
-        { x: 395, y: 500, width: 45, height: 20 },
-        { x: 440, y: 400, width: 45, height: 20 }
+        {x: 50, y: 600, width: 40, height: 20},
+        {x: 570, y: 500, width: 40, height: 20},
+        {x: 410, y: 400, width: 40, height: 20},
+        {x: 50, y: 300, width: 40, height: 20},
+        {x: 480, y: 200, width: 40, height: 20}
     ],
 
     crates: [
-        { x: 190, y: 560, width: 40, height: 40 },
-        { x: 440, y: 610, width: 40, height: 40 },
-        { x: 530, y: 510, width: 40, height: 40 },
-        { x: 795, y: 560, width: 40, height: 40 }
+
     ],
     chests: [
-        { x: 235, y: 568, width: 32, height: 32 },
-        { x: 485, y: 428, width: 32, height: 32 },
+        { x: 235, y: 368, width: 32, height: 32 },
+        { x: 485, y: 128, width: 32, height: 32 },
         { x: 620, y: 628, width: 32, height: 32 },
-        { x: 840, y: 568, width: 32, height: 32 }
+        { x: 740, y: 168, width: 32, height: 32 }
     ],
     grass_m_p: [],
     grass_l_p: [],
     grass_r_p: [],
-    artifacts: [{ x: 485, y: 430, type: 2 }],
+    artifacts: [{ x: 785, y: 130, type: 2 }],
     coins: [
         { x: 145, y: 580 },
         { x: 305, y: 550 },
@@ -1722,8 +1696,8 @@ var level4Scene4 = {
     ],
 
     potions: [
-        { x: 190, y: 580 },
-        { x: 350, y: 630 }
+        { x: 190, y: 180 },
+        { x: 750, y: 630 }
     ]
 };
 
@@ -1732,8 +1706,8 @@ var bosslevel4= {
     ghostpirate: [],
     pirate: [],
     wboss: [{x: 500, y: 200}],
-    grass_m: [
-        //grassblockmiddle, left, and right are 45x45
+    sand_floor: [
+     
         { x: 0, y: 700, width: 45, height: 45 }, 
         { x: 45, y: 700, width: 45, height: 45 }, 
         { x: 90, y: 700, width: 45, height: 45 }, 
@@ -1758,18 +1732,11 @@ var bosslevel4= {
         { x: 945, y: 700, width: 45, height: 45 }, 
         { x: 990, y: 700, width: 45, height: 45 }, 
     ],
-    grass_l: [
-        { x: 0, y: 700, width: 45, height: 45 }, 
-        
-    ],
-    grass_r: [
-        { x: 180, y: 700, width: 45, height: 45 }, 
-    ],
     crates: [
     ],
     chests: [
     ],
-    grass_m_p: [
+    sand_m: [
         { x: 90, y: 550, width: 45, height: 20 }, 
         { x: 135, y: 550, width: 45, height: 20 }, 
         { x: 180, y: 550, width: 45, height: 20 }, 
@@ -1778,12 +1745,12 @@ var bosslevel4= {
         { x: 835, y: 550, width: 45, height: 20 }, 
          
     ],
-    grass_l_p: [
+    sand_l: [
         { x: 45, y: 550, width: 45, height: 20 }, 
         { x: 700, y: 550, width: 45, height: 20 }, 
 
     ],
-    grass_r_p: [
+    sand_r: [
         { x: 225, y: 550, width: 45, height: 20 }, 
         { x: 880, y: 550, width: 45, height: 20 }, 
     ],
