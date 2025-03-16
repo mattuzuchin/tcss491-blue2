@@ -56,15 +56,25 @@ class Potion {
             }
             if (entity instanceof Player && this.BB.collide(entity.BB)) {
                 
-                if(this.player.hearts < 5 && this.type === 1) {
-                    this.player.hearts = Math.min(this.player.hearts + 1, 5);
-                    this.player.activateMessage("+1 Heart", entity.x, entity.y);
-                } else {
-                    this.player.setInvincible();
-                    this.player.activateMessage("Invincibility Discovered!", entity.x, entity.y);
+                if(this.type === 1 ) {
+                    if(this.player.hearts <= 4) {
+                        this.player.hearts = Math.min(this.player.hearts + 1, 5);
+                        this.player.activateMessage("+1 Heart", entity.x, entity.y);
+                        this.removeFromWorld = true;
+                        this.player.playSound("potion");
+                    } else {
+                        this.player.activateMessage("Hearts Full! Cannot take potion", entity.x, entity.y);
+                    }
+                } else if (this.type === 2) {
+                    if(!this.player.getInvincible()) {
+                        this.player.setInvincible();
+                        this.player.activateMessage("Invincibility Discovered!", entity.x, entity.y);
+                        this.removeFromWorld = true;
+                        this.player.playSound("potion");
+                    } else {
+                        this.player.activateMessage("Already Invincible!", entity.x, entity.y);
+                    }
                 }
-                this.player.playSound("potion");
-                this.removeFromWorld = true;
             }
         }
     }

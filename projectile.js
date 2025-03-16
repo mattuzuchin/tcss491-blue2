@@ -102,7 +102,7 @@ class MagicBall extends Projectile {
     constructor(game, x, y, direction, player) {
         super(game, x, y, direction, player);
         this.speed = 8;
-        this.damage = 200;
+        this.damage = 1230;
         this.width = 20;
         this.height = 20;
         this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Fireball.png"); 

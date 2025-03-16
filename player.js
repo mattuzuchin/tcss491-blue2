@@ -103,6 +103,9 @@ class Player {
             this.invincibilityDuration = 0;
         }
     }
+    getInvincible() {
+        return this.isInvincible;
+    }
     setInvincible() {
         this.isInvincible = true;
         this.invincibilityDuration = 1500;
@@ -142,7 +145,7 @@ class Player {
         this.Sound.loop = false;
     }
     startLevelMusic(level) {
-        if(level.boss.length == 0) {
+        if(!level.objectives[0].bosslevel) {
             this.backgroundMusic = new Audio("./audio/level1scene1-4.wav");
         } else {
             this.stopMusic();
