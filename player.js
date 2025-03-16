@@ -276,7 +276,7 @@ class Player {
             this.attackDirection = "up";
         }
         if (!this.game.left && !this.game.right) {
-            if(this.attackDuration <= 0)  this.currentAnimator = this.animators[this.characterType].idle; 
+            if(this.attackDuration <= 0) this.currentAnimator = this.animators[this.characterType].idle; 
         }
         if (this.game.speedup) {
             this.speed = 4;
@@ -926,7 +926,7 @@ class Marksman extends Player {
     }
 
     handleSpecialAttack() {
-        if (this.game.specialAttack && this.isSpecial) {
+        if (this.game.specialAttack && this.isSpecial ) {
             
             this.isSpecialAttacking = true;
             this.specialArrowsRemaining = 3;
@@ -966,15 +966,22 @@ class Marksman extends Player {
             this.arrowSound.play();
             this.arrowSound.volume = 0.2;
             this.arrowSound.loop = false;
-            this.attackDuration = 20;
+            this.attackDuration = 30;
+            this.isAttacking = true;
             let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
             this.game.addEntity(projectile);
+            this.isAttacking = false;
             console.log(this.totalKills);
             this.attackCooldown = 100;
             this.currentAnimator = this.animators[this.characterType].attacking;
         } else {
             this.attackDuration--;
         }
+        // if(this.isAttacking && this.attackDuration <= 0) {
+        //     let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
+        //     this.game.addEntity(projectile);
+        //     this.isAttacking = false;
+        // }
     }
     update() {
         super.update();
@@ -991,9 +998,17 @@ class Mage extends Player {
     }
 
     handleAttack() {
-        if (this.game.attack && this.attackCooldown <= 0) {
+        if (this.game.attack && this.attackCooldown <= 0 && !this.isAttacking) {
             this.playSound("fireball");
             this.attackDuration = 20;
+            this.isAttacking = true;
+            this.attackCooldown = 1;
+            this.currentAnimator = this.animators[this.characterType].attacking;
+        }
+        else {
+            this.attackDuration--;
+        }
+        if(this.isAttacking && this.attackDuration <= 0) {
             let magicBall = new MagicBall(
                 this.game, 
                 this.x, 
@@ -1002,11 +1017,7 @@ class Mage extends Player {
                 this
             );
             this.game.addEntity(magicBall);
-            this.attackCooldown = 30;
-            this.currentAnimator = this.animators[this.characterType].attacking;
-        }
-        else {
-            this.attackDuration--;
+            this.isAttacking = false;
         }
     }
 
