@@ -1,10 +1,15 @@
 class Artifact {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/artifacts/abstraction.png");
+    constructor(game, x, y, type) {
+        Object.assign(this, { game, x, y, type });
         this.width = 34;
         this.height = 38;
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  6, 0.2);
+        if(this.type === 1) {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/artifacts/abstraction.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  6, 0.2);
+        } else {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/artifacts/artifact_necklace.png");
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height,  4, 0.2);
+        }
 
         // gravity stuffs
         this.gravity = 0.5;

@@ -1,57 +1,114 @@
 class Shop {
-    constructor(gameEngine, player) {
-        Object.assign(this, { gameEngine, player });
+    constructor(gameEngine, player, x, y) {
+        Object.assign(this, { gameEngine, player, x, y });
+
+        this.width = 50;
+        this.height = 50;
+        this.playerInRange = false;
+        this.powerBoostImage = ASSET_MANAGER.getAsset("./sprites/interactive entities/strong.png");
+        this.extraLifeImage = ASSET_MANAGER.getAsset("./sprites/player entities/heart.png");
+        this.invincibilityImage = ASSET_MANAGER.getAsset("./sprites/player entities/shield.png");
+        this.doubleCoinsImage = ASSET_MANAGER.getAsset("./sprites/interactive entities/coin.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/interactive entities/shop.png");
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 0.5);
         this.items = [
-            { name: "Power Boost", cost: 50 },
-            { name: "Extra Life", cost: 1 },
-            { name: "Double Coins", cost: 100 }
+            { name: "Power Boost", cost: 50, image: this.powerBoostImage },
+            { name: "Extra Life", cost: 25, image: this.extraLifeImage },
+            { name: "Double Coins", cost: 30, image: this.doubleCoinsImage },
+            { name: "Invincibility", cost: 100, image: this.invincibilityImage}
         ];
-        this.shopButton = {
-            x: 850,
-            y: 90,
-            width: 100,
-            height: 18,
-            text: "Shop"
-        };
     }
+
     purchaseItem(item) {
         let bought = false;
         if (this.player.coinCount >= item.cost) {
             this.player.coinCount -= item.cost;
+            this.player.playSound("purchasegood");
+            this.player.activateMessage("Purchased!", this.player.x, this.player.y);
             bought = true;
-            console.log("item has been purchased");
         } else {
-            console.log("no sufficent coin count");
+            this.player.activateMessage("You are too poor!", this.player.x, this.player.y);
         }
         return bought;
     }
-
     update() {
+        const playerCenterX = this.player.x + (this.player.width / 2);
+        const playerCenterY = this.player.y + (this.player.height / 2);
 
+        const inRangeX = playerCenterX >= this.x && playerCenterX <= this.x + this.width;
+        const inRangeY = playerCenterY >= this.y && playerCenterY <= this.y + this.height;
+        
+        this.playerInRange = inRangeX && inRangeY;
+        if (this.gameEngine.click && this.playerInRange) {
+            this.handleClick(this.gameEngine.click);
+        }
     }
 
     draw(ctx) {
-        ctx.fillStyle = "gray";
-        ctx.fillRect(240, 50, 320, 250);
 
-        ctx.font = "18px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.fillText("Shop", 400, 80);
+        ctx.imageSmoothingEnabled = false;
+        this.animator.drawFrame(this.gameEngine.clockTick, ctx, this.x, this.y);
+        if (this.playerInRange) {
+            this.items.forEach((item, index) => {
+                const itemX = this.x - 70 + (index * 50);
+                const itemY = this.y - 50;
+                const itemWidth = 40;
+                const itemHeight = 40;
+                
+                ctx.strokeStyle = "gold";
+                ctx.strokeRect(itemX, itemY, itemWidth, itemHeight);
+      
+                if (item.image) {
+                    const imageSize = 30;
+                    const imageX = itemX + (itemWidth - imageSize) / 2;
+                    const imageY = itemY + (itemHeight - imageSize) / 2 - 5;
+                    ctx.drawImage(item.image, imageX, imageY, imageSize, imageSize);
+                }
+                
+    
+                ctx.fillStyle = "white";
+                ctx.font = "8px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText(`${item.cost} Coins`, itemX + itemWidth/2, itemY + itemHeight - 5);
+            }); 
+        }
+    }
+    
 
+    handleClick(click) {
+        if (!this.playerInRange) return;
+        
         this.items.forEach((item, index) => {
-            let itemX = 250;
-            let itemY = 100 + index * 60;
-            let itemWidth = 300;
-            let itemHeight = 50;
-
-            ctx.fillStyle = "black";
-            ctx.fillRect(itemX, itemY, itemWidth, itemHeight);
-            ctx.strokeStyle = "white";
-            ctx.strokeRect(itemX, itemY, itemWidth, itemHeight);
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
-            ctx.fillText(`${item.name} - ${item.cost} Coins`, itemX + itemWidth / 2, itemY + 30);
+            const itemX = this.x - 70 + (index * 50);
+            const itemY = this.y - 50;
+            const itemWidth = 40;
+            const itemHeight = 40;
+            
+            if (
+                click.x >= itemX && click.x <= itemX + itemWidth &&
+                click.y >= itemY && click.y <= itemY + itemHeight
+            ) {
+                console.log("Clicked on shop item:", item.name);
+                
+                let result = null;
+                if (this.player.hearts >= 4.5 && item.name === "Extra Life") {
+                    this.player.activateMessage("Enough coins, but too many hearts!", this.player.x, this.player.y);
+                } else {
+                    result = this.purchaseItem(item);
+                }
+            
+                if (result) {
+                    if (item.name === "Power Boost") {
+                        this.player.power = true;
+                    } else if (item.name === "Extra Life") {
+                        this.player.hearts += 1;
+                    } else if (item.name === "Double Coins") {
+                        this.player.isDouble = true;
+                    } else if (item.name === "Invincibility") {
+                        this.player.setInvincible();
+                    }
+                }
+            }
         });
     }
 }

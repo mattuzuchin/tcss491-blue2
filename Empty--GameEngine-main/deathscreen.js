@@ -2,18 +2,20 @@ class DeathScreen {
     constructor(game, player) {
         Object.assign(this, {game, player});
         this.death = ASSET_MANAGER.getAsset("./sprites/background/death.png");
+        this.quit = ASSET_MANAGER.getAsset("./sprites/background/quit.png");
+        this.resetB = ASSET_MANAGER.getAsset("./sprites/background/resetbutton.png");
         this.quitButton = {
-            x: 350,
+            x: 275,
             y: 650,
-            width: 100,
-            height: 18,
+            width: 200,
+            height: 36,
             text: "Quit"
         };
         this.resetButton = {
-            x: 550,
+            x: 525,
             y: 650, 
-            width: 100,
-            height: 18,
+            width: 200,
+            height: 36,
             text: "Reset"
         };
     }
@@ -54,7 +56,7 @@ class DeathScreen {
 
     draw(ctx) {
         ctx.font = "30px 'Press Start 2P', sans-serif"; 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "gold";
         ctx.fillText("GAME OVER - YOU DIED!", 500, 100);
         ctx.drawImage(this.death, 300, 200, 400, 400);
 
@@ -69,13 +71,7 @@ class DeathScreen {
         ctx.textAlign = "center";
         ctx.fillText(this.quitButton.text, this.quitButton.x + this.quitButton.width / 2, this.quitButton.y + this.quitButton.height / 2 + 4);
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height);
-
-        ctx.strokeStyle = "#f54242";
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height);
-        ctx.fillStyle = "#f54242";
-        ctx.fillText(this.resetButton.text, this.resetButton.x + this.resetButton.width / 2, this.resetButton.y + this.resetButton.height / 2 + 4);
+        ctx.drawImage(this.quit, this.quitButton.x, this.quitButton.y, this.quitButton.width, this.quitButton.height);
+        ctx.drawImage(this.resetB, this.resetButton.x, this.resetButton.y, this.resetButton.width, this.resetButton.height);
     }
 }
