@@ -259,13 +259,13 @@ class Player {
         if (this.game.left) {
             this.x -= this.speed;
             this.attackDirection = "left";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <= 0) this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = true;
         }
         if (this.game.right) {
             this.x += this.speed;
             this.attackDirection = "right";
-            this.currentAnimator = this.animators[this.characterType].walking;
+            if(this.attackDuration <= 0)  this.currentAnimator = this.animators[this.characterType].walking;
             this.facingLeft = false;
         }
         if (this.game.isJump && this.isOnGround) {
@@ -276,7 +276,7 @@ class Player {
             this.attackDirection = "up";
         }
         if (!this.game.left && !this.game.right) {
-            this.currentAnimator = this.animators[this.characterType].idle; 
+            if(this.attackDuration <= 0)  this.currentAnimator = this.animators[this.characterType].idle; 
         }
         if (this.game.speedup) {
             this.speed = 4;
