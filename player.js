@@ -919,7 +919,7 @@ class Warrior extends Player {
 class Marksman extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 0, emanage);
-        this.damage = 30;
+        this.damage = 300;
         this.attackDuration = 10;
 
         // Special attack 
@@ -980,11 +980,6 @@ class Marksman extends Player {
         } else {
             this.attackDuration--;
         }
-        // if(this.isAttacking && this.attackDuration <= 0) {
-        //     let projectile = new Projectile(this.game, this.x, this.y, this.attackDirection, this);
-        //     this.game.addEntity(projectile);
-        //     this.isAttacking = false;
-        // }
     }
     update() {
         super.update();
@@ -996,7 +991,7 @@ class Marksman extends Player {
 class Mage extends Player {
     constructor(game, x, y, emanage) {
         super(game, x, y, 2, emanage); 
-        this.damage = 20;
+        this.damage = 500;
 
     }
 
@@ -1005,7 +1000,7 @@ class Mage extends Player {
             this.playSound("fireball");
             this.attackDuration = 20;
             this.isAttacking = true;
-            this.attackCooldown = 1;
+            this.attackCooldown = 55;
             this.currentAnimator = this.animators[this.characterType].attacking;
         }
         else {

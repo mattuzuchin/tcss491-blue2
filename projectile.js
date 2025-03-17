@@ -4,7 +4,7 @@ class Projectile {
         this.width = 20;
         this.height = 10;
         this.speed = 5;
-        this.damage = 400;
+        this.damage = 200;
         this.removeFromWorld = false;
         if(this.player === null) {
             this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/bullet.png");
@@ -102,7 +102,7 @@ class MagicBall extends Projectile {
     constructor(game, x, y, direction, player) {
         super(game, x, y, direction, player);
         this.speed = 8;
-        this.damage = 200;
+        this.damage = 400;
         this.width = 20;
         this.height = 20;
         this.image = ASSET_MANAGER.getAsset("./sprites/projectiles/Fireball.png"); 
